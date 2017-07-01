@@ -20,7 +20,16 @@ angular.module('reg')
 
 
 
-
+      ibanRule = function(country) {
+        if(country == "Austria"){
+          console.log("TEST");
+          return 20;
+        }
+        else{
+          console.log("YO");
+          return 25;
+        }
+      }
 
       function _setupForm(){
         // Semantic-UI form validation
@@ -90,12 +99,16 @@ angular.module('reg')
                 }
               ]
             },
-            IBAN: {
+            iban: {
               identifier: 'iban',
               rules: [
                 {
                   type: 'empty',
                   prompt: 'Please enter your IBAN.'
+                },
+                {
+                  type: 'exactLenght[ibanRule($("#countryOfB").val())]'
+                  prompt: 'IBAN has to be {ruleValue} long'
                 }
               ]
             },
