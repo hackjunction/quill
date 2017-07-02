@@ -300,4 +300,6 @@ angular.module('reg')
 
       $scope.selectUser = selectUser;
 
+      
+
     }]);

@@ -87,21 +87,20 @@
         </div>
       </div>
 
-      <table
+      <table id="users"
         class="ui celled selectable compact users table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>E-mail address</th>
-            <th>School</th>
-            <th>Grad</th>
-            <th>V/S/A/C</th>
-            <th>$</th>
-            <th></th>
-            <th></th>
-            <th>Country</th>
-            <th>City</th>
-            <th>Home Country</th>
+            <th onclick="sortTable(0)">Name</th>
+            <th onclick="sortTable(1)">E-mail address</th>
+            <th onclick="sortTable(2)">School</th>
+            <th onclick="sortTable(3)">V/S/A/C</th>
+            <th onclick="sortTable(4)">$</th>
+            <th onclick="sortTable(5)"></th>
+            <th onclick="sortTable(6)"></th>
+            <th onclick="sortTable(7)">Country</th>
+            <th onclick="sortTable(8)">City</th>
+            <th onclick="sortTable(9)">Home Country</th>
           </tr>
         </thead>
         <tbody>
@@ -118,10 +117,6 @@
             </td>
             <td>{{user.email}}</td>
             <td>{{user.profile.school}}</td>
-            <td
-              class="collapsing">
-              {{user.profile.graduationYear}}
-            </td>
             <td
               class="collapsing">
 
@@ -222,9 +217,9 @@
               </button>
 
             </td>
-            <td>{user.profile.travelFromCountry}</td>
-            <td>{user.profile.travelFromCity}</td>
-            <td>{user.profile.homeCountry}</td>
+            <td>{{user.profile.travelFromCountry}}</td>
+            <td>{{user.profile.travelFromCity}}</td>
+            <td>{{user.profile.homeCountry}}</td>
           </tr>
         </tbody>
       </table>

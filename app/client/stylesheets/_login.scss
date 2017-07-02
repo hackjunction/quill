@@ -81,10 +81,14 @@
   .quotes{
     text-align: center;
     text-shadow: -0.5px 0 black, 0 .5px black, .5px 0 black, 0 -1px black;
-    font-size: 40px;
+    font-size: 32px;
     font-family: Lato;
     color: $secondary;
     margin: auto;
+  }
+
+  #quotetitle {
+    font-family: Montserrat;
   }
 
 }

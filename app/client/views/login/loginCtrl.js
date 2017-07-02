@@ -75,5 +75,5 @@ function randomQuote(){
   var keys = Object.keys(quotes)
   var randomKey = keys[Math.floor(Math.random() * keys.length)];
   var ranQuote = quotes[randomKey].quote;
-  document.getElementById("quote").innerHTML = "<p>" + ranQuote + "</p>"
+  document.getElementById("quote").innerHTML = ranQuote
 }
