@@ -41,14 +41,14 @@
         <div class="field">
           <label> Address Line 1 - Street address </label>
           <input type="text"
-                 name="address1"
+                 name="addressLine1"
                  ng-model="user.reimbursement.addressLine1">
         </div>
 
         <div class="field">
           <label> Address Line 2 - Apartment, suite, building.. </label>
           <input type="text"
-                 name="address1"
+                 name="addressLine1"
                  ng-model="user.reimbursement.addressLine2">
         </div>
 
@@ -63,7 +63,7 @@
         <div class="divided title">Bank Information</div>
 
         <div class="field">
-          <p>If your bank is located a SEPA-country (EU and ETA countries), the fields that aren't required will be disabled</p>
+          <p>If your bank is located in a SEPA-country (EU and ETA countries), the fields that aren't required will be disabled</p>
           <label>Country of your bank</label>
           <select class="ui fluid search selection dropdown"
                  name="countryOfBank"
@@ -373,12 +373,12 @@
 
 
         <div class="field">
-          <label>Correspondent Bank</label>
+          <label>Brokerage information</label>
           <input type="text"
                  name="correspondentBank"
                  class="notSepa"
                  disabled="true"
-                 ng-model="user.reimbursement.bankInformation.correspondentBank">
+                 ng-model="user.reimbursement.bankInformation.brokerageInfo">
         </div>
 
         <div class="field">
@@ -388,6 +388,7 @@
         </div>
 
         <div class="field">
+          <label></label>
           <div class="ui checkbox">
             <input type="checkbox" id="adult" ng-model="user.profile.adult">
             <label for="adult">I am 18 or older.</label>

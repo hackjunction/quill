@@ -249,7 +249,7 @@ var reimbursement = {
      iban: {
        type: String,
        default: '',
-       max: 25
+       max: 32
      },
      accountNumber: {
        type: String,
@@ -259,9 +259,9 @@ var reimbursement = {
      swiftOrBicOrClearingCode: {
        type: String,
        default: '',
-       max: 15
+       max: 11
      },
-     correspondentBank: {
+     brokerageInfo: {
        type: String,
        default: '',
        max: 50
