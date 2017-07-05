@@ -58,6 +58,7 @@ angular.module('reg')
 
         var val = 20;
         $('.ui.form').form({
+          inline:true,
           fields: {
             fullName: {
               identifier: 'fullName',
@@ -168,6 +169,13 @@ angular.module('reg')
                 }
               ]
             }
+          },
+          onSuccess: function(event, fields){
+            _updateReimbursement();
+          }
+          onFailure: functions(formErrors, fields){
+            $scope.fieldErrors = formErrors;
+            $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
           }
         });
       }
