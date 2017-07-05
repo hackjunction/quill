@@ -20,7 +20,8 @@ angular.module('reg')
 
 
 
-      ibanRule = function(country) {
+      /*function ibanRule() {
+        var country = $('#countryOfB').val();
         if(country == "Austria"){
           console.log("TEST");
           return 20;
@@ -29,10 +30,33 @@ angular.module('reg')
           console.log("YO");
           return 25;
         }
+      }*/
+
+      function _updateReimbursement(e){
+        // Update user reimbursement
+        UserService
+          .updateReimbursement(Session.getUserId(), $scope.user.reimbursement)
+          .success(function(data){
+            sweetAlert({
+              title: "Awesome!",
+              text: "Your travel reimbursement application has been saved.",
+              type: "success",
+              confirmButtonColor: "#5ABECF"
+            }, function(){
+              $state.go('app.dashboard');
+            });
+          })
+          .error(function(res){
+            sweetAlert("Uh oh!", "Something went wrong.", "error");
+          });
       }
+
+
 
       function _setupForm(){
         // Semantic-UI form validation
+
+        var val = 20;
         $('.ui.form').form({
           fields: {
             fullName: {
@@ -106,10 +130,6 @@ angular.module('reg')
                   type: 'empty',
                   prompt: 'Please enter your IBAN.'
                 },
-                {
-                  type: 'exactLenght[ibanRule($("#countryOfB").val())]'
-                  prompt: 'IBAN has to be {ruleValue} long'
-                }
               ]
             },
             accountNumber: {
@@ -156,7 +176,7 @@ angular.module('reg')
 
       $scope.submitForm = function(){
         if ($('.ui.form').form('is valid')){
-          _updateUser();
+          _updateReimbursement();
         }
       };
 
