@@ -56,11 +56,15 @@ function canRegister(email, password, callback){
   });
 }
 
-function generateID(){
-    var l = programmingLanguages.length;
-    return programmingLanguages[Math.floor(Math.rand() * l)] +
-            programmingLanguages[Math.floor(Math.rand() * l)] +
-            programmingLanguages[Math.floor(Math.rand() * l)];
+function generateID(i){
+    //var l = programmingLanguages.length;
+
+    var l = 1000000;
+    //100^3 and this v number don't share any common determinators, so the modulo will produce same results only every million participants
+    var num = i * 85766121 % l; //7^6 * 3^6
+    return programmingLanguages[Math.floor(num / 10000) % 100] +
+            programmingLanguages[Math.floor(num / 100) % 100] +
+            programmingLanguages[num % 100];
 }
 
 /**
@@ -139,60 +143,63 @@ UserController.createUser = function(email, password, nickname, callback) {
   email = email.toLowerCase();
 
   // Check that there isn't a user with this email already.
-  canRegister(email, password, function(err, valid){
+  User.count(function(err, count){
+    console.log(count);
+    var id = generateID(count);
+    console.log(id);
 
-    if (err || !valid){
-      return callback(err);
-    }
+    canRegister(email, password, function(err, valid){
 
-    User
-      .findOneByEmail(email)
-      .exec(function(err, user){
+      if (err || !valid){
+        return callback(err);
+      }
 
-        if (err) {
-          return callback(err);
-        }
+      User
+        .findOneByEmail(email)
+        .exec(function(err, user){
 
-        if (user) {
-          return callback({
-            message: 'An account for this email already exists.'
-          });
-        } else {
-
-          // Make a new user
-          var u = new User();
-          u.email = email;
-          u.nickname = nickname;
-          u.password = User.generateHash(password);
-
-          var id = generateID();
-          while(User.find({id: id})){
-              id = generateID();
+          if (err) {
+            return callback(err);
           }
-          u.save(function(err){
-            if (err){
-              return callback(err);
-            } else {
-              // yay! success.
-              var token = u.generateAuthToken();
 
-              // Send over a verification email
-              var verificationToken = u.generateEmailVerificationToken();
-              Mailer.sendVerificationEmail(u, verificationToken);
+          if (user) {
+            return callback({
+              message: 'An account for this email already exists.'
+            });
+          } else {
 
-              return callback(
-                null,
-                {
-                  token: token,
-                  user: u
-                }
-              );
-            }
+            // Make a new user
+            var u = new User();
+            u.email = email;
+            u.nickname = nickname;
+            u.password = User.generateHash(password);
+            u.id = id;
 
-          });
+            u.save(function(err){
+              if (err){
+                return callback(err);
+              } else {
+                // yay! success.
+                var token = u.generateAuthToken();
 
-        }
+                // Send over a verification email
+                var verificationToken = u.generateEmailVerificationToken();
+                Mailer.sendVerificationEmail(u, verificationToken);
 
+                return callback(
+                  null,
+                  {
+                    token: token,
+                    user: u
+                  }
+                );
+              }
+
+            });
+
+          }
+
+      });
     });
   });
 };

@@ -17,6 +17,8 @@ User
       u.nickname = ADMIN_NICKNAME;
       u.password = User.generateHash(ADMIN_PASSWORD);
       u.admin = true;
+      u.nickname = "admin";
+      u.id = "SuperAdminLeetHacker";
       u.verified = true;
       u.save(function(err){
         if (err){
