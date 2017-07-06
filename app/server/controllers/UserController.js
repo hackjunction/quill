@@ -7,9 +7,12 @@ var Stats = require('../services/stats');
 var validator = require('validator');
 var moment = require('moment');
 
+var programmingLanguages = require('../assets/programming_languages.json');
+
 var UserController = {};
 
 var maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
+
 
 
 // Tests a string if it ends with target s
@@ -51,6 +54,13 @@ function canRegister(email, password, callback){
       return callback(null, true);
     }
   });
+}
+
+function generateID(){
+    var l = programmingLanguages.length;
+    return programmingLanguages[Math.floor(Math.rand() * l)] +
+            programmingLanguages[Math.floor(Math.rand() * l)] +
+            programmingLanguages[Math.floor(Math.rand() * l)];
 }
 
 /**
@@ -154,6 +164,11 @@ UserController.createUser = function(email, password, nickname, callback) {
           u.email = email;
           u.nickname = nickname;
           u.password = User.generateHash(password);
+
+          var id = generateID();
+          while(User.find({id: id})){
+              id = generateID();
+          }
           u.save(function(err){
             if (err){
               return callback(err);

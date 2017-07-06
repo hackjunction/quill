@@ -775,5 +775,9 @@
     "fiu.edu": {
         "school": "Florida International University",
         "state": "Florida"
+    },
+    "aalto.fi": {
+        "school": "Aalto University",
+        "state": "Finland"
     }
 }
