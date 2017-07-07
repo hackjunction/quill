@@ -17,7 +17,6 @@ function generateID(i){
  */
 exports.up = function up (done) {
   this('User').find(function(error, users){
-    console.log(error, users)
     users.forEach(function(user, i){
       user.id = generateID(i);
       user.save();
@@ -31,7 +30,6 @@ exports.up = function up (done) {
  */
 exports.down = function down(done) {
   this('User').update({}, {$unset: {id: 1 }}, function(){
-
+    done();
   });
-  done();
 };
