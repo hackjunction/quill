@@ -37,9 +37,9 @@
   },
   "scripts": {
     "mongo": "mongod --dbpath db",
-    "start": "./node_modules/.bin/migrate up --autosync && nodemon app.js",
-    "watch": "./node_modules/.bin/migrate up --autosync && gulp server",
-    "prod": "cp .env.prod .env && ./node_modules/gulp/bin/gulp.js build && ./node_modules/.bin/migrate up --autosync && node app.js",
+    "start": "./node_modules/.bin/migrate up --autosync ; nodemon app.js",
+    "watch": "./node_modules/.bin/migrate up --autosync ; gulp server",
+    "prod": "cp .env.prod .env ; ./node_modules/.bin/migrate up --autosync ; ./node_modules/gulp/bin/gulp.js build && node app.js",
     "config": "cp .env.dev .env",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
