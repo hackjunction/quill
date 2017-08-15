@@ -4,6 +4,11 @@ var mongoose   = require('mongoose'),
     jwt        = require('jsonwebtoken');
     JWT_SECRET = process.env.JWT_SECRET;
 
+var programmingLanguage = new mongoose.Schema({
+  name: String,
+  level: String,
+});
+
 var profile = {
 
   // Basic info
@@ -120,6 +125,10 @@ var profile = {
     enum : {
       values: 'None,1,2-5,5-10,10+'.split(',')
     }
+  },
+
+  programmingLanguages: {
+    type: [programmingLanguage],
   },
 
   previousJunction: {

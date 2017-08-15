@@ -27,6 +27,20 @@ angular.module('reg')
 
       $scope.regIsClosed = Date.now() > Settings.data.timeClose;
 
+      $scope.addLanguage = function addLanguage() {
+        $scope.user.profile.programmingLanguages.push({
+          name: "",
+          level: ""
+        });
+      };
+
+      if ($scope.user.profile.programmingLanguages.length === 0) {
+        $scope.addLanguage();
+        setTimeout(function () {
+          $('.ui.level.dropdown').dropdown('refresh');
+        }, 1);
+      }
+
       function _updateUser(e){
         // Update user profile
         UserService

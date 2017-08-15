@@ -792,6 +792,30 @@
             <option value="None of the above">None of the above</option>          </select>
         </div>
 
+        <div class="grouped fields">
+          <label>List the programming languages you know and your skill in said language:</label>
+          <div class="field ng-scope" ng-repeat="lang in user.profile.programmingLanguages">
+            <div class="two fields">
+              <div class="four wide field">
+                <input class="ui fluid" placeholder="Language" ng-model="lang.name" type="text">
+              </div>
+              <div class="twelve wide field">
+              <select
+                class="ui level dropdown"
+                ng-model="lang.level">
+                <option value="">Skill Level</option>
+                <option value="10">Osku Vuola</option>
+                <option value="9">God</option>
+                <option value="8">Experienced</option>
+                <option value="7">Pretty Good</option>
+                <option value="6">Hello World</option>
+              </select>
+            </div>
+            </div>
+          </div>
+          <button class="fluid ui blue button" ng-click="addLanguage()">Add a language</button>
+        </div>
+
         <div class="field">
           <label>How many years of experience do you have in programming?</label>
           <select
@@ -801,7 +825,7 @@
             ng-model="user.profile.codingExperience">
             <option value="">Coding experience</option>
             <option value="None">None</option>
-            <option value="1">< 1 Year</option>
+            <option value="1">1 Year</option>
             <option value="1-2">1-2 Years</option>
             <option value="3-5">3-5 Years</option>
             <option value="5+">5+ Years</option>
