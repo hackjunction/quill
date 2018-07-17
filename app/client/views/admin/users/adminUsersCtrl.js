@@ -4,7 +4,7 @@ angular.module('reg')
     '$state',
     '$stateParams',
     'UserService',
-    function($scope, $state, $stateParams, UserService){
+    ($scope, $state, $stateParams, UserService) => {
 
       $scope.pages = [];
       $scope.users = [];
@@ -29,13 +29,13 @@ angular.module('reg')
             dateOfBirth: [],
       }
       });
-      function updatePage(data){
+      const updatePage = data => {
         $scope.users = data.users;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
 
-        var p = [];
-        for (var i = 0; i < data.totalPages; i++){
+        let p = [];
+        for (let i = 0; i < data.totalPages; i++){
           p.push(i);
         }
         $scope.pages = p;
@@ -47,31 +47,31 @@ angular.module('reg')
           updatePage(data);
         });
 
-      $scope.sortByDate = function(){
+      $scope.sortByDate = () => {
         $scope.sortDate = !$scope.sortDate;
         UserService
                   .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
-                  .success(function(data){
+                  .success(data => {
                     updatePage(data);
                   });
       }
 
-      $scope.filterUsers = function() {
+      $scope.filterUsers = () => {
         UserService
           .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
-          .success(function(data){
+          .success(data => {
             updatePage(data);
           });
       }
 
-      $scope.goToPage = function(page){
+      $scope.goToPage = page => {
         $state.go('app.admin.users', {
           page: page,
           size: $stateParams.size || 50
         });
       };
 
-      $scope.goUser = function($event, user){
+      $scope.goUser = ($event, user) => {
         $event.stopPropagation();
 
         $state.go('app.admin.user', {
@@ -79,7 +79,7 @@ angular.module('reg')
         });
       };
 
-      $scope.toggleCheckIn = function($event, user, index) {
+      $scope.toggleCheckIn = ($event, user, index) => {
         $event.stopPropagation();
 
         if (!user.status.checkedIn){
@@ -92,7 +92,7 @@ angular.module('reg')
             confirmButtonText: "Yes, check them in.",
             closeOnConfirm: false
             },
-            function(){
+            () => {
               UserService
                 .checkIn(user._id)
                 .success(function(user){
@@ -104,14 +104,14 @@ angular.module('reg')
         } else {
           UserService
             .checkOut(user._id)
-            .success(function(user){
+            .success(user => {
               $scope.users[index] = user;
               swal("Accepted", user.profile.name + ' has been checked out.', "success");
             });
         }
       };
 
-      $scope.toggleReject = function($event, user, index) {
+      $scope.toggleReject = ($event, user, index) => {
         $event.stopPropagation();
 
         if (!user.status.rejected){
@@ -124,13 +124,13 @@ angular.module('reg')
             confirmButtonText: "Yes, reject.",
             closeOnConfirm: false
             },
-            function(){
+            () => {
               UserService
                 .reject(user._id)
-                .success(function(user){
+                .success(user => {
                   if(user !== ""){//User cannot be found if user is accepted
                     if(index == null){ //we don't have index because toggleReject has been called in pop-up
-                      for(var i = 0; i < $scope.users.length; i++){
+                      for(let i = 0; i < $scope.users.length; i++){
                         if($scope.users[i]._id === user._id){
                           $scope.users[i] = user;
                           selectUser(user);
@@ -149,9 +149,9 @@ angular.module('reg')
         } else {
           UserService
             .unReject(user._id)
-            .success(function(user){
+            .success(user => {
               if(index == null){ //we don't have index because toggleReject has been called in pop-up
-                for(var i = 0; i < $scope.users.length; i++){
+                for(let i = 0; i < $scope.users.length; i++){
                   if($scope.users[i]._id === user._id){
                     $scope.users[i] = user;
                     selectUser(user);
@@ -165,7 +165,7 @@ angular.module('reg')
         }
       };
 
-      $scope.acceptUser = function($event, user, index) {
+      $scope.acceptUser = ($event, user, index) => {
         $event.stopPropagation();
 
         if (user.Class == null && user.profile.needsReimbursement){
@@ -176,7 +176,7 @@ angular.module('reg')
           swal("Could not be accepted", 'Special class input needs to be integer', "error");
           return;
         }
-        var Class;
+        let Class;
         if (user.Class === 'Special')
           Class = user.SpecialClass;
         else
@@ -190,7 +190,7 @@ angular.module('reg')
           confirmButtonColor: "#DD6B55",
           confirmButtonText: "Yes, accept them.",
           closeOnConfirm: false
-          }, function(){
+          }, () => {
 
             swal({
               title: "Are you sure?",
@@ -201,14 +201,14 @@ angular.module('reg')
               confirmButtonColor: "#DD6B55",
               confirmButtonText: "Yes, accept this user.",
               closeOnConfirm: false
-              }, function(){
+              }, () => {
 
                 UserService
                   .admitUser(user._id, Class)
-                  .success(function(user){
+                  .success(user => {
                     if(user != ""){// User cannot be found if user is rejected
                       if(index == null){ //we don't have index because acceptUser has been called in pop-up
-                        for(var i = 0; i < $scope.users.length; i++){
+                        for(let i = 0; i < $scope.users.length; i++){
                           if($scope.users[i]._id === user._id){
                             $scope.users[i] = user;
                             selectUser(user);
@@ -229,13 +229,13 @@ angular.module('reg')
 
       };
 
-      function formatTime(time){
+      const formatTime = time => {
         if (time) {
           return moment(time).format('MMMM Do YYYY, h:mm:ss a');
         }
       }
 
-      $scope.rowClass = function(user) {
+      $scope.rowClass = user => {
         if (user.admin){
           return 'admin';
         }
@@ -247,36 +247,47 @@ angular.module('reg')
         }
       };
 
-      function selectUser(user){
+      const openUserRating = ($event, user) => {
+        $event.stopPropagation();
+        $scope.selectedUser = user;
+        $('.ui.rating')
+          .rating({
+            initialRating: user.status.rating,
+            maxRating: 5
+          });
+        $('.small.modal').modal('show');
+      }
+
+      const selectUser = user => {
         $scope.selectedUser = user;
         $scope.selectedUser.sections = generateSections(user);
         $('.long.user.modal')
           .modal('show');
       }
 
-       $scope.exportCSV = function() {
+       $scope.exportCSV = () => {
         UserService
         .getAll()
-        .success(function(data){
+        .success(data => {
 
-          var output = "";
-          var titles = generateSections(data[0]);
-           for(var i = 0; i < titles.length; i++){
-            for(var j = 0; j < titles[i].fields.length; j++){
+          let output = "";
+          let titles = generateSections(data[0]);
+           for(let i = 0; i < titles.length; i++){
+            for(let j = 0; j < titles[i].fields.length; j++){
               output += titles[i].fields[j].name + ";";
             }
            }
            output += "\n";
 
-          for (var rows = 0; rows < data.length; rows++){
+          for (let rows = 0; rows < data.length; rows++){
             row = generateSections(data[rows]);
-            for (var i = 0; i < row.length; i++){
-              for(var j = 0; j < row[i].fields.length;j++){
+            for (let i = 0; i < row.length; i++){
+              for(let j = 0; j < row[i].fields.length;j++){
                 if(!row[i].fields[j].value){
                   output += ";";
                   continue;
                 }
-                var field = row[i].fields[j].value;
+                let field = row[i].fields[j].value;
                 try {
                   output += field.replace(/(\r\n|\n|\r)/gm," ") + ";";
                 } catch (err){
@@ -287,7 +298,7 @@ angular.module('reg')
             output += "\n";
           }
 
-          var element = document.createElement('a');
+          let element = document.createElement('a');
           element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
           element.setAttribute('download', "base " + new Date().toDateString() + ".csv");
           element.style.display = 'none';
@@ -298,7 +309,7 @@ angular.module('reg')
           });
       }
 
-      function generateSections(user){
+      const generateSections = user => {
         return [
           {
             name: 'Basic Info',
@@ -670,31 +681,31 @@ angular.module('reg')
         ];
       }
 
-      $scope.exportTRCSV = function() {
+      $scope.exportTRCSV = () => {
         UserService
         .getAll()
-        .success(function(data){
-          data = data.filter(function(user){
+        .success(data => {
+          data = data.filter(user => {
             return user.status.reimbursementApplied;
           })
-          var output = "";
-          var titles = generateTRSections(data[0]);
-           for(var i = 0; i < titles.length; i++){
-            for(var j = 0; j < titles[i].fields.length; j++){
+          let output = "";
+          let titles = generateTRSections(data[0]);
+           for(let i = 0; i < titles.length; i++){
+            for(let j = 0; j < titles[i].fields.length; j++){
               output += titles[i].fields[j].name + ";";
             }
            }
            output += "\n";
 
-          for (var rows = 0; rows < data.length; rows++){
+          for (let rows = 0; rows < data.length; rows++){
             row = generateTRSections(data[rows]);
-            for (var i = 0; i < row.length; i++){
-              for(var j = 0; j < row[i].fields.length;j++){
+            for (let i = 0; i < row.length; i++){
+              for(let j = 0; j < row[i].fields.length;j++){
                 if(!row[i].fields[j].value){
                   output += ";";
                   continue;
                 }
-                var field = row[i].fields[j].value;
+                let field = row[i].fields[j].value;
                 try {
                   output += field.replace(/(\r\n|\n|\r)/gm," ") + ";";
                 } catch (err){
@@ -705,7 +716,7 @@ angular.module('reg')
             output += "\n";
           }
 
-          var element = document.createElement('a');
+          let element = document.createElement('a');
           element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
           element.setAttribute('download', "base " + new Date().toDateString() + ".csv");
           element.style.display = 'none';
@@ -717,5 +728,6 @@ angular.module('reg')
       }
 
       $scope.selectUser = selectUser;
+      $scope.rateUser = rateUser;
 
     }]);

@@ -129,7 +129,6 @@
            placeholder="Special amount"
            ng-if="selectedUser.Class=='Special'"
            ng-model="selectedUser.SpecialClass">
-
         </div>
             <button
               class="ui negative button"
@@ -149,13 +148,20 @@
             <i class="checkmark icon"></i>
           </div>
         </div>
+      </div>
 
+      <div class="small ui modal">
+          <div class="header">Rate {{selectedUser.email}}</div>
+          <div class="content">
+              <div class="ui rating"></div>
+          </div>
       </div>
 
       <table
         class="ui celled selectable compact users table">
         <thead>
           <tr>
+            <th>Rating</th>
             <th>ID</th>
             <th>Name</th>
             <th>E-mail address</th>
@@ -185,6 +191,14 @@
             ng-click="selectUser(user)"
             ng-repeat="user in users"
             ng-class="rowClass(user)">
+            <td ng-click="openUserRating($event, user)">
+              <span ng-if="user.status.rating === 0">Not rated</span>
+              <i ng-if="user.status.rating > 0" class="star outline icon"></i>
+              <i ng-if="user.status.rating > 1" class="star icon"></i>
+              <i ng-if="user.status.rating > 2" class="star icon"></i>
+              <i ng-if="user.status.rating > 3" class="star icon"></i>
+              <i ng-if="user.status.rating > 4" class="star icon"></i>
+            </td>
             <td>
               <strong>
               {{user.id}}
