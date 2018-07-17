@@ -333,6 +333,11 @@ var status = {
   reimbursementGiven: {
     type: Boolean,
     default: false
+  },
+  rating: {
+    type: Number,
+    required: false,
+    default: 0
   }
 };
 var reimbursement = {
