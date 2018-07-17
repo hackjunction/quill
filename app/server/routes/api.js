@@ -536,6 +536,18 @@ module.exports = function(router) {
   /**
    * [ADMIN]
    *
+   * POST - Rate participant.
+   */
+  router.post('/users/:id/rate', isAdmin, function(req, res){
+    const rating = req.body.rating;
+    const id = req.params.id;
+
+    UserController.rateById(id, rating, defaultResponse(req, res));
+  });
+
+  /**
+   * [ADMIN]
+   *
    * POST - Reject participant.
    */
   router.post('/users/:id/reject', isAdmin, function(req, res){

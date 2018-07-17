@@ -759,6 +759,34 @@ UserController.declineById = function (id, callback){
 };
 
 /**
+ * Rate a participant, given an id.
+ *
+ * @param  {String}   id            Id of the user
+ * @param  {Function} callback      Callback with args (err, user)
+ */
+UserController.rateById = (id, rating, callback) => {
+
+  // You can only reject if you've been verified.
+  User.findOneAndUpdate({
+    '_id': id,
+  },
+    {
+      $set: {
+        'status.rating': rating,
+      }
+    }, {
+      new: true
+    },
+    (err, user) => {
+      if (err || !user) {
+        console.log(err)
+        return callback(err);
+      }
+      return callback(err, user);
+    });
+};
+
+/**
  * Reject an acceptance, given an id.
  *
  * @param  {String}   id            Id of the user

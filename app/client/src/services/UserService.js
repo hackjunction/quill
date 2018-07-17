@@ -112,6 +112,12 @@ angular.module('reg')
           reimbClass: reimbClass
         });
       },
+      
+      rateUser: function(id, rating) {
+        return $http.post(base + id + '/rate', {
+          rating
+        })
+      },
 
       reject: function(id){
         return $http.post(base + id + '/reject');
