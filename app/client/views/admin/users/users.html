@@ -191,7 +191,7 @@
             ng-click="selectUser(user)"
             ng-repeat="user in users"
             ng-class="rowClass(user)">
-            <td ng-click="rateUser($event, user, $index)">
+            <td class="rating" ng-click="rateUser($event, user, $index)">
               <span ng-if="user.status.rating === 0">Not rated</span>
               <i ng-if="user.status.rating > 0" class="star outline icon"></i>
               <i ng-if="user.status.rating > 1" class="star icon"></i>
