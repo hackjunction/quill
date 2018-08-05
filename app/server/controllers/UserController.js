@@ -253,7 +253,8 @@ UserController.getPage = function(query, callback){
   var page = query.page;
   var size = parseInt(query.size);
   var text = query.filter.text;
-  var sort = query.sort == 'true' ? -1 : 1;
+  var sortBy = query.sortBy;
+  var sortDir = query.sortDir === 'true' ? -1 : 1;
   var textFilter = [];
   var statusFilter = [];
 
@@ -281,7 +282,6 @@ UserController.getPage = function(query, callback){
   else {
     findQuery = {};
   }
-  console.log(query.filter)
 
   if(query.filter.verified === 'true') {
     statusFilter.push({'verified': 'true'});
@@ -310,11 +310,12 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.rejected': 'true'});
   else
    statusFilter.push({});
-
+  
+  if(sortBy === 'rating') {
   User
     .find(findQuery)
     .sort({
-      'timestamp': sort
+      'status.rating': sortDir
     })
     .select('+status.admittedBy')
     .skip(page * size)
@@ -339,6 +340,37 @@ UserController.getPage = function(query, callback){
       });
 
     });
+  }
+  else if(sortBy === 'date') {
+    User
+    .find(findQuery)
+    .sort({
+      'timestamp': sortDir
+    })
+    .select('+status.admittedBy')
+    .skip(page * size)
+    .limit(size)
+    .exec(function (err, users){
+      if (err || !users){
+        return callback(err);
+      }
+
+      User.count(findQuery).exec(function(err, count){
+
+        if (err){
+          return callback(err);
+        }
+
+        return callback(null, {
+          users: users,
+          page: page,
+          size: size,
+          totalPages: Math.ceil(count / size)
+        });
+      });
+
+    });
+  }
 };
 
 UserController.getMatchmaking = function(user, query, callback){

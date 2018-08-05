@@ -10,6 +10,8 @@ angular.module('reg')
       $scope.users = [];
       // to know when to filter by date
       $scope.sortDate = true;
+      $scope.sortRating = true;
+      $scope.sortBy = 'date';
 
       // Semantic-UI moves modal content into a dimmer at the top level.
       // While this is usually nice, it means that with our routing will generate
@@ -42,23 +44,40 @@ angular.module('reg')
       }
 
       UserService
-        .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
+        .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortDate)
         .success(function(data){
           updatePage(data);
         });
+      
+      $scope.sortByRating = function(){
+        $scope.sortRating = !$scope.sortRating;
+        $scope.sortBy = 'rating'
+        UserService
+                  .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortRating)
+                  .success(function(data){
+                    updatePage(data)
+                  })
+      }
 
       $scope.sortByDate = function(){
         $scope.sortDate = !$scope.sortDate;
+        $scope.sortBy = 'date'
         UserService
-                  .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
-                  .success(function(data){
-                    updatePage(data);
-                  });
+          .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortDate)
+          .success(function(data){
+            updatePage(data);
+          });
       }
 
       $scope.filterUsers = function() {
         UserService
-          .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
+          .getPage(
+            $stateParams.page,
+            $stateParams.size,
+            $scope.filter,
+            $scope.sortBy,
+            $scope.sortBy === 'date' ? $scope.sortByDate : $scope.sortByRating
+          )
           .success(function(data){
             updatePage(data);
           });
