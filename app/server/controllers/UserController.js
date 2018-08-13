@@ -1,19 +1,20 @@
-var _ = require('underscore');
-var User = require('../models/User');
-var Settings = require('../models/Settings');
-var Mailer = require('../services/email');
-var Stats = require('../services/stats');
+const _ = require('underscore');
+const User = require('../models/User');
+const Team = require('../models/Team')
+const Settings = require('../models/Settings');
+const Mailer = require('../services/email');
+const Stats = require('../services/stats');
 
-var validator = require('validator');
-var csvValidation = require('../services/csvValidation').csvValidation;
-var moment = require('moment');
-var shuffleSeed = require('shuffle-seed');
+const validator = require('validator');
+const csvValidation = require('../services/csvValidation').csvValidation;
+const moment = require('moment');
+const shuffleSeed = require('shuffle-seed');
 
-var programmingLanguages = shuffleSeed.shuffle(require('../assets/programming_languages.json'), process.env.JWT_SECRET);
+const programmingLanguages = shuffleSeed.shuffle(require('../assets/programming_languages.json'), process.env.JWT_SECRET);
 
-var UserController = {};
+const UserController = {};
 
-var maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
+const maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
 
 
 
@@ -850,18 +851,16 @@ UserController.getTeammates = function(id, callback){
     if (err || !user){
       return callback(err, user);
     }
-
-    var code = user.teamCode;
-
-    if (!code){
+    console.log('User found')
+    const teamID = user.team;
+    if (!teamID){
       return callback({
         message: "You're not on a team."
       });
     }
-
     User
       .find({
-        teamCode: code
+        team: teamID
       })
       .select('profile.name')
       .exec(callback);
@@ -888,31 +887,84 @@ UserController.createOrJoinTeam = function(id, code, callback){
       });
     }
 
-    User.find({
-      teamCode: code
+    Team.findOne({
+      code: code
     })
-    .select('profile.name')
-    .exec(function(err, users){
+    .exec(function(err, team){
       // Check to see if this team is joinable (< team max size)
-      if (users.length >= maxTeamSize){
-        return callback({
-          message: "Team is full."
+      if(team){
+        if (team.members.includes(id)) {
+          return callback({
+            message: 'User is already in this team!'
+          })
+        }
+        if (team.members && team.members.length >= maxTeamSize) {
+          return callback({
+            message: "Team is full."
+          });
+        }
+        if (team.teamLocked) {
+          return callback({
+            message: "This team is locked."
+          })
+        }
+      // Otherwise, we can add that person to the team.
+        User.findOneAndUpdate({
+          _id: id,
+          verified: true
+        },{
+          $set: {
+            team: team,
+            teamCode: team.code,
+            'teamMatchmaking.enrolled': false,
+            'teamMatchmaking.enrollmentType': undefined
+            }
+          }, {
+            new: true
+          });
+        // Update team as well
+        const updatedMembers = team.members
+          ? team.members.concat([id])
+          : [id]
+        Team.findOneAndUpdate({code: code}, {
+            $set: {
+              members: updatedMembers
+            }
+          }, {
+            new: true
+          },
+          callback
+        );
+      } else {
+        // Create a new team if one didn't exist
+        const t = new Team({
+          code: code,
+          leader: id,
+          members: [id],
+        })
+        // Update user
+        User.findOneAndUpdate({
+          _id: id,
+          verified: true
+        },{
+          $set: {
+            team: t,
+            'teamMatchmaking.enrolled': false,
+            'teamMatchmaking.enrollmentType': undefined
+            }
+          }, {
+            new: true
+          });
+        console.log('User updated')
+        t.save(function(err){
+          if (err){
+            return callback(err);
+          } else {
+            // yay! success.
+            return callback(null, {team: t});
+          }
         });
       }
-    // Otherwise, we can add that person to the team.
-      User.findOneAndUpdate({
-        _id: id,
-        verified: true
-      },{
-        $set: {
-          teamCode: code,
-          'teamMatchmaking.enrolled': false,
-          'teamMatchmaking.enrollmentType': undefined
-          }
-        }, {
-          new: true
-        },
-        callback);
 
       });
     });
