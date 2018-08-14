@@ -862,6 +862,7 @@ UserController.getTeammates = function(id, callback){
       .find({
         team: teamID
       })
+      .populate('team')
       .select('profile.name')
       .exec(callback);
   });
@@ -908,31 +909,31 @@ UserController.createOrJoinTeam = function(id, code, callback){
             message: "This team is locked."
           })
         }
-      // Otherwise, we can add that person to the team.
-        User.findOneAndUpdate({
-          _id: id,
-          verified: true
-        },{
-          $set: {
-            team: team,
-            teamCode: team.code,
-            'teamMatchmaking.enrolled': false,
-            'teamMatchmaking.enrollmentType': undefined
-            }
-          }, {
-            new: true
-          });
-        // Update team as well
-        const updatedMembers = team.members
-          ? team.members.concat([id])
-          : [id]
+        // Update team
+        console.log('Updating team members')
+        const updatedMembers = team.members.concat([id])
         Team.findOneAndUpdate({code: code}, {
             $set: {
               members: updatedMembers
             }
           }, {
             new: true
-          },
+          }
+        );
+        console.log('Valid team found, adding user to it')
+        User.findOneAndUpdate({
+          _id: id,
+          verified: true
+        }, {
+          $set: {
+            team: team._id,
+            teamName: team.code,
+            'teamMatchmaking.enrolled': false,
+            'teamMatchmaking.enrollmentType': undefined
+            }
+          }, {
+            new: true
+          }, 
           callback
         );
       } else {
@@ -942,28 +943,27 @@ UserController.createOrJoinTeam = function(id, code, callback){
           leader: id,
           members: [id],
         })
+        t.save(function(err){
+          if (err){
+            return callback(err, t);
+          }
+          console.log(`New team created with code ${code} created!`)
+        });
         // Update user
         User.findOneAndUpdate({
           _id: id,
           verified: true
         },{
           $set: {
-            team: t,
+            team: t._id,
+            teamName: code,
             'teamMatchmaking.enrolled': false,
             'teamMatchmaking.enrollmentType': undefined
             }
           }, {
             new: true
-          });
-        console.log('User updated')
-        t.save(function(err){
-          if (err){
-            return callback(err);
-          } else {
-            // yay! success.
-            return callback(null, {team: t});
-          }
-        });
+          }, 
+          callback);
       }
 
       });
@@ -976,23 +976,47 @@ UserController.createOrJoinTeam = function(id, code, callback){
  * @param  {Function} callback args(err, user)
  */
 UserController.leaveTeam = function(id, callback){
-  User.findOneAndUpdate({
-    _id: id
-  },{
-    $set: {
-      'teamMatchmaking.enrolled:': false,
-      'teamMatchmaking.enrollmentType': undefined,
-      'teamMatchmaking.team.mostInterestingTrack': undefined,
-      'teamMatchmaking.team.topChallenges': undefined,
-      'teamMatchmaking.team.roles': undefined,
-      'teamMatchmaking.team.slackHandle': undefined,
-      'teamMatchmaking.team.freeText': undefined,
-      teamCode: null
+  User.findById(id, function(err, user) {
+    if (err || !user){
+      return callback({message: 'User not found'});
     }
-  }, {
-    new: true
-  },
-  callback);
+    console.log('Removing the user from team')
+    console.log(user.team)
+    Team.findOneAndUpdate({
+      code: user.teamName
+    }).exec(function(err, team) {
+      if (err || !team) {
+        return callback({message: 'Team not found'})
+      }
+      const leaderID = team.leader
+      const userIndex = team.members.indexOf(id)
+      team.members.splice(userIndex, 1)
+      if (leaderID === id) {
+        team.leader = team.members[0]
+      }
+      team.save(function(err){
+        if (err){
+          return callback(err, team);
+        }
+        console.log('Team updated after user left the team')
+      });
+      user.teamMatchmaking.enrolled = false
+      user.teamMatchmaking.enrollmentType = undefined
+      user.teamMatchmaking.team.mostInterestingTrack = undefined
+      user.teamMatchmaking.team.topChallenges = undefined
+      user.teamMatchmaking.team.roles = undefined
+      user.teamMatchmaking.team.slackHandle = undefined
+      user.teamMatchmaking.team.freeText = undefined
+      user.team = null
+      user.teamName = null
+
+      user.save(function(err) {
+        if(err) return callback(err, user)
+        console.log('User saved after leaving team')
+        return callback(null, user)
+      })
+    })
+  });
 };
 
 /**

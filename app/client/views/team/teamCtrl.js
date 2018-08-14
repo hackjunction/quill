@@ -33,7 +33,7 @@ angular.module('reg')
      }
 
 
-      if ($scope.user.teamCode){
+      if ($scope.user.teamName){
         _populateTeammates();
       }
 
