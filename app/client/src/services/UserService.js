@@ -99,6 +99,9 @@ angular.module('reg')
       leaveTeam: function(){
         return $http.delete(base + Session.getUserId() + '/team');
       },
+      lockTeam: function(teamID){
+        return $http.put(base + Session.getUserId() + '/team/lock')
+      },
 
       getMyTeammates: function(){
         return $http.get(base + Session.getUserId() + '/team');

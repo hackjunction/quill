@@ -91,4 +91,25 @@ angular.module('reg')
           });
       };
 
+      $scope.lockTeam = function(){
+        swal({
+          title: "Are you sure?",
+          text: "Do you have all members in the team?\n This will lock in your team, new members won't be able to join the team anymore after it is locked.",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, lock the team.",
+          closeOnConfirm: true
+          }, function(){
+            UserService
+              .lockTeam()
+              .success(function(team) {
+                $scope.teamLocked = team.teamLocked
+              })
+              .error(function(res){
+                $scope.error = res.data.message;
+              });
+        });
+      }
+
     }]);

@@ -498,6 +498,11 @@ module.exports = function(router) {
     UserController.createTeam(id, defaultResponse(req, res));
   });
 
+  router.put('/users/:id/team/lock', isOwnerOrAdmin, function(req, res){
+    const {id} = req.params
+    UserController.lockTeam(id, defaultResponse(req, res))
+  })
+
   /**
    * Remove a user from a team.
    */

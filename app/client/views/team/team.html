@@ -12,7 +12,6 @@
       </div>
       
       <div class="ui segment">
-        If you have a team already, please name with a somewhat unique string. Note that your team name is also Case Sensitive! Remember that in order to compete for prizes at Junction 2017 your team can be max. 5 members! Search for a team/team members in the <b>Team Matchmaking</b>!
         <div
           class="ui form"
           ng-show="!user.team && regIsOpen">
@@ -52,7 +51,6 @@
               Create a new Team
             </button>
           </div>
-          <div class="ui divider"></div>
         </div>
         <div
           ng-show="user.team">
@@ -72,7 +70,7 @@
 
           <div class="form">
             <div class="title">
-              Your Teammates:
+              Team Members:
             </div>
           </div>
           <p
@@ -84,7 +82,25 @@
           <div
             ng-show="regIsOpen">
             <div class="ui divider"></div>
+            <p>You will lock in your teams for the application period when you'll be reviewed as a team.</p>
+            <p><i class="exclamation circle icon"></i> <b>Note</b></p>
+            <p>After you lock in your team, you <b>can't open</b> it anymore - lock your team only after all your team members have joined!</p>
+            <p>After the application period team matchmaking will open and you can search for more team members if you still need more people in your team!</p>
+            <div class="title small">
+              Status: <span ng-if="teamLocked">Locked</span><span ng-if="!teamLocked">Open</span>
+            </div>
+            <button
+              class="ui labeled icon fluid sea-serpent button"
+              ng-disabled="teamLocked || (teamLeader !== user.id)"
+              ng-click="lockTeam()">
+              <i class="lock icon"></i>
+              Lock Team
+            </button>
+          </div>
 
+          <div
+            ng-show="regIsOpen">
+            <div class="ui divider"></div>
             <button
               class="ui labeled icon fluid vermilion button"
               ng-click="leaveTeam()">
@@ -95,14 +111,14 @@
 
         </div>
 
-        <a ui-sref="app.matchmaking" class="matchmaking">
+        <!--<a ui-sref="app.matchmaking" class="matchmaking">
             <button
             ui-sref="app.matchmaking"
             class="ui labeled icon fluid sea-serpent button">
               <i class="users icon"></i>
               Search for teammates
             </button>
-          </a>
+          </a>-->
 
       </div>
 

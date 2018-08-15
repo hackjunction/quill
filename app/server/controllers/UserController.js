@@ -980,6 +980,26 @@ UserController.joinTeam = function(id, code, callback){
 };
 
 /**
+ * Given a team id, lock the team
+ * @param {String} id Id of the team
+ * @param {Function}  callback args(err, team)
+ */
+UserController.lockTeam = function(id, callback){
+  User.findById(id, function(err, user) {
+    if (err | !user) return callback({message: 'Something went wrong'})
+    Team.findById(user.team, function(err, team) {
+      if(team.leader !== user.id) return callback({message: 'Only team leader can lock in the team'})
+      team.teamLocked = true
+      team.save(function(err) {
+        if(err) return callback(err, team)
+        console.log('Team locked!')
+        return callback(null, team)
+      })
+    })
+  })
+}
+
+/**
  * Given an id, remove them from any teams.
  * @param  {[type]}   id       Id of the user leaving
  * @param  {Function} callback args(err, user)
@@ -989,10 +1009,9 @@ UserController.leaveTeam = function(id, callback){
     if (err || !user){
       return callback({message: 'User not found'});
     }
-    console.log('Removing the user from team')
-    console.log(user.team)
+    const teamID = user.team
     Team.findOneAndUpdate({
-      code: user.teamName
+      code: user.team
     }).exec(function(err, team) {
       if (err || !team) {
         return callback({message: 'Team not found'})
@@ -1003,12 +1022,19 @@ UserController.leaveTeam = function(id, callback){
       if (leaderID === id) {
         team.leader = team.members[0]
       }
-      team.save(function(err){
-        if (err){
-          return callback(err, team);
-        }
-        console.log('Team updated after user left the team')
-      });
+      if (team.members.length){
+        team.save(function(err){
+          if (err){
+            return callback(err, team);
+          }
+          console.log('Team updated after user left the team')
+        })
+      } else {
+        Team.deleteOne({_id: user.team}, function(err) {
+          if (err) return callback('Error deleting team')
+          console.log(`Deleted team with id ${teamID}`)
+        })
+      }
       user.teamMatchmaking.enrolled = false
       user.teamMatchmaking.enrollmentType = undefined
       user.teamMatchmaking.team.mostInterestingTrack = undefined
