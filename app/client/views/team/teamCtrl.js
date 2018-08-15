@@ -23,32 +23,60 @@ angular.module('reg')
 
       $scope.TEAM = TEAM;
 
-     function _populateTeammates(){
-       UserService
-         .getMyTeammates()
-         .success(function(users){
-           $scope.error = null;
-           $scope.teammates = users;
-         });
-     }
-
-
-      if ($scope.user.teamName){
+      function _populateTeammates(){
+        UserService
+          .getMyTeammates()
+          .success(function(users){
+            $scope.error = null;
+            $scope.teammates = users;
+          })
+          .error(function(res){
+            $scope.error = res.message;
+          });
+      }
+      function _getTeamInfo(){
+        UserService
+          .getTeamInfo()
+          .success(function(team) {
+            $scope.teamLeader = team.leader;
+            $scope.teamLocked = team.teamLocked;
+          })
+          .error(function(res){
+            $scope.error = res.message;
+          });
+      }
+      if ($scope.user.team){
         _populateTeammates();
+        _getTeamInfo();
       }
 
       $scope.joinTeam = function(){
         UserService
-          .joinOrCreateTeam($scope.code)
+          .joinTeam($scope.code)
           .success(function(user){
             $scope.error = null;
             $scope.user = user;
             _populateTeammates();
+            _getTeamInfo();
           })
           .error(function(res){
             $scope.error = res.message;
           });
       };
+
+      $scope.createTeam = function() {
+        UserService
+          .createTeam()
+          .success(function(user) {
+            $scope.error = null;
+            $scope.user = user;
+            _populateTeammates();
+            _getTeamInfo();
+          })
+          .error(function(res){
+            $scope.error = res.message;
+          });
+      }
 
       $scope.leaveTeam = function(){
         UserService

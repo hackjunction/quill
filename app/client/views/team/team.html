@@ -18,7 +18,7 @@
           ng-show="!user.team && regIsOpen">
 
           <div class="title">
-            Join or Create a Team
+            Join or create a Team
           </div>
 
           <br>
@@ -36,21 +36,34 @@
               class="ui labeled icon fluid sea-serpent button"
               ng-click="joinTeam()">
               <i class="sign in icon"></i>
-              Join or Create Team
+              Join Team
             </button>
           </div>
-
+          <div class="ui divider"></div>
+        </div>
+        <div
+          class="ui form"
+          ng-show="!user.team && regIsOpen">
+          <div class="field">
+            <button
+              class="ui labeled icon fluid sea-serpent button"
+              ng-click="createTeam()">
+              <i class="edit icon"></i>
+              Create a new Team
+            </button>
+          </div>
+          <div class="ui divider"></div>
         </div>
         <div
           ng-show="user.team">
           <div class="form">
             <div class="title">
-              Your Team Name:
+              Your Team Code:
             </div>
           </div>
           <br>
           <div class="subheader">
-            {{user.teamName}}
+            {{user.team}}
           </div>
 
           <br />
@@ -64,9 +77,9 @@
           </div>
 
           <p
-            ng-repeat="user in teammates"
+            ng-repeat="u in teammates"
             class="item">
-            {{user.profile.name || 'Somebody (has not filled out their profile!)'}}
+            {{u.profile.name || 'Somebody (has not filled out their profile!)'}} <i ng-if="teamLeader === u.id" class="eye icon"></i>
           </p>
 
           <div

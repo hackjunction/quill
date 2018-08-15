@@ -538,14 +538,9 @@ var schema = new mongoose.Schema({
     type: Number,
     default: Date.now(),
   },
-
   team: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team'
-  },
-  teamName: {
-    type: String,
-    required: false
   },
   verified: {
     type: Boolean,

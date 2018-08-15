@@ -841,6 +841,14 @@ UserController.verifyByToken = function(token, callback){
   });
 };
 
+UserController.getTeamInfo = function(id, callback) {
+  User
+    .findById(id)
+    .populate('team')
+    .select('team')
+    .exec(callback)
+}
+
 /**
  * Get a specific user's teammates. NAMES ONLY.
  * @param  {String}   id       id of the user we're looking for.
@@ -862,11 +870,40 @@ UserController.getTeammates = function(id, callback){
       .find({
         team: teamID
       })
-      .populate('team')
       .select('profile.name')
       .exec(callback);
   });
 };
+
+UserController.createTeam = function(id, callback) {
+  User.findById(id, function(err, user) {
+    if (err) return callback({message: "Error finding user"})
+    const t = new Team({
+      leader: user.id,
+      members: [user.id],
+    })
+    t.save(function(err){
+      if (err){
+        return callback(err, t);
+      }
+      console.log(`New team created with id ${t._id}!`)
+    });
+    // Update user
+    User.findOneAndUpdate({
+      _id: id,
+      verified: true
+    },{
+      $set: {
+        team: t._id,
+        'teamMatchmaking.enrolled': false,
+        'teamMatchmaking.enrollmentType': undefined
+        }
+      }, {
+        new: true
+      }, 
+      callback);
+  })
+}
 
 /**
  * Given a team code and id, join a team.
@@ -874,7 +911,7 @@ UserController.getTeammates = function(id, callback){
  * @param  {String}   code     Code of the proposed team
  * @param  {Function} callback args(err, users)
  */
-UserController.createOrJoinTeam = function(id, code, callback){
+UserController.joinTeam = function(id, code, callback){
   csvValidation(code, function(codeValidated){
     if (!code){
       return callback({
@@ -889,29 +926,31 @@ UserController.createOrJoinTeam = function(id, code, callback){
     }
 
     Team.findOne({
-      code: code
+      _id: code
     })
     .exec(function(err, team){
       // Check to see if this team is joinable (< team max size)
-      if(team){
-        if (team.members.includes(id)) {
-          return callback({
-            message: 'User is already in this team!'
-          })
-        }
-        if (team.members && team.members.length >= maxTeamSize) {
-          return callback({
-            message: "Team is full."
-          });
-        }
-        if (team.teamLocked) {
-          return callback({
-            message: "This team is locked."
-          })
-        }
-        // Update team
-        console.log('Updating team members')
-        const updatedMembers = team.members.concat([id])
+      if (err || !team) return callback({message: "Team not found"})
+
+      if (team.members.includes(id)) {
+        return callback({
+          message: 'User is already in this team!'
+        })
+      }
+      if (team.members && team.members.length >= maxTeamSize) {
+        return callback({
+          message: "Team is full."
+        });
+      }
+      if (team.teamLocked) {
+        return callback({
+          message: "This team is locked."
+        })
+      }
+      console.log('Valid team found, adding user to it')
+      User.findById(id, function(err, user) {
+        if (err) return callback({message: "User not found"})
+        const updatedMembers = team.members.concat([user.id])
         Team.findOneAndUpdate({code: code}, {
             $set: {
               members: updatedMembers
@@ -920,7 +959,6 @@ UserController.createOrJoinTeam = function(id, code, callback){
             new: true
           }
         );
-        console.log('Valid team found, adding user to it')
         User.findOneAndUpdate({
           _id: id,
           verified: true
@@ -936,38 +974,9 @@ UserController.createOrJoinTeam = function(id, code, callback){
           }, 
           callback
         );
-      } else {
-        // Create a new team if one didn't exist
-        const t = new Team({
-          code: code,
-          leader: id,
-          members: [id],
-        })
-        t.save(function(err){
-          if (err){
-            return callback(err, t);
-          }
-          console.log(`New team created with code ${code} created!`)
-        });
-        // Update user
-        User.findOneAndUpdate({
-          _id: id,
-          verified: true
-        },{
-          $set: {
-            team: t._id,
-            teamName: code,
-            'teamMatchmaking.enrolled': false,
-            'teamMatchmaking.enrollmentType': undefined
-            }
-          }, {
-            new: true
-          }, 
-          callback);
-      }
-
-      });
+      })
     });
+  });
 };
 
 /**

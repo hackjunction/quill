@@ -85,12 +85,17 @@ angular.module('reg')
       // ------------------------
       // Team
       // ------------------------
-      joinOrCreateTeam: function(code){
-        return $http.put(base + Session.getUserId() + '/team', {
+      getTeamInfo: function() {
+        return $http.get(base + Session.getUserId() + '/team/info')
+      },
+      joinTeam: function(code){
+        return $http.put(base + Session.getUserId() + '/team/join', {
           code: code
         });
       },
-
+      createTeam: function(){
+        return $http.put(base + Session.getUserId() + '/team/create')
+      },
       leaveTeam: function(){
         return $http.delete(base + Session.getUserId() + '/team');
       },
