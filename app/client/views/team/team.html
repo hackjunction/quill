@@ -75,11 +75,10 @@
               Your Teammates:
             </div>
           </div>
-
           <p
             ng-repeat="u in teammates"
             class="item">
-            {{u.profile.name || 'Somebody (has not filled out their profile!)'}} <i ng-if="teamLeader === u.id" class="eye icon"></i>
+            {{u.profile.name || 'Somebody (has not filled out their profile!)'}} <i ng-if="teamLeader == u.id" class="eye icon"></i>
           </p>
 
           <div

@@ -38,8 +38,8 @@ angular.module('reg')
         UserService
           .getTeamInfo()
           .success(function(team) {
-            $scope.teamLeader = team.leader;
-            $scope.teamLocked = team.teamLocked;
+            $scope.teamLeader = team.team.leader;
+            $scope.teamLocked = team.team.teamLocked;
           })
           .error(function(res){
             $scope.error = res.message;

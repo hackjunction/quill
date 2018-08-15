@@ -870,7 +870,7 @@ UserController.getTeammates = function(id, callback){
       .find({
         team: teamID
       })
-      .select('profile.name')
+      .select('profile.name id')
       .exec(callback);
   });
 };
