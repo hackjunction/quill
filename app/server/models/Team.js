@@ -7,9 +7,6 @@ var validator = require('validator');
  */
 
 var schema = new mongoose.Schema({
-  code: {
-    type: String
-  },
   leader: {
     type: String
   },

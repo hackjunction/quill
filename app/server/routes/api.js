@@ -492,17 +492,27 @@ module.exports = function(router) {
     const id = req.params.id;
     UserController.joinTeam(id, code, defaultResponse(req, res));
   });
-
+  /**
+   * Create a new team
+   */
   router.put('/users/:id/team/create', isOwnerOrAdmin, function(req, res){
     const id = req.params.id;
     UserController.createTeam(id, defaultResponse(req, res));
   });
-
+  /** 
+   * Lock a team
+  */
   router.put('/users/:id/team/lock', isOwnerOrAdmin, function(req, res){
     const {id} = req.params
     UserController.lockTeam(id, defaultResponse(req, res))
   })
-
+  /**
+   * Kick a user from team
+   */
+  router.delete('/users/:id/team/kick/:userID', isOwnerOrAdmin, function(req, res) {
+    const {id, userID} = req.params
+    UserController.kickFromTeam(id, userID, defaultResponse(req, res))
+  })
   /**
    * Remove a user from a team.
    */

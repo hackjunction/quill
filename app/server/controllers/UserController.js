@@ -882,6 +882,7 @@ UserController.createTeam = function(id, callback) {
       leader: user.id,
       members: [user.id],
     })
+    console.log(JSON.stringify(t))
     t.save(function(err){
       if (err){
         return callback(err, t);
@@ -951,21 +952,19 @@ UserController.joinTeam = function(id, code, callback){
       User.findById(id, function(err, user) {
         if (err) return callback({message: "User not found"})
         const updatedMembers = team.members.concat([user.id])
-        Team.findOneAndUpdate({code: code}, {
-            $set: {
-              members: updatedMembers
-            }
-          }, {
-            new: true
+        team.members = updatedMembers
+        team.save(function(err){
+          if (err){
+            return callback(err, team);
           }
-        );
+          console.log(`Team members updated!`)
+        });
         User.findOneAndUpdate({
           _id: id,
           verified: true
         }, {
           $set: {
             team: team._id,
-            teamName: team.code,
             'teamMatchmaking.enrolled': false,
             'teamMatchmaking.enrollmentType': undefined
             }
@@ -1000,6 +999,46 @@ UserController.lockTeam = function(id, callback){
 }
 
 /**
+ * Given an user ID, kick them from team if the one making request is the team leader
+ * @param {String}  id  _id of the one making request
+ * @param {String}  userID  ID of the user being kicked
+ */
+
+UserController.kickFromTeam = function(id, userID, callback) {
+  User.findById(id, function(err, user) {
+    if (err || !user){
+      return callback({message: 'User not found'});
+    }
+    Team.findById(user.team, function(err, team) {
+      if (err || !team){
+        return callback({message: 'Team not found'});
+      }
+      if(user.id !== team.leader) return callback({message: `You're not the team leader!`})
+      User.findOneAndUpdate({
+        id: userID,
+        team: team._id
+      }, {
+        $set: {
+          team: null,
+          'teamMatchmaking.enrolled': false,
+          'teamMatchmaking.enrollmentType': undefined
+          }
+        }, {
+          new: true
+        }, function(err, u) {
+          if(err || !u) return callback({message: 'User not found!'})
+          const userIndex = team.members.indexOf(u.id)
+          team.members.splice(userIndex, 1)
+          team.save(function(err) {
+            if(err) return callback({message: 'Error updating team'})
+            return callback(null, team)
+          })
+      })
+    })
+  })
+}
+
+/**
  * Given an id, remove them from any teams.
  * @param  {[type]}   id       Id of the user leaving
  * @param  {Function} callback args(err, user)
@@ -1010,16 +1049,14 @@ UserController.leaveTeam = function(id, callback){
       return callback({message: 'User not found'});
     }
     const teamID = user.team
-    Team.findOneAndUpdate({
-      code: user.team
-    }).exec(function(err, team) {
+    Team.findById(user.team).exec(function(err, team) {
       if (err || !team) {
         return callback({message: 'Team not found'})
       }
       const leaderID = team.leader
       const userIndex = team.members.indexOf(id)
-      team.members.splice(userIndex, 1)
-      if (leaderID === id) {
+      team.members.splice(userIndex, 1) // Remove user from team
+      if (leaderID === user.id) {
         team.leader = team.members[0]
       }
       if (team.members.length){

@@ -112,4 +112,25 @@ angular.module('reg')
         });
       }
 
+      $scope.kickFromTeam = function(user){
+        swal({
+          title: "Are you sure?",
+          text: `Do you want to kick ${user.profile.name} from your team?`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, I'm sure.",
+          closeOnConfirm: true
+          }, function(){
+            UserService
+              .kickFromTeam(user.id)
+              .success(function(team) {
+                _populateTeammates()
+              })
+              .error(function(res){
+                $scope.error = res.data.message;
+              });
+        });
+      }
+
     }]);

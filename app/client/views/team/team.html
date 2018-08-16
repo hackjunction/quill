@@ -52,9 +52,9 @@
             </button>
           </div>
         </div>
-        <div
-          ng-show="user.team">
+        <div ng-show="user.team">
           <div class="form">
+            <div class="subheader">With the Team Code below people can join your team!</div>
             <div class="title">
               Your Team Code:
             </div>
@@ -75,8 +75,11 @@
           </div>
           <p
             ng-repeat="u in teammates"
-            class="item">
-            {{u.profile.name || 'Somebody (has not filled out their profile!)'}} <i ng-if="teamLeader == u.id" class="eye icon"></i>
+            class="item"
+          >
+            <i ng-if="teamLeader === user.id && u.id !== teamLeader" ng-click="kickFromTeam(u)" class="user times icon"></i>
+            <i ng-if="teamLeader === u.id" class="eye icon"></i>
+            {{u.profile.name || 'Somebody (has not filled out their profile!)'}}
           </p>
 
           <div
