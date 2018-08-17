@@ -99,8 +99,10 @@ angular.module('reg')
       leaveTeam: function(){
         return $http.delete(base + Session.getUserId() + '/team');
       },
-      lockTeam: function(teamID){
-        return $http.put(base + Session.getUserId() + '/team/lock')
+      lockTeam: function(teamInterests){
+        return $http.put(base + Session.getUserId() + '/team/lock', {
+          teamInterests
+        })
       },
       kickFromTeam: function(userID) {
         return $http.delete(base + Session.getUserId() + '/team/kick/' + userID)

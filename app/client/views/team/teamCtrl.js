@@ -18,9 +18,9 @@ angular.module('reg')
       var Settings = settings.data;
 
       $scope.regIsOpen = true; // Don't change, at least yet.
-
       $scope.user = currentUser.data;
-
+      $scope.fieldErrors = undefined
+      $scope.error = undefined
       $scope.TEAM = TEAM;
 
       function _populateTeammates(){
@@ -40,6 +40,7 @@ angular.module('reg')
           .success(function(team) {
             $scope.teamLeader = team.team.leader;
             $scope.teamLocked = team.team.teamLocked;
+            $scope.teamInterests = team.team.trackInterests;
           })
           .error(function(res){
             $scope.error = res.message;
@@ -85,6 +86,7 @@ angular.module('reg')
             $scope.error = null;
             $scope.user = user;
             $scope.teammates = [];
+            $("#teamInterests").dropdown('set selected', "");
           })
           .error(function(res){
             $scope.error = res.data.message;
@@ -92,24 +94,30 @@ angular.module('reg')
       };
 
       $scope.lockTeam = function(){
-        swal({
-          title: "Are you sure?",
-          text: "Do you have all members in the team?\n This will lock in your team, new members won't be able to join the team anymore after it is locked.",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, lock the team.",
-          closeOnConfirm: true
-          }, function(){
-            UserService
-              .lockTeam()
-              .success(function(team) {
-                $scope.teamLocked = team.teamLocked
-              })
-              .error(function(res){
-                $scope.error = res.data.message;
-              });
-        });
+        if($('#lockingForm').form('is valid')){
+          $scope.error = null
+          $scope.fieldErrors = null
+          swal({
+            title: "Are you sure?",
+            text: "Do you have all members in the team?\n This will lock in your team, new members won't be able to join the team anymore after it is locked.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, lock the team.",
+            closeOnConfirm: true
+            }, function(){
+              UserService
+                .lockTeam($scope.teamInterests)
+                .success(function(team) {
+                  $scope.teamLocked = team.teamLocked
+                })
+                .error(function(res){
+                  $scope.error = res.data.message;
+                });
+          })
+        } else {
+          $('#lockingForm').form('validate form')
+        }
       }
 
       $scope.kickFromTeam = function(user){
@@ -133,4 +141,31 @@ angular.module('reg')
         });
       }
 
+      function _setupForm() {
+        $('#lockingForm')
+        .form({
+          fields: {
+            teamInterests:  {
+              identifier: 'teamInterests',
+              rules: [
+                {
+                  type: 'maxCount[3]',
+                  prompt: 'You can select max 3 tracks!'
+                },
+                {
+                  type: 'empty',
+                  prompt: 'Please select at least one track'
+                }
+              ]
+            }
+          },
+          onFailure: function(formErrors, fields){
+            $scope.fieldErrors = formErrors;
+            $scope.error = 'There is error in the field above!';
+          }
+        })
+        $("#teamInterests").dropdown('set selected', $scope.teamInterests);
+      }
+
+      _setupForm()
     }]);

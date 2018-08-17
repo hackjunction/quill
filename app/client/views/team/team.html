@@ -82,23 +82,66 @@
             {{u.profile.name || 'Somebody (has not filled out their profile!)'}}
           </p>
 
-          <div
-            ng-show="regIsOpen">
+          <div ng-show="regIsOpen">
             <div class="ui divider"></div>
-            <p>You will lock in your teams for the application period when you'll be reviewed as a team.</p>
-            <p><i class="exclamation circle icon"></i> <b>Note</b></p>
-            <p>After you lock in your team, you <b>can't open</b> it anymore - lock your team only after all your team members have joined!</p>
-            <p>After the application period team matchmaking will open and you can search for more team members if you still need more people in your team!</p>
-            <div class="title small">
-              Status: <span ng-if="teamLocked">Locked</span><span ng-if="!teamLocked">Open</span>
+              <div class="ui form" id="lockingForm">
+                <div class="title">Locking in your team</div>
+                <p>You will lock in your teams for the application period when you'll be reviewed as a team.</p>
+                <p><i class="exclamation circle icon"></i> <b>Note</b></p>
+                <p>After you lock in your team, you <b>can't open</b> it anymore - lock your team only after all your team members have joined!</p>
+                <p>After the application period team matchmaking will open and you can search for more team members if you still need more people in your team!</p>
+                <div class="title small">
+                  Status: <span ng-if="teamLocked">Locked</span><span ng-if="!teamLocked">Open</span>
+                </div>
+                <br/>
+                <div class="required field" ng-class="{'disabled': teamLocked}" ng-show="!teamLocked">
+                  <label>Which tracks are you most interested in as a team? Max 3 options.</label>
+                  <select multiple="multiple"
+                    class="ui multiple normal selection dropdown"
+                    name="teamInterests"
+                    id="teamInterests"
+                    ng-model="teamInterests"
+                  >
+                    <option value="">Choose up to 3</option>
+                    <option value="Healthtech">Healthtech</option>
+                    <option value="Internet of Things">Internet of Things</option>
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                    <option value="Networks">Networks</option>
+                    <option value="Games">Games</option>
+                    <option value="Virtual/Augmented Reality">Virtual and Augmented Reality</option>
+                    <option value="Big Data">Big Data</option>
+                    <option value="Fintech">Fintech</option>
+                    <option value="Mobility">Mobility</option>
+                    <option value="Smart Cities">Smart Cities</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Electrical Vehicles">Electrical Vehicles</option>
+                    <option value="Blockchain">Blockchain</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Sustainability">Sustainability</option>
+                    <option value="Privacy">Privacy</option>
+                  </select>
+                </div>
+                <div class="ui small negative message" ng-show='error'>
+                  {{error}} <br>
+                  <ul>
+                    <div data-ng-repeat="i in fieldErrors">
+                      <li>{{ i }}</li>
+                    </div>
+                  </ul>
+                </div>
+                <button
+                  class="ui labeled icon fluid sea-serpent button"
+                  ng-disabled="teamLocked || (teamLeader !== user.id)"
+                  ng-show="!teamLocked"
+                  ng-click="lockTeam()">
+                  <i class="lock icon"></i>
+                  Lock Team
+                </button>
+                <div class="ui field" ng-show="teamLocked">
+                  <p>You've selected these tracks:</p>
+                  <p ng-repeat="i in teamInterests"><b>{{i}}</b></p>
+                </div>
             </div>
-            <button
-              class="ui labeled icon fluid sea-serpent button"
-              ng-disabled="teamLocked || (teamLeader !== user.id)"
-              ng-click="lockTeam()">
-              <i class="lock icon"></i>
-              Lock Team
-            </button>
           </div>
 
           <div

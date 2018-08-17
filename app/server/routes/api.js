@@ -503,8 +503,10 @@ module.exports = function(router) {
    * Lock a team
   */
   router.put('/users/:id/team/lock', isOwnerOrAdmin, function(req, res){
+    console.log(req.body.teamInterests)
+    const {teamInterests} = req.body
     const {id} = req.params
-    UserController.lockTeam(id, defaultResponse(req, res))
+    UserController.lockTeam(id, teamInterests, defaultResponse(req, res))
   })
   /**
    * Kick a user from team

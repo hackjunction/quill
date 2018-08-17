@@ -17,6 +17,9 @@ var schema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  trackInterests: {
+    type: [String]
+  }
 });
 
 module.exports = mongoose.model('Team', schema);

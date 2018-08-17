@@ -983,12 +983,14 @@ UserController.joinTeam = function(id, code, callback){
  * @param {String} id Id of the team
  * @param {Function}  callback args(err, team)
  */
-UserController.lockTeam = function(id, callback){
+UserController.lockTeam = function(id, teamInterests, callback){
   User.findById(id, function(err, user) {
     if (err | !user) return callback({message: 'Something went wrong'})
     Team.findById(user.team, function(err, team) {
       if(team.leader !== user.id) return callback({message: 'Only team leader can lock in the team'})
+      if(team.teamLocked) return callback({message: 'Team already locked!'})
       team.teamLocked = true
+      team.trackInterests = teamInterests
       team.save(function(err) {
         if(err) return callback(err, team)
         console.log('Team locked!')
