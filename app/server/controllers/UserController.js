@@ -269,7 +269,7 @@ UserController.getPage = function(query, callback){
     var re = new RegExp(escapeRegExp(text), 'i');
     textFilter.push({ email: re });
     textFilter.push({ 'profile.name': re });
-    textFilter.push({ 'teamCode': re });
+    textFilter.push({ 'team': re });
     textFilter.push({ 'profile.homeCountry': re });
     textFilter.push({ 'profile.travelFromCountry': re });
     textFilter.push({ 'profile.travelFromCity': re });
@@ -322,6 +322,7 @@ UserController.getPage = function(query, callback){
     .limit(size)
     .exec(function (err, users){
       if (err || !users){
+        console.log(err)
         return callback(err);
       }
 
@@ -463,7 +464,7 @@ UserController.getMatchmaking = function(user, query, callback){
 
 //Check if users team is already in matchmaking search
 UserController.teamInSearch = function(user, callback){
-  User.find({'teamCode': user.teamCode})
+  User.find({'team': user.team})
   .exec(function (err, users) {
     if (err || !users){
       return callback(err);
@@ -745,7 +746,7 @@ UserController.declineById = function (id, callback){
         'lastUpdated': Date.now(),
         'status.confirmed': false,
         'status.declined': true,
-        'teamCode': null
+        'team': null
       }
     }, {
       new: true
@@ -843,10 +844,13 @@ UserController.verifyByToken = function(token, callback){
 
 UserController.getTeamInfo = function(id, callback) {
   User
-    .findById(id)
-    .populate('team')
-    .select('team')
-    .exec(callback)
+    .findById(id, function(err, user) {
+      if(err) return callback({message: 'Something went wrong'})
+      Team.findById(user.team, function(err, team) {
+        if (err) return callback({message: 'Something went wrong'})
+        return callback(null, team)
+      })
+    })
 }
 
 /**

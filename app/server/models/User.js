@@ -539,8 +539,8 @@ var schema = new mongoose.Schema({
     default: Date.now(),
   },
   team: { 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Team'
+    type: String,
+    required: false
   },
   verified: {
     type: Boolean,
