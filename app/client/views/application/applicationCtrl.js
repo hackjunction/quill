@@ -11,14 +11,24 @@ angular.module('reg')
     'SettingsService',
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService, SettingsService){
       $scope.isDisabled = false;
-
       // Set up the user
       $scope.user = currentUser.data;
-
-      if ($scope.user.profile.school == null) {
-          $scope.schoolChecked = false;
+      if ($scope.user.profile.school) {
+          $('#goesNotToSchool').prop('checked', true)
+          $scope.goesNotToSchool = true
       } else {
-        $scope.schoolChecked = true;
+        $('#goesToSchool').prop('checked', true)
+        $scope.goesToSchool = true
+      }
+
+      $scope.setSchool = function(setting) {
+        if(setting === "yes") {
+          $scope.goesToSchool = true
+          $scope.goesNotToSchool = false
+        } else {
+          $scope.goesToSchool = false
+          $scope.goesNotToSchool = true
+        }
       }
       var originalTeamCode = $scope.user.teamCode;
 
@@ -342,7 +352,7 @@ angular.module('reg')
       }
 
       $scope.submitForm = function(){
-        if (!$scope.schoolChecked) {
+        if ($scope.goesNotToSchool) {
           $scope.user.profile.school = null;
           $scope.user.profile.graduationYear = null;
           $scope.user.profile.degree = null;

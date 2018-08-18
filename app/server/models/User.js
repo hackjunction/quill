@@ -66,6 +66,17 @@ var profile = {
     maxlength: 100,
   },
 
+  oldDegree: {
+    graduationYear: {
+      type: Number,
+      maxlength: 20
+    },
+    degree: {
+      type: String,
+      maxlength: 150
+    }
+  },
+
   description: {
     type: String,
     min: 0,

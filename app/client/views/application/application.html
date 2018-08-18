@@ -635,21 +635,27 @@
         </div>
         <p>If you can't find a language from the list, you can add it by writing it.</p>
         <br>
-
-        <div class="field">
-          <label> School Information </label>
-          <div class="ui checkbox">
-            <input type="checkbox"
-                    id="hasSchool"
-                    ng-model="schoolChecked">
-            <label for="hasSchool">I am currently enrolled in a school / university</label>
+        <div class="divided title">School Information</div>
+        <div class="grouped fields">
+          <label>I am currently enrolled in a school / university</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" id="goesToSchool" name="goesToSchool" ng-click="setSchool('yes')">
+              <label>Yes</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" id="goesNotToSchool" name="goesToSchool" ng-click="setSchool('no')">
+              <label>No</label>
+            </div>
           </div>
         </div>
         <div class="indent">
-          <div class="field" id="schoolField" ng-show="schoolChecked">
+          <div class="field" id="schoolField" ng-show="goesToSchool">
             <label> Which school are you from? </label>
             <p style="margin-bottom: 10px;">
-            Please type in the school / university you are enrolled at for the year <strong>2017/2018</strong>.
+            Please type in the school / university you are enrolled at for the year <strong>2018/2019</strong>.
             </p>
             <select class="ui fluid school search dropdown"
                    name="school"
@@ -659,7 +665,7 @@
             </select>
           </div>
 
-          <div class="field" ng-show="schoolChecked">
+          <div class="field" ng-show="goesToSchool">
             <label> Expected year of graduation </label>
             <input type="number"
                    min="2017"
@@ -668,7 +674,7 @@
                    ng-model="user.profile.graduationYear">
           </div>
 
-          <div class="field" ng-show="schoolChecked">
+          <div class="field" ng-show="goesToSchool">
             <label> What is the degree you are currently studying? </label>
             <select
               class="ui fluid dropdown"
@@ -684,8 +690,15 @@
             </select>
           </div>
 
-          <div class="field" ng-show="schoolChecked">
+          <div class="field" ng-show="goesToSchool">
             <label> What is the major you are studying? </label>
+            <input type="text"
+                   name="major"
+                   ng-model="user.profile.major"
+                   placeholder="e.g. Computer Science, Industrial Design etc.">
+          </div>
+          <div class="field" ng-show="goesNotToSchool">
+            <label>Do you have a degree?</label>
             <input type="text"
                    name="major"
                    ng-model="user.profile.major"
