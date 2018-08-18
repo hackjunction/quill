@@ -320,13 +320,16 @@ angular.module('reg')
         $("#travelFromCountry").dropdown('set selected', $scope.user.profile.travelFromCountry);
         $("#occupationalStatus").dropdown('set selected', $scope.user.profile.occupationalStatus);
         $("#degree").dropdown('set selected', $scope.user.profile.degree);
+        $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
 
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $('.ui.dropdown').dropdown('refresh');
 
         setTimeout(function () {
+          $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
           $(".ui.search.dropdown").dropdown('set selected', $scope.user.profile.school);
           $(".ui.toptools.dropdown").dropdown('set selected', $scope.user.profile.topLevelTools);
+
           $("#greatLevelTools").dropdown('set selected', $scope.user.profile.greatLevelTools);
           $("#goodLevelTools").dropdown('set selected', $scope.user.profile.goodLevelTools);
           $("#beginnerLevelTools").dropdown('set selected', $scope.user.profile.beginnerLevelTools);

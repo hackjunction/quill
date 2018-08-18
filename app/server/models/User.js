@@ -42,6 +42,10 @@ var profile = {
     maxlength: 120,
   },
 
+  workingLanguages: {
+    type: [String]
+  },
+
   school: {
     type: String,
     min: 1,
