@@ -12,16 +12,21 @@ angular.module('reg')
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService, SettingsService){
       $scope.isDisabled = false;
       // Set up the user
+      $scope.needsVisa = false
       $scope.user = currentUser.data;
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
         $scope.goesNotToSchool = false 
-      } else if($scope.user.profile.oldDegree) {
+      } else if ($scope.user.profile.oldDegree) {
         $('#goesNotToSchool').prop('checked', true)
         $scope.goesNotToSchool = true
         $scope.goesToSchool = false
         $scope.oldDegreeChecked = true
+      }
+
+      if ($scope.user.profile.needsVisa) {
+        $scope.needsVisa = true
       }
 
       $scope.setSchool = function(setting) {
@@ -258,12 +263,12 @@ angular.module('reg')
                 }
               ]
             },
-            mostInterestingTrack: {
-              identifier: 'mostInterestingTrack',
+            mostInterestingThemes: {
+              identifier: 'mostInterestingThemes',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select the most interesting track for you.'
+                  prompt: 'Please select at least one theme'
                 }
               ]
             },
@@ -333,6 +338,7 @@ angular.module('reg')
         $("#occupationalStatus").dropdown('set selected', $scope.user.profile.occupationalStatus);
         $("#degree").dropdown('set selected', $scope.user.profile.degree);
         $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
+        $("#mostInterestingThemes").dropdown('set selected', $scope.user.profile.mostInterestingThemes);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');

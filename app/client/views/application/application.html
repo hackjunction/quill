@@ -37,6 +37,11 @@
       .dropdown({
         maxSelections: 2
       });
+    
+    $('.ui.themes')
+      .dropdown({
+        maxSelections: 3
+      })
 
   </script>
 
@@ -740,15 +745,25 @@
         <br>
         <div class="divided title">Travel & Accommodation</div>
         <div class="field">
-          <label> Do you need travel reimbursement? </label>
+          <label>Do you need a Visa?</label>
+          <div class="ui checkbox">
+              <input type="checkbox"
+                      id="needsVisa"
+                      ng-model="needsVisa">
+              <label for="needsVisa">Yes</label>
+            </div>
+        </div>
+        <div class="field">
+          <label> Do you need travel grants? </label>
           <p style="margin-bottom: 10px;">
             Applicants travelling from outside of Greater Helsinki region can apply for travel reimbursement and free accommodation during the event.
             <br>
             Depending on where you come from the reimbursement can be up to:
             <ul>
               <li>Finland (Outside of Greater Helsinki region): 20€</li>
-              <li>Baltics & Nordics & Russia: 50€</li>
-              <li>Rest of Europe: 75€</li>
+              <li>Baltics: 40€</li>
+              <li>Nordics: 60€</li>
+              <li>Europe: 80€</li>
               <li>Rest of the World: 150€</li>
             </ul>
           </p>
@@ -769,8 +784,9 @@
         <div class="field">
           <label> Do you apply for free accommodation? </label>
           <p style="margin: 5px 0px 10px 0px;">
-            We will have accommodation available in multiple schools for a few hundred participants. A sleeping bag and/or mattress is recommended for sleeping in the accommodation places.
-            Accommodation is only available for participants from outside Greater Helsinki region.
+            The free accommodation is a school floor accommodation.
+            You can upgrade your accommodation later with a discount code for our partner hostel & hotel but for now just let us know if you need a accommodation.
+            More info coming when accepted to the event!
           </p>
         </div>
         <div style="margin-left: 20px; margin-top: 10px; margin-bottom: 20px">
@@ -790,11 +806,15 @@
               This question isn’t binding in any case, just to know a little more about your interests. More specific tracks & challenges before the event!
               You can find more info about each track and challenges on our website <a href="https://hackjunction.com" target="_blank">HERE</a>.
             </p>
+            <p style="margin-bottom: 10px";>
+              You can select max. 3 options.
+            </p>
           <select
-            class="ui fluid dropdown"
-            name="mostInterestingTrack"
-            id="mostInterestingTrack"
-            ng-model="user.profile.mostInterestingTrack">
+            multiple="multiple"
+            class="ui multiple normal selection dropdown themes"
+            name="mostInterestingThemes"
+            id="mostInterestingThemes"
+            ng-model="user.profile.mostInterestingThemes">
             <option value="">Choose a track</option>
             <option value="Healthtech">Healthtech</option>
             <option value="Internet of Things">Internet of Things</option>

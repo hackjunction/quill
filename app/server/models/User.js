@@ -101,6 +101,7 @@ var profile = {
   },
 
   needsReimbursement: Boolean,
+  needsVisa: Boolean,
   applyAccommodation: Boolean,
 
   AppliedreimbursementClass: {
@@ -114,6 +115,10 @@ var profile = {
   mostInterestingTrack: {
     type: String,
     maxlength: 120,
+  },
+
+  mostInterestingThemes: {
+    type: [String]
   },
 
   portfolio: {
