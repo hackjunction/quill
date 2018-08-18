@@ -5,7 +5,7 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify-es').default;
 var ngAnnotate = require('gulp-ng-annotate');
 
 var environment = process.env.NODE_ENV;

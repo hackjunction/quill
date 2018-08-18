@@ -283,8 +283,9 @@ angular.module('reg')
                     $scope.users[index] = u;
                     swal(`Rated ${u.profile.name} with ${rating} stars.`, "success");
                   }
-                  else
+                  else {
                     swal("Something went wrong", "error");
+                  }
                 });
             }
           });
