@@ -12,7 +12,6 @@ angular.module('reg')
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService, SettingsService){
       $scope.isDisabled = false;
       // Set up the user
-      $scope.needsVisa = false
       $scope.user = currentUser.data;
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
@@ -23,10 +22,6 @@ angular.module('reg')
         $scope.goesNotToSchool = true
         $scope.goesToSchool = false
         $scope.oldDegreeChecked = true
-      }
-
-      if ($scope.user.profile.needsVisa) {
-        $scope.needsVisa = true
       }
 
       $scope.setSchool = function(setting) {
@@ -272,6 +267,24 @@ angular.module('reg')
                 }
               ]
             },
+            mainRole: {
+              identifier: 'mainRole',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select one of the main roles to describe yourself'
+                }
+              ]
+            },
+            subRoles: {
+              identifier: 'subRoles',
+              rules: [
+                {
+                  type: 'exactCount[2]',
+                  prompt: 'Please select two roles to describe yourself'
+                }
+              ]
+            },
             occupationalStatus: {
               identifier: 'occupationalStatus',
               rules: [
@@ -339,7 +352,11 @@ angular.module('reg')
         $("#degree").dropdown('set selected', $scope.user.profile.degree);
         $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
         $("#mostInterestingThemes").dropdown('set selected', $scope.user.profile.mostInterestingThemes);
+        $("#mainRole").dropdown('set selected', $scope.user.profile.mainRole);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
+        $("#designerRoles").dropdown('set selected', $scope.user.profile.designerRoles);
+        $("#developerRoles").dropdown('set selected', $scope.user.profile.developerRoles);
+        $("#businessRoles").dropdown('set selected', $scope.user.profile.businessRoles);
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
 

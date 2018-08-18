@@ -121,6 +121,22 @@ var profile = {
     type: [String]
   },
 
+  mainRole: {
+    type: String
+  },
+
+  designerRoles: {
+    type: [String]
+  },
+  
+  developerRoles: {
+    type: [String]
+  },
+
+  businessRoles: {
+    type: [String]
+  },
+
   portfolio: {
     type: String,
     min: 5,
