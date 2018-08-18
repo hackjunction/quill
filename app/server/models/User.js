@@ -14,9 +14,7 @@ var profile = {
   },
 
   age: {
-    type: Number,
-    min: 18,
-    max: 65,
+    type: Number
   },
 
   submittedApplication: {
@@ -177,6 +175,32 @@ var profile = {
     type: String,
     enum : {
       values: 'None,1,1-2,3-5,5+'.split(',')
+    }
+  },
+
+  terminal: {
+    essay: {
+      type: String,
+      maxlength: 500
+    },
+    skills: {
+      type: String,
+      maxlength: 200
+    },
+    terminalIndustries: {
+      type: [String],
+      maxlength: 500
+    },
+    coolestThing: {
+      type: String,
+      maxlength: 500
+    },
+    portfolio: {
+      type: String,
+      maxlength: 100
+    },
+    accommodatesAmount: {
+      type: Number
     }
   },
 

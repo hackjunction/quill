@@ -12,6 +12,7 @@ angular.module('reg')
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService, SettingsService){
       $scope.isDisabled = false;
       // Set up the user
+
       $scope.user = currentUser.data;
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
@@ -24,6 +25,11 @@ angular.module('reg')
         $scope.oldDegreeChecked = true
       }
 
+
+      if($scope.user.profile.terminal.essay) {
+        $scope.interestedTerminal = true
+      }
+
       $scope.setSchool = function(setting) {
         if(setting === "yes") {
           $scope.goesToSchool = true
@@ -31,6 +37,24 @@ angular.module('reg')
         } else {
           $scope.goesToSchool = false
           $scope.goesNotToSchool = true
+        }
+      }
+
+      $scope.setLivesInHelsinki = function(setting) {
+        if(setting === "yes") {
+          $scope.livesInHelsinki = true
+          $scope.livesNotInHelsinki = false
+        } else {
+          $scope.livesInHelsinki = false
+          $scope.livesNotInHelsinki = true
+        }
+      }
+
+      $scope.setAccommodation = function(setting) {
+        if(setting === "yes") {
+          $scope.accommodatesPeople = true
+        } else {
+          $scope.accommodatesPeople = false
         }
       }
       var originalTeamCode = $scope.user.teamCode;
@@ -357,6 +381,7 @@ angular.module('reg')
         $("#designerRoles").dropdown('set selected', $scope.user.profile.designerRoles);
         $("#developerRoles").dropdown('set selected', $scope.user.profile.developerRoles);
         $("#businessRoles").dropdown('set selected', $scope.user.profile.businessRoles);
+        $("#terminalIndustries").dropdown('set selected', $scope.user.profile.terminal ? $scope.user.profile.terminal.terminalIndustries : "");
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
 

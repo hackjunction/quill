@@ -32,6 +32,12 @@
         useLabels: true
       })
 
+    $('.terminal')
+      .dropdown({
+        allowAdditions: true,
+        useLabels: true
+      })
+
     // Max selections for occupationalStatus
     $('.ui.normal.dropdown.occupation')
       .dropdown({
@@ -919,91 +925,6 @@
         </div>
 
         <div class="field">
-          <label>Programming languages</label>
-          <p style="margin-bottom: 10px";>
-            Sort the programming languages you know according to your experience. If a language or framework is missing, feel free to tell us about it in the Free Comment at the end!
-          </p>
-          <div class="fields">
-            <div class="ten wide field">
-              <select
-                     multiple="multiple"
-                     class="ui toptools dropdown"
-                     name="topLevelTools"
-                     id="topLevelTools"
-                     ng-init="identifier1='.ui.toptools.dropdown'"
-                     ng-model="user.profile.topLevelTools"
-                     ng-options="item for item in programmingLanguages | exclude:programmingLanguages:identifier1">
-              </select>
-            </div>
-            <div class="six wide field">
-              <h5 class="ui block teal header">
-                Natively fluent
-              </h5>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="fields">
-              <div class="ten wide field">
-                <select
-                       multiple="multiple"
-                       class="ui greattools dropdown"
-                       name="greatLevelTools"
-                       id="greatLevelTools"
-                       ng-init="identifier2='.ui.greattools.dropdown'"
-                       ng-model="user.profile.greatLevelTools"
-                       ng-options="item for item in programmingLanguages | exclude:programmingLanguages:identifier2">
-                </select>
-              </div>
-              <div class="six wide field">
-                <h5 class="ui block teal header" style="margin-top:1px">
-                  Multiple projects
-                </h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="fields">
-            <div class="ten wide field">
-              <select
-                     multiple="multiple"
-                     class="ui goodtools dropdown"
-                     name="goodLevelTools"
-                     id="goodLevelTools"
-                     ng-init="identifier3='.ui.goodtools.dropdown'"
-                     ng-model="user.profile.goodLevelTools"
-                     ng-options="item for item in programmingLanguages | exclude:programmingLanguages:identifier3">
-              </select>
-            </div>
-            <div class="six wide field">
-              <h5 class="ui block teal header">
-                Limited experience
-              </h5>
-            </div>
-          </div>
-
-          <div class="fields">
-            <div class="ten wide field">
-              <select
-                     multiple="multiple"
-                     class="ui beginnerTools dropdown"
-                     name="beginnerLevelTools"
-                     id="beginnerLevelTools"
-                     ng-init="identifier4='.ui.beginnerTools.dropdown'"
-                     ng-model="user.profile.beginnerLevelTools"
-                     ng-options="item for item in programmingLanguages | exclude:programmingLanguages:identifier4">
-              </select>
-            </div>
-            <div class="six wide field">
-              <h5 class="ui block teal header">
-                Getting started
-              </h5>
-            </div>
-          </div>
-
-
-        </div>
-        <div class="field">
           <label>Programming experience * </label>
           <p style="margin-bottom: 10px";>
             How many years have you done active coding/designing? (e.g. studies, own projects, work experience)
@@ -1068,10 +989,10 @@
 
         <div class="field">
           <label>
-              Why do you want to come to Junction 2017 and why should we choose you?
+              Why do you want to come to Junction 2018 and why should we choose you?
           </label>
           <p style="margin-bottom: 10px";>
-            Tell us a bit about your motivation for coming to Junction 2017.
+            Tell us a bit about your motivation for coming to Junction 2018.
           </p>
           <textarea ng-model="user.profile.essay">
           </textarea>
@@ -1094,7 +1015,7 @@
           <label> Link to your portfolio </label>
           <input type="text"
                  name="github"
-                 placeholder="https://mycoolportfoliowebsite.hacker"
+                 placeholder="https://mycoolportfoliowebsite.com"
                  ng-model="user.profile.portfolio">
         </div>
 
@@ -1114,23 +1035,111 @@
                  ng-model="user.profile.linkedin">
         </div>
 
-        <br><br>
-        <div class="divided title">Final questions</div>
+        <br/><br/>
 
+        <div class="divided title">Terminal</div>
         <div class="field">
-          <label>
-            If you have already formed a team for Junction 2017, please name it with a unique string. </label>
-            <p style="margin-bottom: 10px;">
-            Remember that the team name is Case Sensitive and all teammates have to apply <strong>separately with the same team name</strong>!
-            Having a team is not compulsory at all for attending.
-            <br>
-            NOTE that to compete for prizes at Junction 2017, your team can be max. 5 members!
-          </p>
-          <input type="text"
-                 name="teamCode"
-                 placeholder="cAsE SENsiTiVE"
-                 ng-model="user.teamCode">
+          <div class="ui checkbox">
+            <input type="checkbox"
+                    name="interestedTerminal"
+                    ng-model="interestedTerminal" />
+            <label for="terminal">I am interested in participating to Terminal</label>
+          </div>
         </div>
+
+        <div class="field" ng-show="interestedTerminal">
+          <label>Write briefly why you should be chosen to the Terminal program. *</label>
+          <textarea name="terminalEssay" ng-model="user.profile.terminal.essay">
+          </textarea>
+        </div>
+        
+        <div class="field" ng-show="interestedTerminal">
+          <label>Special skills you are talented in *</label>
+          <textarea name="terminalSkills" ng-model="user.profile.terminal.skills">
+          </textarea>
+        </div>
+
+        <div class="field" ng-show="interestedTerminal">
+          <label>What industry or industries are you interested in? *</label>
+          <p>You can add other industries by writing them!</p>
+          <select multiple="multiple"
+            class="ui multiple terminal search selection dropdown"
+            name="terminalIndustries"
+            id="terminalIndustries"
+            ng-model="user.profile.terminalIndustries">
+            <option value="">Choose from these or add new ones</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Finance">Finance</option>
+            <option value="Entrepreneur">Entrepreneur</option>
+            <option value="Agriculture">Agriculture</option>
+            <option value="Software">Software</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Education">Education</option>
+            <option value="Construction">Construction</option>
+            <option value="Design">Design</option>
+          </select>
+        </div>
+
+        <div class="field" ng-show="interestedTerminal" ng-disabled="!interestedTerminal">
+          <label>If you had to choose the coolest thing you’ve worked on, what would that be? *</label>
+          <textarea ng-model="user.profile.terminal.coolestThing">
+          </textarea>
+        </div>
+
+        <div class="field" ng-show="interestedTerminal" ng-disabled="!interestedTerminal">
+          <label> Link to your portfolio </label>
+          <input type="text"
+                 name="github"
+                 placeholder="Write link to your portfolio here"
+                 ng-model="user.profile.terminal.portfolio">
+        </div>
+
+        <div class="inline fields" ng-show="interestedTerminal">
+          <label>Do you live in the Helsinki area?</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" id="livesInHelsinkiArea" name="livesInHelsinki" ng-click="setLivesInHelsinki('yes')">
+              <label>Yes</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" id="livesNotInHelsinkiArea" name="livesInHelsinki" ng-click="setLivesInHelsinki('no')">
+              <label>No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="indent">
+          <div class="grouped fields" ng-show="livesInHelsinki">
+            <label>Would you like to accommodate a fellow hacker during the week?</label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="accommodatesPeople" name="accommodatesPeople" ng-click="setAccommodation('yes')">
+                <label>Yes</label>
+              </div>
+            </div>
+            <div class="indent">
+              <div class="field" ng-show="accommodatesPeople">
+                <label>How many people can you accommodate?</label>
+                <input type="number"
+                  placeholder="Put here how many people you can accommodate"
+                  name="acccommodatesAmount"
+                  ng-model="user.profile.terminal.accommodatesAmount">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="accommodatesNotPeople" name="accommodatesPeople" ng-click="setAccommodation('no')">
+                <label>No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <br>
+        <div class="divided title">Final questions</div>
 
         <div class="field">
           <label> Are you interested in job opportunities? * </label>
