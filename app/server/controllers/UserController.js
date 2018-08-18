@@ -311,7 +311,7 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.rejected': 'true'});
   else
    statusFilter.push({});
-  
+
   if(sortBy === 'rating') {
   User
     .find(findQuery)
@@ -378,9 +378,9 @@ UserController.getPage = function(query, callback){
 UserController.getMatchmaking = function(user, query, callback){
   var type = query.type;
   var page = query.page;
-  var text = query.filter.text;  
+  var text = query.filter.text;
   var size = parseInt(query.size);
-  
+
   var textFilter = [];
   var statusFilter = [];
 
@@ -392,7 +392,7 @@ UserController.getMatchmaking = function(user, query, callback){
   }
 
   if(type === 'individuals'){
-    
+
     if(text !== undefined) {
       var re = new RegExp(escapeRegExp(text), 'i');
       textFilter.push({ 'teamMatchmaking.individual.mostInterestingTrack': re});
@@ -418,16 +418,16 @@ UserController.getMatchmaking = function(user, query, callback){
       if (err || !users){
         return callback(err);
       }
-      
+
       User.count(findQuery)
       .exec(function(err, count){
-        
+
         if (err){
           return callback(err);
         }
 
         return callback(null, {
-          users: users.map(user => user.teamMatchmaking),
+          users: users.map(function(user){return user.teamMatchmaking}),
           page: page,
           size: size,
           totalPages: Math.ceil(count / size)
@@ -473,13 +473,13 @@ UserController.getMatchmaking = function(user, query, callback){
                   */
           User.count(findQuery)
           .exec(function(err, count){
-            
+
             if (err){
               return callback(err);
             }
-    
+
             return callback(null, {
-              users: users.map(user => user.teamMatchmaking),
+              users: users.map(function(user){return user.teamMatchmaking}),
               page: page,
               size: size,
               totalPages: Math.ceil(count / size)
@@ -512,7 +512,7 @@ UserController.teamInSearch = function(user, callback){
         return callback(null, false);
       }
     })
-    
+
 });
 }
 
@@ -612,9 +612,9 @@ UserController.updateProfileById = function (id, profile, callback){
 };
 
 UserController.updateMatchmakingProfileById = function (id, profile, callback){
-  
+
     // Validate the user profile, and mark the user as profile completed
-    // when successful.    
+    // when successful.
     User.findOneAndUpdate({
       _id: id,
       verified: true
@@ -798,7 +798,7 @@ UserController.declineById = function (id, callback){
  * @param  {String}   id            Id of the user
  * @param  {Function} callback      Callback with args (err, user)
  */
-UserController.rateById = (id, rating, callback) => {
+UserController.rateById = function(id, rating, callback){
 
   // You can only reject if you've been verified.
   User.findOneAndUpdate({
@@ -811,7 +811,7 @@ UserController.rateById = (id, rating, callback) => {
     }, {
       new: true
     },
-    (err, user) => {
+    function(err, user){
       if (err || !user) {
         console.log(err)
         return callback(err);
@@ -965,7 +965,7 @@ UserController.createTeam = function(id, callback) {
         }
       }, {
         new: true
-      }, 
+      },
       callback);
   })
 }
@@ -1034,7 +1034,7 @@ UserController.joinTeam = function(id, code, callback){
             }
           }, {
             new: true
-          }, 
+          },
           callback
         );
       })
