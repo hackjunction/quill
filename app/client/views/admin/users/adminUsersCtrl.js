@@ -48,7 +48,7 @@ angular.module('reg')
         .success(function(data){
           updatePage(data);
         });
-      
+
       $scope.sortByRating = function(){
         $scope.sortRating = !$scope.sortRating;
         $scope.sortBy = 'rating'
@@ -254,7 +254,7 @@ angular.module('reg')
         }
       }
 
-      $scope.rowClass = (user) => {
+      $scope.rowClass = function(user){
         if (user.admin){
           return 'admin';
         }
@@ -274,11 +274,11 @@ angular.module('reg')
           .rating({
             initialRating: user.status.rating,
             maxRating: 5,
-            onRate: (rating) => {
+            onRate: function(rating){
               $('.mini.modal').modal('hide');
               UserService
                 .rateUser(user._id, rating)
-                .success(u => {
+                .success(function(u){
                   if(u) {
                     $scope.users[index] = u;
                     swal(`Rated ${u.profile.name} with ${rating} stars.`, "success");
@@ -297,7 +297,7 @@ angular.module('reg')
           .modal('show');
       }
 
-       $scope.exportCSV = () => {
+       $scope.exportCSV = function(){
         UserService
         .getAll()
         .success(function(data){
