@@ -375,7 +375,7 @@ angular.module('reg')
                 value: user.id
               },{
                 name: 'Team',
-                value: user.teamCode || 'None'
+                value: user.team || 'None'
               },{
                 name: 'Requested travel reimbursement class',
                 value: user.profile.needsReimbursement && user.profile.AppliedreimbursementClass || 'None'

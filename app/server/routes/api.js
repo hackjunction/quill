@@ -464,30 +464,56 @@ module.exports = function(router) {
 
     UserController.declineById(id, defaultResponse(req, res));
   });
-
+  /**
+   * Get user's team information. 
+   */
+  router.get('/users/:id/team/info', isOwnerOrAdmin, function(req, res) {
+    const id = req.params.id
+    UserController.getTeamInfo(id, defaultResponse(req, res))
+  })
   /**
    * Get a user's team member's names. Uses the code associated
    * with the user making the request.
    */
   router.get('/users/:id/team', isOwnerOrAdmin, function(req, res){
-    var id = req.params.id;
+    const id = req.params.id;
     UserController.getTeammates(id, defaultResponse(req, res));
   });
 
   /**
-   * Update a teamcode. Join/Create a team here.
+   * Update a teamcode. Join a team here.
    * {
    *   code: STRING
    * }
    */
-  router.put('/users/:id/team', isOwnerOrAdmin, function(req, res){
-    var code = sanitize(req.body.code);
-    var id = req.params.id;
-
-    UserController.createOrJoinTeam(id, code, defaultResponse(req, res));
-
+  router.put('/users/:id/team/join', isOwnerOrAdmin, function(req, res){
+    const code = sanitize(req.body.code);
+    const id = req.params.id;
+    UserController.joinTeam(id, code, defaultResponse(req, res));
   });
-
+  /**
+   * Create a new team
+   */
+  router.put('/users/:id/team/create', isOwnerOrAdmin, function(req, res){
+    const id = req.params.id;
+    UserController.createTeam(id, defaultResponse(req, res));
+  });
+  /** 
+   * Lock a team
+  */
+  router.put('/users/:id/team/lock', isOwnerOrAdmin, function(req, res){
+    console.log(req.body.teamInterests)
+    const {teamInterests} = req.body
+    const {id} = req.params
+    UserController.lockTeam(id, teamInterests, defaultResponse(req, res))
+  })
+  /**
+   * Kick a user from team
+   */
+  router.delete('/users/:id/team/kick/:userID', isOwnerOrAdmin, function(req, res) {
+    const {id, userID} = req.params
+    UserController.kickFromTeam(id, userID, defaultResponse(req, res))
+  })
   /**
    * Remove a user from a team.
    */

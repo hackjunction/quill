@@ -1,19 +1,20 @@
-var _ = require('underscore');
-var User = require('../models/User');
-var Settings = require('../models/Settings');
-var Mailer = require('../services/email');
-var Stats = require('../services/stats');
+const _ = require('underscore');
+const User = require('../models/User');
+const Team = require('../models/Team')
+const Settings = require('../models/Settings');
+const Mailer = require('../services/email');
+const Stats = require('../services/stats');
 
-var validator = require('validator');
-var csvValidation = require('../services/csvValidation').csvValidation;
-var moment = require('moment');
-var shuffleSeed = require('shuffle-seed');
+const validator = require('validator');
+const csvValidation = require('../services/csvValidation').csvValidation;
+const moment = require('moment');
+const shuffleSeed = require('shuffle-seed');
 
-var programmingLanguages = shuffleSeed.shuffle(require('../assets/programming_languages.json'), process.env.JWT_SECRET);
+const programmingLanguages = shuffleSeed.shuffle(require('../assets/programming_languages.json'), process.env.JWT_SECRET);
 
-var UserController = {};
+const UserController = {};
 
-var maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
+const maxTeamSize = process.env.TEAM_MAX_SIZE || 4;
 
 
 
@@ -269,7 +270,7 @@ UserController.getPage = function(query, callback){
     var re = new RegExp(escapeRegExp(text), 'i');
     textFilter.push({ email: re });
     textFilter.push({ 'profile.name': re });
-    textFilter.push({ 'teamCode': re });
+    textFilter.push({ 'team': re });
     textFilter.push({ 'profile.homeCountry': re });
     textFilter.push({ 'profile.travelFromCountry': re });
     textFilter.push({ 'profile.travelFromCity': re });
@@ -352,6 +353,7 @@ UserController.getPage = function(query, callback){
     .limit(size)
     .exec(function (err, users){
       if (err || !users){
+        console.log(err)
         return callback(err);
       }
 
@@ -494,7 +496,7 @@ UserController.getMatchmaking = function(user, query, callback){
 
 //Check if users team is already in matchmaking search
 UserController.teamInSearch = function(user, callback){
-  User.find({'teamCode': user.teamCode})
+  User.find({'team': user.team})
   .exec(function (err, users) {
     if (err || !users){
       return callback(err);
@@ -776,7 +778,7 @@ UserController.declineById = function (id, callback){
         'lastUpdated': Date.now(),
         'status.confirmed': false,
         'status.declined': true,
-        'teamCode': null
+        'team': null
       }
     }, {
       new: true
@@ -900,6 +902,17 @@ UserController.verifyByToken = function(token, callback){
   });
 };
 
+UserController.getTeamInfo = function(id, callback) {
+  User
+    .findById(id, function(err, user) {
+      if(err) return callback({message: 'Something went wrong'})
+      Team.findById(user.team, function(err, team) {
+        if (err) return callback({message: 'Something went wrong'})
+        return callback(null, team)
+      })
+    })
+}
+
 /**
  * Get a specific user's teammates. NAMES ONLY.
  * @param  {String}   id       id of the user we're looking for.
@@ -910,23 +923,52 @@ UserController.getTeammates = function(id, callback){
     if (err || !user){
       return callback(err, user);
     }
-
-    var code = user.teamCode;
-
-    if (!code){
+    console.log('User found')
+    const teamID = user.team;
+    if (!teamID){
       return callback({
         message: "You're not on a team."
       });
     }
-
     User
       .find({
-        teamCode: code
+        team: teamID
       })
-      .select('profile.name')
+      .select('profile.name id')
       .exec(callback);
   });
 };
+
+UserController.createTeam = function(id, callback) {
+  User.findById(id, function(err, user) {
+    if (err) return callback({message: "Error finding user"})
+    const t = new Team({
+      leader: user.id,
+      members: [user.id],
+    })
+    console.log(JSON.stringify(t))
+    t.save(function(err){
+      if (err){
+        return callback(err, t);
+      }
+      console.log(`New team created with id ${t._id}!`)
+    });
+    // Update user
+    User.findOneAndUpdate({
+      _id: id,
+      verified: true
+    },{
+      $set: {
+        team: t._id,
+        'teamMatchmaking.enrolled': false,
+        'teamMatchmaking.enrollmentType': undefined
+        }
+      }, {
+        new: true
+      }, 
+      callback);
+  })
+}
 
 /**
  * Given a team code and id, join a team.
@@ -934,7 +976,7 @@ UserController.getTeammates = function(id, callback){
  * @param  {String}   code     Code of the proposed team
  * @param  {Function} callback args(err, users)
  */
-UserController.createOrJoinTeam = function(id, code, callback){
+UserController.joinTeam = function(id, code, callback){
   csvValidation(code, function(codeValidated){
     if (!code){
       return callback({
@@ -948,35 +990,119 @@ UserController.createOrJoinTeam = function(id, code, callback){
       });
     }
 
-    User.find({
-      teamCode: code
+    Team.findOne({
+      _id: code
     })
-    .select('profile.name')
-    .exec(function(err, users){
+    .exec(function(err, team){
       // Check to see if this team is joinable (< team max size)
-      if (users.length >= maxTeamSize){
+      if (err || !team) return callback({message: "Team not found"})
+
+      if (team.members.includes(id)) {
+        return callback({
+          message: 'User is already in this team!'
+        })
+      }
+      if (team.members && team.members.length >= maxTeamSize) {
         return callback({
           message: "Team is full."
         });
       }
-    // Otherwise, we can add that person to the team.
+      if (team.teamLocked) {
+        return callback({
+          message: "This team is locked."
+        })
+      }
+      console.log('Valid team found, adding user to it')
+      User.findById(id, function(err, user) {
+        if (err) return callback({message: "User not found"})
+        const updatedMembers = team.members.concat([user.id])
+        team.members = updatedMembers
+        team.save(function(err){
+          if (err){
+            return callback(err, team);
+          }
+          console.log(`Team members updated!`)
+        });
+        User.findOneAndUpdate({
+          _id: id,
+          verified: true
+        }, {
+          $set: {
+            team: team._id,
+            'teamMatchmaking.enrolled': false,
+            'teamMatchmaking.enrollmentType': undefined
+            }
+          }, {
+            new: true
+          }, 
+          callback
+        );
+      })
+    });
+  });
+};
+
+/**
+ * Given a team id, lock the team
+ * @param {String} id Id of the team
+ * @param {Function}  callback args(err, team)
+ */
+UserController.lockTeam = function(id, teamInterests, callback){
+  User.findById(id, function(err, user) {
+    if (err | !user) return callback({message: 'Something went wrong'})
+    Team.findById(user.team, function(err, team) {
+      if(team.leader !== user.id) return callback({message: 'Only team leader can lock in the team'})
+      if(team.teamLocked) return callback({message: 'Team already locked!'})
+      team.teamLocked = true
+      team.trackInterests = teamInterests
+      team.save(function(err) {
+        if(err) return callback(err, team)
+        console.log('Team locked!')
+        return callback(null, team)
+      })
+    })
+  })
+}
+
+/**
+ * Given an user ID, kick them from team if the one making request is the team leader
+ * @param {String}  id  _id of the one making request
+ * @param {String}  userID  ID of the user being kicked
+ */
+
+UserController.kickFromTeam = function(id, userID, callback) {
+  User.findById(id, function(err, user) {
+    if (err || !user){
+      return callback({message: 'User not found'});
+    }
+    Team.findById(user.team, function(err, team) {
+      if (err || !team){
+        return callback({message: 'Team not found'});
+      }
+      if(user.id !== team.leader) return callback({message: `You're not the team leader!`})
       User.findOneAndUpdate({
-        _id: id,
-        verified: true
-      },{
+        id: userID,
+        team: team._id
+      }, {
         $set: {
-          teamCode: code,
+          team: null,
           'teamMatchmaking.enrolled': false,
           'teamMatchmaking.enrollmentType': undefined
           }
         }, {
           new: true
-        },
-        callback);
-
-      });
-    });
-};
+        }, function(err, u) {
+          if(err || !u) return callback({message: 'User not found!'})
+          const userIndex = team.members.indexOf(u.id)
+          team.members.splice(userIndex, 1)
+          team.save(function(err) {
+            if(err) return callback({message: 'Error updating team'})
+            return callback(null, team)
+          })
+      })
+    })
+  })
+}
 
 /**
  * Given an id, remove them from any teams.
@@ -984,23 +1110,51 @@ UserController.createOrJoinTeam = function(id, code, callback){
  * @param  {Function} callback args(err, user)
  */
 UserController.leaveTeam = function(id, callback){
-  User.findOneAndUpdate({
-    _id: id
-  },{
-    $set: {
-      'teamMatchmaking.enrolled:': false,
-      'teamMatchmaking.enrollmentType': undefined,
-      'teamMatchmaking.team.mostInterestingTrack': undefined,
-      'teamMatchmaking.team.topChallenges': undefined,
-      'teamMatchmaking.team.roles': undefined,
-      'teamMatchmaking.team.slackHandle': undefined,
-      'teamMatchmaking.team.freeText': undefined,
-      teamCode: null
+  User.findById(id, function(err, user) {
+    if (err || !user){
+      return callback({message: 'User not found'});
     }
-  }, {
-    new: true
-  },
-  callback);
+    const teamID = user.team
+    Team.findById(user.team).exec(function(err, team) {
+      if (err || !team) {
+        return callback({message: 'Team not found'})
+      }
+      const leaderID = team.leader
+      const userIndex = team.members.indexOf(id)
+      team.members.splice(userIndex, 1) // Remove user from team
+      if (leaderID === user.id) {
+        team.leader = team.members[0]
+      }
+      if (team.members.length){
+        team.save(function(err){
+          if (err){
+            return callback(err, team);
+          }
+          console.log('Team updated after user left the team')
+        })
+      } else {
+        Team.deleteOne({_id: user.team}, function(err) {
+          if (err) return callback('Error deleting team')
+          console.log(`Deleted team with id ${teamID}`)
+        })
+      }
+      user.teamMatchmaking.enrolled = false
+      user.teamMatchmaking.enrollmentType = undefined
+      user.teamMatchmaking.team.mostInterestingTrack = undefined
+      user.teamMatchmaking.team.topChallenges = undefined
+      user.teamMatchmaking.team.roles = undefined
+      user.teamMatchmaking.team.slackHandle = undefined
+      user.teamMatchmaking.team.freeText = undefined
+      user.team = null
+      user.teamName = null
+
+      user.save(function(err) {
+        if(err) return callback(err, user)
+        console.log('User saved after leaving team')
+        return callback(null, user)
+      })
+    })
+  });
 };
 
 /**

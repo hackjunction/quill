@@ -1078,14 +1078,13 @@
         </div>
         <br>
         <br>
-        <div class="ui small negative message"
-            ng-show='error'>
+        <div class="ui small negative message" ng-show='error'>
           {{error}} <br>
           <ul>
-          <div data-ng-repeat="i in fieldErrors">
-            <li>{{ i }}</li>
-          </div>
-        </ul>
+            <div data-ng-repeat="i in fieldErrors">
+              <li>{{ i }}</li>
+            </div>
+          </ul>
         </div>
 
         <div class="field" style="margin-bottom:5px" ng-hide="regIsClosed">

@@ -543,13 +543,10 @@ var schema = new mongoose.Schema({
     type: Number,
     default: Date.now(),
   },
-
-  teamCode: {
+  team: { 
     type: String,
-    min: 0,
-    maxlength: 140,
+    required: false
   },
-
   verified: {
     type: Boolean,
     required: true,
