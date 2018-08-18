@@ -16,13 +16,16 @@ angular.module('reg')
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
+        $scope.goesNotToSchool = false 
       } else if($scope.user.profile.oldDegree) {
         $('#goesNotToSchool').prop('checked', true)
         $scope.goesNotToSchool = true
+        $scope.goesToSchool = false
         $scope.oldDegreeChecked = true
       }
 
       $scope.setSchool = function(setting) {
+        console.log(setting)
         if(setting === "yes") {
           $scope.goesToSchool = true
           $scope.goesNotToSchool = false
@@ -101,6 +104,7 @@ angular.module('reg')
         if (Settings.data.schools.indexOf($scope.user.profile.school) === -1 && $scope.user.profile.school !== null) {
           SettingsService.addSchool($scope.user.profile.school)
           .success(function(user){
+            console.log('Yeet')
             return;
           })
           .error(function(res){
@@ -317,7 +321,7 @@ angular.module('reg')
             $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
           }
         });
-        console.log($scope.user.profile.oldDegree.degree)
+        console.log($scope.user)
         // Set selected multiselect items
         $("#spacesOrTabs").dropdown('set selected', $scope.user.profile.spacesOrTabs);
         $("#operatingSystem").dropdown('set selected', $scope.user.profile.operatingSystem);
@@ -331,14 +335,14 @@ angular.module('reg')
         $("#travelFromCountry").dropdown('set selected', $scope.user.profile.travelFromCountry);
         $("#occupationalStatus").dropdown('set selected', $scope.user.profile.occupationalStatus);
         $("#degree").dropdown('set selected', $scope.user.profile.degree);
-        $("#oldDegree").dropdown('set selected', $scope.user.profile.oldDegree.degree);
         $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
+        $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
 
         setTimeout(function () {
           $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
-          $(".ui.search.dropdown").dropdown('set selected', $scope.user.profile.school);
+          $(".ui.school").dropdown('set selected', $scope.user.profile.school);
           $(".ui.toptools.dropdown").dropdown('set selected', $scope.user.profile.topLevelTools);
 
           $("#greatLevelTools").dropdown('set selected', $scope.user.profile.greatLevelTools);

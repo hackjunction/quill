@@ -705,10 +705,10 @@
               <label for="oldDegree">I already have a degree</label>
             </div>
           </div>
-          <div class="field" ng-show="oldDegreeChecked">
+          <div class="field" ng-show="goesNotToSchool && oldDegreeChecked">
             <label> What degree do you have? </label>
             <select
-              class="ui fluid dropdown"
+              class="ui fluid selection dropdown oldDegree"
               id="oldDegree"
               name="oldDegree"
               ng-model="user.profile.oldDegree.degree">
@@ -720,14 +720,14 @@
               <option value="Other">Other</option>
             </select>
           </div>
-          <div class="field" ng-show="oldDegreeChecked">
+          <div class="field" ng-show="goesNotToSchool && oldDegreeChecked">
             <label> What was your major? </label>
             <input type="text"
                    name="oldDegreeMajor"
                    ng-model="user.profile.oldDegree.major"
                    placeholder="e.g. Computer Science, Industrial Design etc.">
           </div>
-          <div class="field" ng-show="oldDegreeChecked">
+          <div class="field" ng-show="goesNotToSchool && oldDegreeChecked">
             <label>When did you graduate?</label>
             <input type="number"
                    placeholder="2017"
