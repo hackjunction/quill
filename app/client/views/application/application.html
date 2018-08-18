@@ -698,11 +698,41 @@
                    placeholder="e.g. Computer Science, Industrial Design etc.">
           </div>
           <div class="field" ng-show="goesNotToSchool">
-            <label>Do you have a degree?</label>
+            <div class="ui checkbox">
+              <input type="checkbox"
+                      id="oldDegree"
+                      ng-model="oldDegreeChecked">
+              <label for="oldDegree">I already have a degree</label>
+            </div>
+          </div>
+          <div class="field" ng-show="oldDegreeChecked">
+            <label> What degree do you have? </label>
+            <select
+              class="ui fluid dropdown"
+              id="oldDegree"
+              name="oldDegree"
+              ng-model="user.profile.oldDegree.degree">
+              <option value="">Degree</option>
+              <option value="Associate degree">Associate degree</option>
+              <option value="Bachelors degree">Bachelor's degree</option>
+              <option value="Masters degree">Master's degree</option>
+              <option value="Doctorate degree">Doctorate degree</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field" ng-show="oldDegreeChecked">
+            <label> What was your major? </label>
             <input type="text"
-                   name="major"
-                   ng-model="user.profile.major"
+                   name="oldDegreeMajor"
+                   ng-model="user.profile.oldDegree.major"
                    placeholder="e.g. Computer Science, Industrial Design etc.">
+          </div>
+          <div class="field" ng-show="oldDegreeChecked">
+            <label>When did you graduate?</label>
+            <input type="number"
+                   placeholder="2017"
+                   name="oldDegreeGraduation"
+                   ng-model="user.profile.oldDegree.graduationYear">
           </div>
         </div>
 

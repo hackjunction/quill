@@ -74,6 +74,10 @@ var profile = {
     degree: {
       type: String,
       maxlength: 150
+    },
+    major: {
+      type: String,
+      maxlength: 100
     }
   },
 

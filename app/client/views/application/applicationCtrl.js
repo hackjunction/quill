@@ -14,11 +14,12 @@ angular.module('reg')
       // Set up the user
       $scope.user = currentUser.data;
       if ($scope.user.profile.school) {
-          $('#goesNotToSchool').prop('checked', true)
-          $scope.goesNotToSchool = true
-      } else {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
+      } else if($scope.user.profile.oldDegree) {
+        $('#goesNotToSchool').prop('checked', true)
+        $scope.goesNotToSchool = true
+        $scope.oldDegreeChecked = true
       }
 
       $scope.setSchool = function(setting) {
@@ -316,7 +317,7 @@ angular.module('reg')
             $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
           }
         });
-
+        console.log($scope.user.profile.oldDegree.degree)
         // Set selected multiselect items
         $("#spacesOrTabs").dropdown('set selected', $scope.user.profile.spacesOrTabs);
         $("#operatingSystem").dropdown('set selected', $scope.user.profile.operatingSystem);
@@ -330,8 +331,8 @@ angular.module('reg')
         $("#travelFromCountry").dropdown('set selected', $scope.user.profile.travelFromCountry);
         $("#occupationalStatus").dropdown('set selected', $scope.user.profile.occupationalStatus);
         $("#degree").dropdown('set selected', $scope.user.profile.degree);
+        $("#oldDegree").dropdown('set selected', $scope.user.profile.oldDegree.degree);
         $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
-
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $('.ui.dropdown').dropdown('refresh');
 
@@ -352,7 +353,10 @@ angular.module('reg')
       }
 
       $scope.submitForm = function(){
-        if ($scope.goesNotToSchool) {
+        if ($scope.goesToSchool) {
+          $scope.user.profile.oldDegree = null
+        }
+        else if ($scope.goesNotToSchool) {
           $scope.user.profile.school = null;
           $scope.user.profile.graduationYear = null;
           $scope.user.profile.degree = null;
