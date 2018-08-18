@@ -25,7 +25,6 @@ angular.module('reg')
       }
 
       $scope.setSchool = function(setting) {
-        console.log(setting)
         if(setting === "yes") {
           $scope.goesToSchool = true
           $scope.goesNotToSchool = false
@@ -104,7 +103,6 @@ angular.module('reg')
         if (Settings.data.schools.indexOf($scope.user.profile.school) === -1 && $scope.user.profile.school !== null) {
           SettingsService.addSchool($scope.user.profile.school)
           .success(function(user){
-            console.log('Yeet')
             return;
           })
           .error(function(res){
@@ -321,7 +319,6 @@ angular.module('reg')
             $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
           }
         });
-        console.log($scope.user)
         // Set selected multiselect items
         $("#spacesOrTabs").dropdown('set selected', $scope.user.profile.spacesOrTabs);
         $("#operatingSystem").dropdown('set selected', $scope.user.profile.operatingSystem);
