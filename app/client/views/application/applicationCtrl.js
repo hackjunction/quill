@@ -11,6 +11,8 @@ angular.module('reg')
     'SettingsService',
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService, SettingsService){
       $scope.isDisabled = false;
+      $scope.goesNotToSchool = false;
+      $scope.goesToSchool = false;
       // Set up the user
 
       $scope.user = currentUser.data;
@@ -30,14 +32,16 @@ angular.module('reg')
         $scope.interestedTerminal = true
       }
 
-      $scope.setSchool = function(setting) {
-        if(setting === "yes") {
-          $scope.goesToSchool = true
-          $scope.goesNotToSchool = false
-        } else {
-          $scope.goesToSchool = false
-          $scope.goesNotToSchool = true
-        }
+      $scope.setSchoolYes = function() {
+        $('#goesNotToSchool').prop('checked', false)
+        $scope.goesToSchool = !($scope.goesToSchool)
+        $scope.goesNotToSchool = false
+      }
+
+      $scope.setSchoolNo = function() {
+        $('#goesToSchool').prop('checked', false)
+        $scope.goesToSchool = false
+        $scope.goesNotToSchool = !($scope.goesNotToSchool)
       }
 
       $scope.setLivesInHelsinki = function(setting) {
@@ -207,6 +211,36 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please enter your major.'
+                }
+              ]
+            },
+            oldDegree: {
+              identifier: 'oldDegree',
+              depends: 'oldDegreeChecked',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your degree.'
+                }
+              ]
+            },
+            oldMajor: {
+              identifier: 'oldDegreeMajor',
+              depends: 'oldDegreeChecked',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your major.'
+                }
+              ]
+            },
+            oldDegreeGraduation: {
+              identifier: 'oldDegreeGraduation',
+              depends: 'oldDegreeChecked',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your graduation year.'
                 }
               ]
             },

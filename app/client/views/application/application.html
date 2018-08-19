@@ -655,20 +655,20 @@
         <div class="grouped fields">
           <label>I am currently enrolled in a school / university</label>
           <div class="field">
-            <div class="ui radio checkbox">
-              <input type="radio" id="goesToSchool" name="schoolSelection" ng-click="setSchool('yes')">
+            <div class="ui checkbox">
+              <input type="checkbox" id="goesToSchool" name="schoolSelection" ng-click="setSchoolYes()">
               <label>Yes</label>
             </div>
           </div>
           <div class="field">
-            <div class="ui radio checkbox">
-              <input type="radio" id="goesNotToSchool" name="schoolSelection" ng-click="setSchool('no')">
+            <div class="ui checkbox">
+              <input type="checkbox" id="goesNotToSchool" name="schoolSelection" ng-click="setSchoolNo()">
               <label>No</label>
             </div>
           </div>
         </div>
         <div class="indent">
-          <div class="field" id="schoolField" ng-show="goesToSchool">
+          <div class="field" id="schoolField" ng-show="goesToSchool" ng-disabled="goesNotSchool">
             <label> Which school are you from? </label>
             <p style="margin-bottom: 10px;">
             Please type in the school / university you are enrolled at for the year <strong>2018/2019</strong>.
@@ -716,7 +716,7 @@
           <div class="field" ng-show="goesNotToSchool">
             <div class="ui checkbox">
               <input type="checkbox"
-                      id="oldDegree"
+                      id="oldDegreeChecked"
                       ng-model="oldDegreeChecked">
               <label for="oldDegree">I already have a degree</label>
             </div>
