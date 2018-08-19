@@ -32,6 +32,17 @@ angular.module('reg')
         $scope.interestedTerminal = true
       }
 
+      if($scope.user.profile.terminal.needsAccommodation) {
+        $('#livesNotInHelsinkiArea').prop('checked', true)
+        $scope.livesNotInHelsinki = true
+      }
+
+      if($scope.user.profile.terminal.accommodatesPeople) {
+        $('#livesInHelsinkiArea').prop('checked', true)
+        $scope.livesInHelsinki = true
+        $scope.accommodatesPeople = true
+      }
+
       $scope.openApplicationModal = function() {
         $('.ui.chart')
           .modal('show')
@@ -526,7 +537,12 @@ angular.module('reg')
           $scope.user.profile.degree = null;
           $scope.user.profile.major = null;
         }
-        console.log($scope.user.profile)
+        if($scope.accommodatesPeople) {
+          $scope.user.profile.terminal.needsAccommodation = false
+        }
+        else if($scope.needsAccommodation) {
+          $scope.user.profile.terminal.accommodatesPeople = undefined
+        }
         $scope.fieldErrors = null;
         $scope.error = null;
         $('.ui.form').form('validate form');

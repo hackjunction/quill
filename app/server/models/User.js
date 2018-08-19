@@ -211,6 +211,9 @@ var profile = {
     },
     accommodatesAmount: {
       type: Number
+    },
+    needsAccommodation: {
+      type: Boolean
     }
   },
 
