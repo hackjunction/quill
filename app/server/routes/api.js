@@ -258,6 +258,18 @@ module.exports = function(router) {
      return res.json(response);
    });
 
+   router.get('/search/skills/', function(req, res) {
+    var results = [];
+    results.push({
+      "name": 'Type in your skills',
+      "id": 'Undefined skill'
+    });
+    var response = {
+      'results': results
+    };
+    return res.json(response);
+  });
+
 
    // School search
    router.get('/search/school/:query', function(req, res) {

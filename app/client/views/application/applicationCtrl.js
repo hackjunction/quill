@@ -55,11 +55,6 @@ angular.module('reg')
         }
       }
 
-      $scope.openApplicationModal = function() {
-        $('.ui.modal')
-          .modal('show')
-      }
-
       $scope.setSchoolYes = function() {
         $('#goesNotToSchool').prop('checked', false)
         $scope.goesToSchool = !($scope.goesToSchool)
@@ -228,11 +223,10 @@ angular.module('reg')
               ]
             },
             skills: {
-              identifier: 'school',
-              depends: 'skills',
+              identifier: 'skills',
               rules: [
                 {
-                  type: 'empty',
+                  type: 'minCount[1]',
                   prompt: 'Please select in at least one skill, you have some for sure!'
                 },
                 {
