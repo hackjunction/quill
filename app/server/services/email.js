@@ -104,7 +104,7 @@ controller.sendLaggerEmails = function(users, callback) {
     var user = users[i];
     var options = {
       to: user.email,
-      subject: "[Junction 2017] - We are still waiting for your application!"
+      subject: "[Junction 2018] - We are still waiting for your application!"
     };
 
     var locals = {
@@ -132,7 +132,7 @@ controller.sendRejectEmails = function(users, callback) {
     var user = users[i];
     var options = {
       to: user.email,
-      subject: "[Junction 2017] - Final decisions for Junction 2017!"
+      subject: "[Junction 2018] - Final decisions for Junction 2018!"
     };
 
     var locals = {
@@ -160,7 +160,7 @@ controller.sendRejectEmails = function(users, callback) {
     var user = users[i];
     var options = {
       to: user.email,
-      subject: "[Junction 2017] - Final decisions for Junction 2017!"
+      subject: "[Junction 2018] - Final decisions for Junction 2018!"
     };
 
     var locals = {
@@ -199,7 +199,7 @@ controller.sendRejectEmails = function(users, callback) {
 controller.sendApplicationEmail = function(user, callback) {
   var options = {
     to: user.email,
-    subject: "[Junction 2017] - We have received your application!"
+    subject: "[Junction 2018] - We have received your application!"
   };
 
   var locals = {
@@ -230,7 +230,7 @@ controller.sendAdmittanceEmail = function(user, callback) {
 
  var options = {
    to: user.email,
-   subject: "[Junction 2017] - You have been admitted!"
+   subject: "[Junction 2018] - You have been admitted!"
  };
  var travelText = "";
  if (user.profile.needsReimbursement) {
@@ -270,7 +270,7 @@ controller.sendConfirmationEmail = function(user, token, callback) {
 
  var options = {
    to: user.email,
-   subject: "[Junction 2017] - You are confirmed!"
+   subject: "[Junction 2018] - You are confirmed!"
  };
  var travelText;
  if (user.profile.needsReimbursement && user.profile.AcceptedreimbursementClass !== 'Rejected') {
@@ -318,7 +318,7 @@ controller.sendDeclinedEmail = function(user, token, callback) {
 
  var options = {
    to: user.email,
-   subject: "[Junction 2017] - You have declined your invitation"
+   subject: "[Junction 2018] - You have declined your invitation"
  };
 
  var locals = {
@@ -351,7 +351,7 @@ controller.sendVerificationEmail = function(user, token, callback) {
 
   var options = {
     to: user.email,
-    subject: "[Junction 2017] - Verify your email"
+    subject: "[Junction 2018] - Verify your email"
   };
 
   var locals = {
@@ -390,7 +390,7 @@ controller.sendPasswordResetEmail = function(user, token, callback) {
 
   var options = {
     to: user.email,
-    subject: "[Junction 2017] - Password reset requested!"
+    subject: "[Junction 2018] - Password reset requested!"
   };
 
   var locals = {
@@ -427,7 +427,7 @@ controller.sendPasswordChangedEmail = function(user, callback){
 
   var options = {
     to: user.email,
-    subject: "[Junction 2017] - Your password has been changed!"
+    subject: "[Junction 2018] - Your password has been changed!"
   };
 
   var locals = {
