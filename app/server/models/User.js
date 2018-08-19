@@ -98,6 +98,11 @@ var profile = {
     }
   },
 
+  teamSelection: {
+    type: String,
+    enum: ['alone', 'teamOrAlone', 'onlyTeam']
+  },
+
   needsReimbursement: Boolean,
   needsVisa: Boolean,
   applyAccommodation: Boolean,

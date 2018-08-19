@@ -925,26 +925,6 @@
         </div>
 
         <div class="field">
-          <label>Programming experience * </label>
-          <p style="margin-bottom: 10px";>
-            How many years have you done active coding/designing? (e.g. studies, own projects, work experience)
-          </p>
-          <select
-            class="ui fluid dropdown"
-            name="codingExperience"
-            id="codingExperience"
-            ng-model="user.profile.codingExperience">
-            <option value="">Coding experience</option>
-            <option value="None">None</option>
-            <option value="1">1 Year</option>
-            <option value="1-2">1-2 Years</option>
-            <option value="3-5">3-5 Years</option>
-            <option value="5+">5+ Years</option>
-
-          </select>
-        </div>
-
-        <div class="field">
           <label>How many hackathons have you attended before? * </label>
           <select
             class="ui fluid dropdown"
@@ -958,33 +938,6 @@
             <option value="5-10">5-10</option>
             <option value="10+">10+</option>
           </select>
-        </div>
-
-        <div class="field">
-          <label>Which of the followings describes your role in a hackathon team the best? * </label>
-          <p style="margin-bottom: 10px";>
-            Give us an idea of what you would be doing at hackathon.
-          </p>
-          <select
-            class="ui fluid dropdown"
-            name="description"
-            id="description"
-            ng-model="user.profile.description">
-            <option value="">Role</option>
-            <option value="Frontend Developer">Frontend Developer</option>
-            <option value="Backend Developer">Backend Developer</option>
-            <option value="Full-Stack Developer">Full-Stack Developer</option>
-            <option value="Designer">Designer</option>
-            <option value="Ideation">Ideation</option>
-            <option value="Business Development">Business Development</option>
-            <option value="Product Development">Product Development</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Hardware">Hardware</option>
-            <option value="Buzzing around">Buzzing around</option>
-            <option value="Moral support">Moral support</option>
-            <option value="I do everything">I do everything</option>
-            <option value="I work without a team">I work without a team</option>
-            <option value="Something else">Something else</option>          </select>
         </div>
 
         <div class="field">
@@ -1038,6 +991,7 @@
         <br/><br/>
 
         <div class="divided title">Terminal</div>
+        <p>Terminal is a four day event just before Junction 2018, you can find more information about it <a href="https://hackjunction.com/terminal" target="_blank">here</a>!</p>
         <div class="field">
           <div class="ui checkbox">
             <input type="checkbox"
@@ -1140,6 +1094,60 @@
 
         <br>
         <div class="divided title">Final questions</div>
+
+        <div class="ui modal">
+          <i class="close icon"></i>
+          <div class="image content" style="background-color: black;">
+            <div class="ui image">
+              <img src="../../assets/images/application_process-02.png">
+            </div>
+          </div>
+          <div class="actions">
+            <div class="ui positive right labeled icon button">
+              Ok!
+              <i class="checkmark icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui tiny modal note">
+          <div class="header">Note!</div>
+          <div class="content">
+            <p>You'll have to create a team in team <b>Team</b> tab after filling the application</p>
+            <p>Remember to <b>LOCK IN</b> your team before the application period ends!</p>
+          </div>
+        </div>
+
+        <div class="ui modal chart">
+          <i class="close icon"></i>
+          <div class="image content" style="background-color: black;">
+            <div class="ui image">
+              <img src="../../assets/images/application_process-02.png">
+            </div>
+          </div>
+          <div class="actions">
+            <div class="ui positive right labeled icon button">
+              Ok!
+              <i class="checkmark icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label> Are you applying alone or with a team? * </label>
+          <p><a ng-click="openApplicationModal()">Why does this matter?</a></p>
+          <select
+            class="ui fluid dropdown"
+            name="teamSelection"
+            id="teamSelection"
+            ng-model="user.profile.teamSelection"
+            ng-change="openNoteModal(user.profile.teamSelection)">
+            <option value=""> Choose one </option>
+            <option value="alone">I'm applying alone</option>
+            <option value="teamOrAlone">I'm applying with a team, but I'm also applying as an individual (if my team doesn't get accepted)</option>
+            <option value="onlyTeam">I'm applying with a team, and only coming to the event if my team gets accepted</option>
+          </select>
+        </div>
 
         <div class="field">
           <label> Are you interested in job opportunities? * </label>

@@ -32,6 +32,23 @@ angular.module('reg')
         $scope.interestedTerminal = true
       }
 
+      $scope.openApplicationModal = function() {
+        $('.ui.chart')
+          .modal('show')
+      }
+
+      $scope.openNoteModal = function(teamSelection) {
+        if(teamSelection === 'onlyTeam') {
+          $('.ui.note')
+            .modal('show')
+        }
+      }
+
+      $scope.openApplicationModal = function() {
+        $('.ui.modal')
+          .modal('show')
+      }
+
       $scope.setSchoolYes = function() {
         $('#goesNotToSchool').prop('checked', false)
         $scope.goesToSchool = !($scope.goesToSchool)
@@ -402,6 +419,15 @@ angular.module('reg')
                   prompt: 'Please write something about your skills.'
                 }
               ]
+            },
+            teamSelection: {
+              identifier: 'teamSelection',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select one option'
+                }
+              ]
             }
           },
           onSuccess: function(event, fields){
@@ -431,6 +457,7 @@ angular.module('reg')
         $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
         $("#mostInterestingThemes").dropdown('set selected', $scope.user.profile.mostInterestingThemes);
         $("#mainRole").dropdown('set selected', $scope.user.profile.mainRole);
+        $("#teamSelection").dropdown('set selected', $scope.user.profile.teamSelection);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $("#designerRoles").dropdown('set selected', $scope.user.profile.designerRoles);
         $("#developerRoles").dropdown('set selected', $scope.user.profile.developerRoles);
