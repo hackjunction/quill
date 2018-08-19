@@ -298,6 +298,44 @@ module.exports = function(router) {
      });
    });
 
+   //Skills search
+   router.get('/search/skills/:query', function(req, res) {
+    var params = sanitize(req.params);
+    var query = params.query;
+    query = query.replace(/[!@#$<>%^*()]/g, "");
+    SettingsController.getSkills(function(err, skills) {
+      if (err) {
+        res.sendStatus(500);
+      }
+      var results = [];
+      var i = 0;
+      while (i < skills.length) {
+        const skill = skills[i];
+        if (skill.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+          results.push({
+            "name": skill,
+            "id": skill
+          });
+        }
+        if (results.length > 50) {
+          break;
+        }
+        i++;
+      }
+      if (results.length === 0) {
+        results.push({
+          "name": query,
+          "id": query
+        });
+      }
+
+      var data = {
+        "results": results
+      };
+
+      return res.json(data);
+    });
+  });
 
   // ---------------------------------------------
   // Users
@@ -657,6 +695,16 @@ module.exports = function(router) {
     }
     school = school.replace(/[!@#$<>%^*()]/g, "");
     SettingsController.addSchool(school, defaultResponse(req, res));
+  });
+
+  router.put('/settings/addskill', function(req, res){
+    const body = sanitize(req.body);
+    var skill = body.skill;
+    if (!skill) {
+      res.sendStatus(400, "Skill is null");
+    }
+    skill = skill.replace(/[!@#$<>%^*()]/g, "");
+    SettingsController.addSkill(skill, defaultResponse(req, res));
   });
 
   /**

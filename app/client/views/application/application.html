@@ -25,6 +25,21 @@
         }
       });
     
+    $('.ui.skills.search.dropdown')
+      .dropdown({
+        allowAdditions: true,
+        fullTextSearch: true,
+        minCharacters: 2,
+        forceSelection: true,
+        apiSettings: {
+          url: '/api/search/skills/{query}'
+        },
+        fields: {
+          name  : 'name', // displayed dropdown
+          value : 'id'         // actual dropdown value
+        }
+      });
+    
     // Additions to working language
     $('.language')
       .dropdown({
@@ -923,6 +938,21 @@
             </select>
           </div>
         </div>
+
+        <div class="field" id="skillsField">
+            <label> What skills do you have? </label>
+            <p style="margin-bottom: 10px;">
+            Add any skills that you have here, for example programming languages and software that you can use, what kind of design/art can you make and so on..
+            </p>
+            <select
+              multiple="multiple"
+              class="ui multiple fluid skills search dropdown"
+              name="skills"
+              id="skills"
+              ng-model="user.profile.skills">
+              <option value="">Select Skills</option>
+            </select>
+          </div>
 
         <div class="field">
           <label>How many hackathons have you attended before? * </label>

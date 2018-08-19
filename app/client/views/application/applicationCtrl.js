@@ -156,6 +156,21 @@ angular.module('reg')
         }
       }
 
+      function _updateSkills(e) {
+        const skills = $scope.user.profile.skills
+        skills.forEach(function(skill) {
+          if (Settings.data.skills.indexOf(skill) === -1 && skill !== null) {
+            SettingsService.addSkill(skill)
+            .success(function(user){
+              return;
+            })
+            .error(function(res){
+              console.log(`Failed to add new skill ${skill}`);
+            });
+          }
+        })
+      }
+
       function _setupForm(){
         // Semantic-UI form validation
         $('.ui.form').form({
@@ -194,6 +209,24 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please enter your school.'
+                },
+                {
+                  type: 'doesntContain[undefined]',
+                  prompt: 'Something is wrong with your school name, try selecting it again.'
+                }
+              ]
+            },
+            skills: {
+              identifier: 'school',
+              depends: 'skills',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select in at least one skill, you have some for sure!'
+                },
+                {
+                  type: 'doesntContain[undefined]',
+                  prompt: 'Something is wrong with your skills name, try selecting some of them again.'
                 }
               ]
             },
@@ -434,7 +467,7 @@ angular.module('reg')
             _updateTeam();
             _updateSchools();
             _updateUser();
-
+            _updateSkills();
           },
           onFailure: function(formErrors, fields){
             $scope.fieldErrors = formErrors;
@@ -465,12 +498,13 @@ angular.module('reg')
         $("#terminalIndustries").dropdown('set selected', $scope.user.profile.terminal ? $scope.user.profile.terminal.terminalIndustries : "");
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
+        $(".ui.school").dropdown('set selected', $scope.user.profile.school);
+        $(".ui.skills").dropdown('set selected', $scope.user.profile.skills);
+        $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
 
-        setTimeout(function () {
-          $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
-          $(".ui.school").dropdown('set selected', $scope.user.profile.school);
+        /* setTimeout(function () {
+          
           $(".ui.toptools.dropdown").dropdown('set selected', $scope.user.profile.topLevelTools);
-
           $("#greatLevelTools").dropdown('set selected', $scope.user.profile.greatLevelTools);
           $("#goodLevelTools").dropdown('set selected', $scope.user.profile.goodLevelTools);
           $("#beginnerLevelTools").dropdown('set selected', $scope.user.profile.beginnerLevelTools);
@@ -479,7 +513,7 @@ angular.module('reg')
             $('.ui.dropdown').addClass("disabled");
           }
 
-        }, 1);
+        }, 1); */
       }
 
       $scope.submitForm = function(){
@@ -492,6 +526,7 @@ angular.module('reg')
           $scope.user.profile.degree = null;
           $scope.user.profile.major = null;
         }
+        console.log($scope.user.profile)
         $scope.fieldErrors = null;
         $scope.error = null;
         $('.ui.form').form('validate form');

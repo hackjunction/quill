@@ -67,6 +67,10 @@ var schema = new mongoose.Schema({
   schools: {
     type: [String]
   },
+  skills: {
+    type: [String],
+    default: ['Python', 'C#', 'JavaScript', 'React', 'Vue', 'Photoshop', 'Sketch', 'Illustrating']
+  },
   showRejection: {
     type: Boolean,
     default: false
@@ -96,6 +100,14 @@ schema.statics.getSchools = function(callback){
       return callback(err, settings.schools);
     });
 };
+
+schema.statics.getSkills = function(callback){
+  this
+    .findOne({})
+    .exec(function(err, settings){
+      return callback(err, settings.skills)
+    })
+}
 
 /**
  * Get the open and close time for registration.

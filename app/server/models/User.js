@@ -44,6 +44,11 @@ var profile = {
     type: [String]
   },
 
+  skills: {
+    type: [String],
+    maxlength: 500
+  },
+
   school: {
     type: String,
     min: 1,

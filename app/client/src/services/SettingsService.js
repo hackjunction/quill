@@ -48,6 +48,11 @@ angular.module('reg')
           school: text
         });
       },
+      addSkill: function(text){
+        return $http.put(base + 'addskill', {
+          skill: text
+        })
+      },
       updateConfirmationText: function(text){
         return $http.put(base + 'confirmation', {
           text: text
