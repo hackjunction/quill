@@ -1228,6 +1228,27 @@
         </div>
 
         <div class="field">
+          <label>Where did you hear about Junction?</label>
+          <select
+            class="ui heardAbout search selection dropdown"
+            name="heardAboutJunction"
+            id="heardAboutJunction"
+            ng-model="user.profile.heardAboutJunction">
+            <option value="">Choose from these or add other one!</option>
+            <option value="Work/Colleague">From work or colleague</option>
+            <option value="School/University">From school or university</option>
+            <option value="Friend">From a friend</option>
+            <option value="Pre-event">From a Junction pre-event</option>
+            <option value="MLH">From Major League Hackathons</option>
+            <option value="Facebook">From Facebook</option>
+            <option value="Instagram">From Instagram</option>
+            <option value="Twitter">From Twitter</option>
+            <option value="Website">From our website</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
           <label>And finally… Spaces or tabs?</label>
           <select
             class="ui fluid dropdown"

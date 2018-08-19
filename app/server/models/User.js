@@ -103,6 +103,11 @@ var profile = {
     }
   },
 
+  heardAboutJunction: {
+    type: String,
+    maxlength: 200
+  },
+
   teamSelection: {
     type: String,
     enum: ['alone', 'teamOrAlone', 'onlyTeam']

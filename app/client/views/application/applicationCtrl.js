@@ -16,6 +16,7 @@ angular.module('reg')
       // Set up the user
 
       $scope.user = currentUser.data;
+      console.log($scope.user.profile)
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
@@ -497,6 +498,7 @@ angular.module('reg')
         $("#mainRole").dropdown('set selected', $scope.user.profile.mainRole);
         $("#teamSelection").dropdown('set selected', $scope.user.profile.teamSelection);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
+        $("#heardAboutJunction").dropdown('set selected', $scope.user.profile.heardAboutJunction);
         $("#designerRoles").dropdown('set selected', $scope.user.profile.designerRoles);
         $("#developerRoles").dropdown('set selected', $scope.user.profile.developerRoles);
         $("#businessRoles").dropdown('set selected', $scope.user.profile.businessRoles);
