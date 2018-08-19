@@ -168,7 +168,7 @@ angular.module('reg')
             },
             school: {
               identifier: 'school',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
@@ -178,11 +178,11 @@ angular.module('reg')
             },
             graduationYear: {
               identifier: 'graduationYear',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your graduationYear.'
+                  prompt: 'Please enter your graduation year.'
                 },
                 {
                   type: 'integer[2017..2040]',
@@ -192,7 +192,7 @@ angular.module('reg')
             },
             degree: {
               identifier: 'degree',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
@@ -202,7 +202,7 @@ angular.module('reg')
             },
             major: {
               identifier: 'major',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
@@ -346,6 +346,26 @@ angular.module('reg')
                 {
                   type: 'checked',
                   prompt: 'You must accept Junction Terms & Conditions.'
+                }
+              ]
+            },
+            terminalEssay: {
+              identifier: 'terminalEssay',
+              depends: 'terminal',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please write something about why you should be chosen to Terminal.'
+                }
+              ]
+            },
+            terminalSkills: {
+              identifier: 'terminalSkills',
+              depends: 'terminal',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please write something about your skills.'
                 }
               ]
             }

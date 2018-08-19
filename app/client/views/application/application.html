@@ -656,13 +656,13 @@
           <label>I am currently enrolled in a school / university</label>
           <div class="field">
             <div class="ui radio checkbox">
-              <input type="radio" id="goesToSchool" name="goesToSchool" ng-click="setSchool('yes')">
+              <input type="radio" id="goesToSchool" name="schoolSelection" ng-click="setSchool('yes')">
               <label>Yes</label>
             </div>
           </div>
           <div class="field">
             <div class="ui radio checkbox">
-              <input type="radio" id="goesNotToSchool" name="goesToSchool" ng-click="setSchool('no')">
+              <input type="radio" id="goesNotToSchool" name="schoolSelection" ng-click="setSchool('no')">
               <label>No</label>
             </div>
           </div>
@@ -1041,8 +1041,8 @@
         <div class="field">
           <div class="ui checkbox">
             <input type="checkbox"
-                    name="interestedTerminal"
-                    ng-model="interestedTerminal" />
+                    name="terminal"
+                    ng-model="interestedTerminal"/>
             <label for="terminal">I am interested in participating to Terminal</label>
           </div>
         </div>
@@ -1055,7 +1055,7 @@
         
         <div class="field" ng-show="interestedTerminal">
           <label>Special skills you are talented in *</label>
-          <textarea name="terminalSkills" ng-model="user.profile.terminal.skills">
+          <textarea rows="3" name="terminalSkills" ng-model="user.profile.terminal.skills">
           </textarea>
         </div>
 
@@ -1082,7 +1082,7 @@
 
         <div class="field" ng-show="interestedTerminal" ng-disabled="!interestedTerminal">
           <label>If you had to choose the coolest thing you’ve worked on, what would that be? *</label>
-          <textarea ng-model="user.profile.terminal.coolestThing">
+          <textarea rows="5" ng-model="user.profile.terminal.coolestThing">
           </textarea>
         </div>
 
