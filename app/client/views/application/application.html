@@ -1189,6 +1189,28 @@
           </select>
         </div>
 
+        <div class="ui small modal legal">
+          <div class="header">Read this carefully!</div>
+          <div class="content">
+            <p>I give my consent to the transfer of personal data relating to me from Junction Oy (“Junction”) to Junction’s recruitment partners set out in Junction’s <a href="https://hackjunction.com/terms/" target="_blank">privacy policy</a>.</p>
+            <p>Such personal data consists of the information I have provided to Junction in my application to the Junction event as well as information on whether I have been accepted as a participant in the Junction event.</p>
+            <p>The recruitment partners use such personal data for their recruitment and headhunting purposes.</p>
+            <p>I understand that I can withdraw this consent to the transfer of my personal data at any time. In case of such withdrawal, Junction will cease transferring my personal data to the recruitment partners. I understand that the recruitment partners act as independent data controllers and process my personal data in accordance with their own privacy policies.
+            </p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Do you want to be contacted directly by aTalent, Junction main recruiting partner?</label>
+          <p>Read <b><a ng-click="openLegalModal()">this</a></b> before giving your consent</p>
+          <div class="ui checkbox">
+            <input type="checkbox"
+                    id="aTalentContact"
+                    ng-model="user.profile.aTalentContact">
+            <label for="aTalentContact">I want to be contacted directly by aTalent for job opportunities that are perfect for me</label>
+          </div>
+        </div>
+
         <div class="field">
           <label>Have you been to Junction in previous years?</label>
           <select multiple="" class="ui dropdown"

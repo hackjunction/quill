@@ -96,6 +96,8 @@ var profile = {
     maxlength: 1500
   },
 
+  aTalentContact: Boolean,
+
   gender: {
     type: String,
     enum : {

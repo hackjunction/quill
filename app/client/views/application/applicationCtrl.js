@@ -56,6 +56,11 @@ angular.module('reg')
         }
       }
 
+      $scope.openLegalModal = function() {
+        $('.ui.legal')
+          .modal('show') 
+      }
+
       $scope.setSchoolYes = function() {
         $('#goesNotToSchool').prop('checked', false)
         $scope.goesToSchool = !($scope.goesToSchool)
