@@ -769,7 +769,7 @@
           <p style="margin-bottom: 10px;">
             Applicants travelling from outside of Greater Helsinki region can apply for travel reimbursement and free accommodation during the event.
             <br>
-            Depending on where you come from the reimbursement can be up to:
+            Depending on where you come from the grants can be up to:
             <ul>
               <li>Finland (Outside of Greater Helsinki region): 20€</li>
               <li>Baltics: 40€</li>
@@ -784,9 +784,9 @@
         <div style="margin-left: 20px; margin-top: 10px; margin-bottom: 20px">
           <div class="ui checkbox">
             <input type="checkbox" id="needsReimbursement" ng-click="getReimbursementClass(user.profile.travelFromCountry)" ng-model="user.profile.needsReimbursement">
-            <label for="needsReimbursement"><strong>I apply for travel reimbursement</strong></label>
+            <label for="needsReimbursement"><strong>I apply for travel grant</strong></label>
             <p ng-show="user.profile.needsReimbursement" style="margin-bottom:20px; margin-top:10px">
-            Your applied travel reimbursement class is:  <strong>{{user.profile.AppliedreimbursementClass}}</strong>
+            Your applied travel grant class is:  <strong>{{user.profile.AppliedreimbursementClass}}</strong>
             </p>
           </div>
         </div>
@@ -1150,7 +1150,7 @@
         </div>
 
         <div class="field">
-          <label> Are you interested in job opportunities? * </label>
+          <label> Are you interested in job opportunities offered at Junction? * </label>
           <select
             class="ui fluid dropdown"
             name="jobOpportunities"
@@ -1173,6 +1173,7 @@
             <option value="">Junction experience</option>
             <option value="2015">2015</option>
             <option value="2016">2016</option>
+            <option value="2017">2017</option>
           </select>
         </div>
 
@@ -1231,7 +1232,7 @@
         </div>
         <div class="ui checkbox">
             <input type="checkbox" id="termsAndCond" ng-model="user.profile.termsAndCond">
-            <label for="termsAndCond"><h5>I agree with Junction Terms and Conditions, which can be found
+            <label for="termsAndCond"><h5>I agree with Junction Terms of Service, Privacy Policy & Code of Conduct, which can be found
               <a href="https://hackjunction.com/terms/" target="_blank">here</a>*</h5></label>
 
         </div>
