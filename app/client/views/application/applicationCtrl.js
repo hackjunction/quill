@@ -11,14 +11,72 @@ angular.module('reg')
     'SettingsService',
     function($scope, $rootScope, $state, $http, currentUser, Settings, Session, UserService, SettingsService){
       $scope.isDisabled = false;
-
+      $scope.goesNotToSchool = false;
+      $scope.goesToSchool = false;
       // Set up the user
-      $scope.user = currentUser.data;
 
-      if ($scope.user.profile.school == null) {
-          $scope.schoolChecked = false;
-      } else {
-        $scope.schoolChecked = true;
+      $scope.user = currentUser.data;
+      if ($scope.user.profile.school) {
+        $('#goesToSchool').prop('checked', true)
+        $scope.goesToSchool = true
+        $scope.goesNotToSchool = false 
+      } else if ($scope.user.profile.oldDegree) {
+        $('#goesNotToSchool').prop('checked', true)
+        $scope.goesNotToSchool = true
+        $scope.goesToSchool = false
+        $scope.oldDegreeChecked = true
+      }
+
+
+      if($scope.user.profile.terminal.essay) {
+        $scope.interestedTerminal = true
+      }
+
+      $scope.openApplicationModal = function() {
+        $('.ui.chart')
+          .modal('show')
+      }
+
+      $scope.openNoteModal = function(teamSelection) {
+        if(teamSelection === 'onlyTeam') {
+          $('.ui.note')
+            .modal('show')
+        }
+      }
+
+      $scope.openApplicationModal = function() {
+        $('.ui.modal')
+          .modal('show')
+      }
+
+      $scope.setSchoolYes = function() {
+        $('#goesNotToSchool').prop('checked', false)
+        $scope.goesToSchool = !($scope.goesToSchool)
+        $scope.goesNotToSchool = false
+      }
+
+      $scope.setSchoolNo = function() {
+        $('#goesToSchool').prop('checked', false)
+        $scope.goesToSchool = false
+        $scope.goesNotToSchool = !($scope.goesNotToSchool)
+      }
+
+      $scope.setLivesInHelsinki = function(setting) {
+        if(setting === "yes") {
+          $scope.livesInHelsinki = true
+          $scope.livesNotInHelsinki = false
+        } else {
+          $scope.livesInHelsinki = false
+          $scope.livesNotInHelsinki = true
+        }
+      }
+
+      $scope.setAccommodation = function(setting) {
+        if(setting === "yes") {
+          $scope.accommodatesPeople = true
+        } else {
+          $scope.accommodatesPeople = false
+        }
       }
       var originalTeamCode = $scope.user.teamCode;
 
@@ -98,6 +156,21 @@ angular.module('reg')
         }
       }
 
+      function _updateSkills(e) {
+        const skills = $scope.user.profile.skills
+        skills.forEach(function(skill) {
+          if (Settings.data.skills.indexOf(skill) === -1 && skill !== null) {
+            SettingsService.addSkill(skill)
+            .success(function(user){
+              return;
+            })
+            .error(function(res){
+              console.log(`Failed to add new skill ${skill}`);
+            });
+          }
+        })
+      }
+
       function _setupForm(){
         // Semantic-UI form validation
         $('.ui.form').form({
@@ -131,21 +204,39 @@ angular.module('reg')
             },
             school: {
               identifier: 'school',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
                   prompt: 'Please enter your school.'
+                },
+                {
+                  type: 'doesntContain[undefined]',
+                  prompt: 'Something is wrong with your school name, try selecting it again.'
+                }
+              ]
+            },
+            skills: {
+              identifier: 'school',
+              depends: 'skills',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select in at least one skill, you have some for sure!'
+                },
+                {
+                  type: 'doesntContain[undefined]',
+                  prompt: 'Something is wrong with your skills name, try selecting some of them again.'
                 }
               ]
             },
             graduationYear: {
               identifier: 'graduationYear',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your graduationYear.'
+                  prompt: 'Please enter your graduation year.'
                 },
                 {
                   type: 'integer[2017..2040]',
@@ -155,7 +246,7 @@ angular.module('reg')
             },
             degree: {
               identifier: 'degree',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
@@ -165,11 +256,41 @@ angular.module('reg')
             },
             major: {
               identifier: 'major',
-              depends: 'hasSchool',
+              depends: 'goesToSchool',
               rules: [
                 {
                   type: 'empty',
                   prompt: 'Please enter your major.'
+                }
+              ]
+            },
+            oldDegree: {
+              identifier: 'oldDegree',
+              depends: 'oldDegreeChecked',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your degree.'
+                }
+              ]
+            },
+            oldMajor: {
+              identifier: 'oldDegreeMajor',
+              depends: 'oldDegreeChecked',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your major.'
+                }
+              ]
+            },
+            oldDegreeGraduation: {
+              identifier: 'oldDegreeGraduation',
+              depends: 'oldDegreeChecked',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your graduation year.'
                 }
               ]
             },
@@ -245,12 +366,30 @@ angular.module('reg')
                 }
               ]
             },
-            mostInterestingTrack: {
-              identifier: 'mostInterestingTrack',
+            mostInterestingThemes: {
+              identifier: 'mostInterestingThemes',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select the most interesting track for you.'
+                  prompt: 'Please select at least one theme'
+                }
+              ]
+            },
+            mainRole: {
+              identifier: 'mainRole',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select one of the main roles to describe yourself'
+                }
+              ]
+            },
+            subRoles: {
+              identifier: 'subRoles',
+              rules: [
+                {
+                  type: 'exactCount[2]',
+                  prompt: 'Please select two roles to describe yourself'
                 }
               ]
             },
@@ -293,20 +432,48 @@ angular.module('reg')
                   prompt: 'You must accept Junction Terms & Conditions.'
                 }
               ]
+            },
+            terminalEssay: {
+              identifier: 'terminalEssay',
+              depends: 'terminal',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please write something about why you should be chosen to Terminal.'
+                }
+              ]
+            },
+            terminalSkills: {
+              identifier: 'terminalSkills',
+              depends: 'terminal',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please write something about your skills.'
+                }
+              ]
+            },
+            teamSelection: {
+              identifier: 'teamSelection',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select one option'
+                }
+              ]
             }
           },
           onSuccess: function(event, fields){
             _updateTeam();
             _updateSchools();
             _updateUser();
-
+            _updateSkills();
           },
           onFailure: function(formErrors, fields){
             $scope.fieldErrors = formErrors;
             $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
           }
         });
-
         // Set selected multiselect items
         $("#spacesOrTabs").dropdown('set selected', $scope.user.profile.spacesOrTabs);
         $("#operatingSystem").dropdown('set selected', $scope.user.profile.operatingSystem);
@@ -320,12 +487,23 @@ angular.module('reg')
         $("#travelFromCountry").dropdown('set selected', $scope.user.profile.travelFromCountry);
         $("#occupationalStatus").dropdown('set selected', $scope.user.profile.occupationalStatus);
         $("#degree").dropdown('set selected', $scope.user.profile.degree);
-
+        $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
+        $("#mostInterestingThemes").dropdown('set selected', $scope.user.profile.mostInterestingThemes);
+        $("#mainRole").dropdown('set selected', $scope.user.profile.mainRole);
+        $("#teamSelection").dropdown('set selected', $scope.user.profile.teamSelection);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
+        $("#designerRoles").dropdown('set selected', $scope.user.profile.designerRoles);
+        $("#developerRoles").dropdown('set selected', $scope.user.profile.developerRoles);
+        $("#businessRoles").dropdown('set selected', $scope.user.profile.businessRoles);
+        $("#terminalIndustries").dropdown('set selected', $scope.user.profile.terminal ? $scope.user.profile.terminal.terminalIndustries : "");
+        $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
+        $(".ui.school").dropdown('set selected', $scope.user.profile.school);
+        $(".ui.skills").dropdown('set selected', $scope.user.profile.skills);
+        $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
 
-        setTimeout(function () {
-          $(".ui.search.dropdown").dropdown('set selected', $scope.user.profile.school);
+        /* setTimeout(function () {
+          
           $(".ui.toptools.dropdown").dropdown('set selected', $scope.user.profile.topLevelTools);
           $("#greatLevelTools").dropdown('set selected', $scope.user.profile.greatLevelTools);
           $("#goodLevelTools").dropdown('set selected', $scope.user.profile.goodLevelTools);
@@ -335,16 +513,20 @@ angular.module('reg')
             $('.ui.dropdown').addClass("disabled");
           }
 
-        }, 1);
+        }, 1); */
       }
 
       $scope.submitForm = function(){
-        if (!$scope.schoolChecked) {
+        if ($scope.goesToSchool) {
+          $scope.user.profile.oldDegree = null
+        }
+        else if ($scope.goesNotToSchool) {
           $scope.user.profile.school = null;
           $scope.user.profile.graduationYear = null;
           $scope.user.profile.degree = null;
           $scope.user.profile.major = null;
         }
+        console.log($scope.user.profile)
         $scope.fieldErrors = null;
         $scope.error = null;
         $('.ui.form').form('validate form');

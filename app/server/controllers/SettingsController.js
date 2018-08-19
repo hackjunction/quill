@@ -50,9 +50,26 @@ SettingsController.addSchool = function(school, callback){
     }, {new: true}, callback);
 };
 
+SettingsController.addSkill = function(skill, callback){
+  if (skill === undefined || skill === null) {
+    callback();
+    return;
+  }
+  Settings
+    .findOneAndUpdate({},{
+      $push: { skills: skill }
+    }, {new: true}, callback);
+};
+
+
+
 SettingsController.getSchools = function(callback){
   Settings.getSchools(callback);
 };
+
+SettingsController.getSkills = function(callback){
+  Settings.getSkills(callback);
+}
 
 
 

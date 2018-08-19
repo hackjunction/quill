@@ -14,9 +14,7 @@ var profile = {
   },
 
   age: {
-    type: Number,
-    min: 18,
-    max: 65,
+    type: Number
   },
 
   submittedApplication: {
@@ -42,6 +40,15 @@ var profile = {
     maxlength: 120,
   },
 
+  workingLanguages: {
+    type: [String]
+  },
+
+  skills: {
+    type: [String],
+    maxlength: 500
+  },
+
   school: {
     type: String,
     min: 1,
@@ -60,6 +67,21 @@ var profile = {
   degree: {
     type: String,
     maxlength: 100,
+  },
+
+  oldDegree: {
+    graduationYear: {
+      type: Number,
+      maxlength: 20
+    },
+    degree: {
+      type: String,
+      maxlength: 150
+    },
+    major: {
+      type: String,
+      maxlength: 100
+    }
   },
 
   description: {
@@ -81,7 +103,13 @@ var profile = {
     }
   },
 
+  teamSelection: {
+    type: String,
+    enum: ['alone', 'teamOrAlone', 'onlyTeam']
+  },
+
   needsReimbursement: Boolean,
+  needsVisa: Boolean,
   applyAccommodation: Boolean,
 
   AppliedreimbursementClass: {
@@ -95,6 +123,26 @@ var profile = {
   mostInterestingTrack: {
     type: String,
     maxlength: 120,
+  },
+
+  mostInterestingThemes: {
+    type: [String]
+  },
+
+  mainRole: {
+    type: String
+  },
+
+  designerRoles: {
+    type: [String]
+  },
+  
+  developerRoles: {
+    type: [String]
+  },
+
+  businessRoles: {
+    type: [String]
   },
 
   portfolio: {
@@ -137,6 +185,32 @@ var profile = {
     type: String,
     enum : {
       values: 'None,1,1-2,3-5,5+'.split(',')
+    }
+  },
+
+  terminal: {
+    essay: {
+      type: String,
+      maxlength: 500
+    },
+    skills: {
+      type: String,
+      maxlength: 200
+    },
+    terminalIndustries: {
+      type: [String],
+      maxlength: 500
+    },
+    coolestThing: {
+      type: String,
+      maxlength: 500
+    },
+    portfolio: {
+      type: String,
+      maxlength: 100
+    },
+    accommodatesAmount: {
+      type: Number
     }
   },
 
