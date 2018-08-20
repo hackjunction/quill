@@ -44,7 +44,19 @@ var profile = {
     type: [String]
   },
 
-  skills: {
+  beginnerSkills: {
+    type: [String],
+    maxlength: 500
+  },
+  intermediateSkills: {
+    type: [String],
+    maxlength: 500
+  },
+  advancedSkills: {
+    type: [String],
+    maxlength: 500
+  },
+  professionalSkills: {
     type: [String],
     maxlength: 500
   },

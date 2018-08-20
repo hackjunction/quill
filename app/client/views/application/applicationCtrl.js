@@ -16,7 +16,6 @@ angular.module('reg')
       // Set up the user
 
       $scope.user = currentUser.data;
-      console.log($scope.user.profile)
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
@@ -169,7 +168,7 @@ angular.module('reg')
           });
       }
 
-      function _updateSchools(e) {
+      function _updateSchools() {
         if (Settings.data.schools.indexOf($scope.user.profile.school) === -1 && $scope.user.profile.school !== null) {
           SettingsService.addSchool($scope.user.profile.school)
           .success(function(user){
@@ -181,8 +180,9 @@ angular.module('reg')
         }
       }
 
-      function _updateSkills(e) {
-        const skills = $scope.user.profile.skills
+      function _updateSkills() {
+        const profile = $scope.user.profile
+        const skills = profile.beginnerSkills.concat(profile.intermediateSkills).concat(profile.advancedSkills).concat(profile.professionalSkills)
         skills.forEach(function(skill) {
           if (Settings.data.skills.indexOf(skill) === -1 && skill !== null) {
             SettingsService.addSkill(skill)
@@ -524,7 +524,10 @@ angular.module('reg')
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
         $(".ui.school").dropdown('set selected', $scope.user.profile.school);
-        $(".ui.skills").dropdown('set selected', $scope.user.profile.skills);
+        $(".ui.beginnerSkills").dropdown('set selected', $scope.user.profile.beginnerSkills);
+        $(".ui.intermediateSkills").dropdown('set selected', $scope.user.profile.intermediateSkills);
+        $(".ui.advancedSkills").dropdown('set selected', $scope.user.profile.advancedSkills);
+        $(".ui.professionalSkills").dropdown('set selected', $scope.user.profile.professionalSkills);
         $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
 
         /* setTimeout(function () {
