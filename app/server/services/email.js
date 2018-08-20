@@ -6,7 +6,8 @@ var Settings = require('../models/Settings');
 var templatesDir = path.join(__dirname, '../templates');
 var emailTemplates = require('email-templates');
 
-var ROOT_URL = process.env.ROOT_URL;
+//var ROOT_URL = process.env.ROOT_URL;
+var ROOT_URL = 'https://apply.hackjunction.com'
 
 var EMAIL_HOST = process.env.EMAIL_HOST;
 var EMAIL_USER = process.env.EMAIL_USER;
@@ -170,7 +171,7 @@ controller.sendRejectEmails = function(users, callback) {
     };
 
     getQRCode = function(id){
-      
+
       $http.get('/api/qr/' + id)
       .then(function(response){
         locals.qr = response.data;
