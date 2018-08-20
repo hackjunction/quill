@@ -52,7 +52,7 @@ angular.module('reg')
       }
 
       $scope.openNoteModal = function(teamSelection) {
-        if(teamSelection === 'onlyTeam') {
+        if(teamSelection === 'onlyTeam' || teamSelection === 'teamOrAlone') {
           $('.ui.note')
             .modal('show')
         }
@@ -96,6 +96,11 @@ angular.module('reg')
       $scope.setRoleSelected = function(role) {
         if(role === 'Developer' || role === 'Designer' || role === 'Business') {
           $scope.roleSelected = true
+        }
+      }
+      $scope.setSubRoleSelected = function(role) {
+        if(role === 'Developer' || role === 'Designer' || role === 'Business') {
+          $scope.subRoleSelected = true
         }
       }
       var originalTeamCode = $scope.user.teamCode;
@@ -509,6 +514,7 @@ angular.module('reg')
         $("#workingLanguages").dropdown('set selected', $scope.user.profile.workingLanguages);
         $("#mostInterestingThemes").dropdown('set selected', $scope.user.profile.mostInterestingThemes);
         $("#mainRole").dropdown('set selected', $scope.user.profile.mainRole);
+        $("#subRole").dropdown('set selected', $scope.user.profile.subRole);
         $("#teamSelection").dropdown('set selected', $scope.user.profile.teamSelection);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $("#heardAboutJunction").dropdown('set selected', $scope.user.profile.heardAboutJunction);

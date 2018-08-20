@@ -140,6 +140,10 @@ var profile = {
     type: String
   },
 
+  subRole: {
+    type: String
+  },
+
   bestRole: {
     type: String
   },

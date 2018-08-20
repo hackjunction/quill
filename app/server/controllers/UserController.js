@@ -1133,7 +1133,7 @@ UserController.leaveTeam = function(id, callback){
           console.log('Team updated after user left the team')
         })
       } else {
-        Team.deleteOne({_id: user.team}, function(err) {
+        Team.findOneAndRemove({_id: user.team}, function(err) {
           if (err) return callback('Error deleting team')
           console.log(`Deleted team with id ${teamID}`)
         })
