@@ -238,6 +238,10 @@ angular.module('reg')
                 {
                   type: 'doesntContain[undefined]',
                   prompt: 'Something is wrong with your school name, try selecting it again.'
+                },
+                {
+                  type: 'doesntContain[?string:]',
+                  prompt: 'Something is wrong with your school name, try selecting it again.'
                 }
               ]
             },
