@@ -28,7 +28,9 @@ angular.module('reg')
         $scope.oldDegreeChecked = true
       }
 
-
+      if($scope.user.profile.mainRole) {
+        $scope.roleSelected = true
+      }
       if($scope.user.profile.terminal.essay) {
         $scope.interestedTerminal = true
       }
@@ -88,6 +90,12 @@ angular.module('reg')
           $scope.accommodatesPeople = true
         } else {
           $scope.accommodatesPeople = false
+        }
+      }
+
+      $scope.setRoleSelected = function(role) {
+        if(role === 'Developer' || role === 'Designer' || role === 'Business') {
+          $scope.roleSelected = true
         }
       }
       var originalTeamCode = $scope.user.teamCode;
@@ -395,12 +403,12 @@ angular.module('reg')
                 }
               ]
             },
-            subRoles: {
-              identifier: 'subRoles',
+            bestRole: {
+              identifier: 'bestRole',
               rules: [
                 {
-                  type: 'exactCount[2]',
-                  prompt: 'Please select two roles to describe yourself'
+                  type: 'empty',
+                  prompt: 'Please select a best describing role.'
                 }
               ]
             },
@@ -504,9 +512,8 @@ angular.module('reg')
         $("#teamSelection").dropdown('set selected', $scope.user.profile.teamSelection);
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $("#heardAboutJunction").dropdown('set selected', $scope.user.profile.heardAboutJunction);
-        $("#designerRoles").dropdown('set selected', $scope.user.profile.designerRoles);
-        $("#developerRoles").dropdown('set selected', $scope.user.profile.developerRoles);
-        $("#businessRoles").dropdown('set selected', $scope.user.profile.businessRoles);
+        $("#bestRole").dropdown('set selected', $scope.user.profile.bestRole);
+        $("#secondBestRole").dropdown('set selected', $scope.user.profile.secondBestRole)
         $("#terminalIndustries").dropdown('set selected', $scope.user.profile.terminal ? $scope.user.profile.terminal.terminalIndustries : "");
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');

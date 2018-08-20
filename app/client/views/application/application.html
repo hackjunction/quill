@@ -64,10 +64,6 @@
         maxSelections: 3
       })
 
-    $('.ui.roles')
-      .dropdown({
-        maxSelections: 2
-      })
 
   </script>
 
@@ -646,7 +642,7 @@
                  ng-model="user.profile.travelFromCity">
         </div>
         <p type="text" id="capitalArea" ng-if="user.profile.travelFromCountry=='Finland'">
-            Participants coming from <strong>Greater Helsinki region</strong>, will not be granted travel reimbursements.</p>
+            Participants coming from <strong>Greater Helsinki region</strong>, will not be granted travel grants.</p>
         <div class="field">
           <label>Languages with working effiency</label>
           <select multiple="multiple"
@@ -782,7 +778,7 @@
         <div class="field">
           <label> Do you need travel grants? </label>
           <p style="margin-bottom: 10px;">
-            Applicants travelling from outside of Greater Helsinki region can apply for travel reimbursement and free accommodation during the event.
+            Applicants travelling from outside of Greater Helsinki region can apply for travel grants and free accommodation during the event.
             <br>
             Depending on where you come from the grants can be up to:
             <ul>
@@ -867,6 +863,7 @@
             class="ui fluid selection dropdown"
             id="mainRole"
             name="mainRole"
+            ng-change="setRoleSelected(user.profile.mainRole)"
             ng-model="user.profile.mainRole">
             <option value="">Select a description</option>
             <option value="Designer">Designer</option>
@@ -876,65 +873,72 @@
         </div>
 
         <div class="indent">
-          <div class="field" ng-show="user.profile.mainRole === 'Designer'">
-            <label>Select two roles to describe you the best *</label>
+
+          <div class="field" ng-show="roleSelected">
+            <label>Select a role describe you the best *</label>
             <select
-              multiple="multiple"
-              class="ui multiple normal selection dropdown roles"
-              name="subRoles"
-              id="designerRoles"
-              ng-model="user.profile.designerRoles"
+              class="ui normal selection dropdown roles"
+              name="bestRole"
+              id="bestRole"
+              ng-model="user.profile.bestRole"
             >
-              <option value="">Select two Designer roles</option>
-              <option value="Service Design">Service Design</option>
-              <option value="Graphic Design">Graphic Design</option>
-              <option value="Industrial/Product Design">Industrial/Product Design</option>
-              <option value="UI/UX Design">UI/UX Design</option>
-              <option value="Animation">Animation</option>
-              <option value="Web Design">Web Design</option>
+              <option value="">Select a role</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Data Scientist">Data Scientist</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Full Stack">Full Stack</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Frontend">Frontend</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Backend">Backend</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Mobile">Mobile</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Machine Learning">Machine Learning</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Embedded Systems">Embedded Systems</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Cloud/DevOps">Cloud/DevOps</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Architect">Architect</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Information Security">Information Security</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Game Developer">Game Developer</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Entrepreneur">Entrepreneur</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Business Development">Business Development</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Marketing">Marketing</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Finance">Finance</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Logistics and Supply Chains">Logistics and Supply Chains</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Other Industry expert">Other Industry expert</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Service Design">Service Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Graphic Design">Graphic Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Industrial/Product Design">Industrial/Product Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="UI/UX Design">UI/UX Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Animation">Animation</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Web Design">Web Design</option>
             </select>
           </div>
-
-          <div class="field" ng-show="user.profile.mainRole === 'Developer'">
-            <label>Select two roles to describe you the best *</label>
+          <div class="field" ng-show="roleSelected">
+            <label>Select a second role to describe yourself (optional)</label>
             <select
-              multiple="multiple"
-              class="ui multiple normal selection dropdown roles"
-              name="subRoles"
-              id="developerRoles"
-              ng-model="user.profile.developerRoles"
+              class="ui normal selection dropdown roles"
+              id="secondBestRole"
+              ng-model="user.profile.secondBestRole"
             >
-              <option value="">Select two Developer roles</option>
-              <option value="Data Scientist">Data Scientist</option>
-              <option value="Full Stack">Full Stack</option>
-              <option value="Frontend">Frontend</option>
-              <option value="Backend">Backend</option>
-              <option value="Mobile">Mobile</option>
-              <option value="Machine Learning">Machine Learning</option>
-              <option value="Embedded Systems">Embedded Systems</option>
-              <option value="Cloud/DevOps">Cloud/DevOps</option>
-              <option value="Architect">Architect</option>
-              <option value="Information Security">Information Security</option>
-              <option value="Game Developer">Game Developer</option>
-            </select>
-          </div>
-
-          <div class="field" ng-show="user.profile.mainRole === 'Business'">
-            <label>Select two roles to describe you the best *</label>
-            <select
-              multiple="multiple"
-              class="ui multiple normal selection dropdown roles"
-              name="subRoles"
-              id="businessRoles"
-              ng-model="user.profile.businessRoles"
-            >
-              <option value="">Select two Business roles</option>
-              <option value="Entrepreneur">Entrepreneur</option>
-              <option value="Business Development">Business Development</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Finance">Finance</option>
-              <option value="Logistics and Supply Chains">Logistics and Supply Chains</option>
-              <option value="Other Industry expert">Other Industry expert</option>
+              <option value="">Select a role</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Data Scientist">Data Scientist</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Full Stack">Full Stack</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Frontend">Frontend</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Backend">Backend</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Mobile">Mobile</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Machine Learning">Machine Learning</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Embedded Systems">Embedded Systems</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Cloud/DevOps">Cloud/DevOps</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Architect">Architect</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Information Security">Information Security</option>
+              <option ng-if="user.profile.mainRole === 'Developer'" value="Game Developer">Game Developer</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Entrepreneur">Entrepreneur</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Business Development">Business Development</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Marketing">Marketing</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Finance">Finance</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Logistics and Supply Chains">Logistics and Supply Chains</option>
+              <option ng-if="user.profile.mainRole === 'Business'" value="Other Industry expert">Other Industry expert</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Service Design">Service Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Graphic Design">Graphic Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Industrial/Product Design">Industrial/Product Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="UI/UX Design">UI/UX Design</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Animation">Animation</option>
+              <option ng-if="user.profile.mainRole === 'Designer'" value="Web Design">Web Design</option>
             </select>
           </div>
         </div>

@@ -140,16 +140,12 @@ var profile = {
     type: String
   },
 
-  designerRoles: {
-    type: [String]
-  },
-  
-  developerRoles: {
-    type: [String]
+  bestRole: {
+    type: String
   },
 
-  businessRoles: {
-    type: [String]
+  secondBestRole: {
+    type: String
   },
 
   portfolio: {
