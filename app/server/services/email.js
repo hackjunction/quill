@@ -357,6 +357,7 @@ controller.sendVerificationEmail = function(user, token, callback) {
 
   var locals = {
     verifyUrl: ROOT_URL + '/verify/' + token,
+    verifyToken: token,
     nickname: user.nickname
   };
 
