@@ -16,7 +16,6 @@ angular.module('reg')
       // Set up the user
 
       $scope.user = currentUser.data;
-      console.log($scope.user.profile.terminal)
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
