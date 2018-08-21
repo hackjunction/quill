@@ -16,6 +16,7 @@ angular.module('reg')
       // Set up the user
 
       $scope.user = currentUser.data;
+      console.log($scope.user.profile.terminal)
       if ($scope.user.profile.school) {
         $('#goesToSchool').prop('checked', true)
         $scope.goesToSchool = true
@@ -39,11 +40,18 @@ angular.module('reg')
         $scope.livesNotInHelsinki = true
       }
 
-      if($scope.user.profile.terminal.accommodatesPeople) {
+      if($scope.user.profile.terminal.livesInHelsinkiArea) {
         $('#livesInHelsinkiArea').prop('checked', true)
         $scope.livesInHelsinki = true
-        $scope.accommodatesPeople = true
+        if($scope.user.profile.terminal.accommodatesAmount) {
+          $('#accommodatesPeople').prop('checked', true)
+          $scope.accommodatesPeople = true
+        }
+        else if($scope.user.profile.terminal.accommodatesPeople === false) {
+          $('#accommodatesNotPeople').prop('checked', true)
+        }
       }
+
 
       $scope.openApplicationModal = function() {
         $('.ui.chart')
@@ -77,18 +85,23 @@ angular.module('reg')
       $scope.setLivesInHelsinki = function(setting) {
         if(setting === "yes") {
           $scope.livesInHelsinki = true
+          $scope.user.profile.terminal.livesInHelsinkiArea = true
           $scope.livesNotInHelsinki = false
         } else {
           $scope.livesInHelsinki = false
           $scope.livesNotInHelsinki = true
+          $scope.user.profile.terminal.livesInHelsinkiArea = false
         }
       }
 
       $scope.setAccommodation = function(setting) {
         if(setting === "yes") {
           $scope.accommodatesPeople = true
+          $scope.user.profile.terminal.accommodatesPeople = true
         } else {
           $scope.accommodatesPeople = false
+          $scope.user.profile.terminal.accommodatesPeople = false
+          $scope.user.profile.terminal.accommodatesAmount = undefined
         }
       }
 
@@ -138,9 +151,7 @@ angular.module('reg')
               type: "success",
               confirmButtonColor: "#5ABECF"
             }, function(){
-              console.log(window.location.host)
-              window.location.assign(window.location.host + '/dashboard')
-              //$state.go('app.dashboard');
+              $state.go('app.dashboard');
             });
           })
           .error(function(res){
@@ -185,7 +196,7 @@ angular.module('reg')
       function _updateSkills() {
         const profile = $scope.user.profile
         const skills = profile.beginnerSkills.concat(profile.intermediateSkills).concat(profile.advancedSkills).concat(profile.professionalSkills)
-        if(skills.lenght){
+        if(skills.length){
           skills.forEach(function(skill) {
             if (Settings.data.skills.indexOf(skill) === -1 && skill !== null) {
               SettingsService.addSkill(skill)

@@ -742,8 +742,10 @@ module.exports = function(router) {
     if (!school) {
       res.sendStatus(400, "School is null");
     }
-    school = school.replace(/[!@#$<>%^*()]/g, "");
-    SettingsController.addSchool(school, defaultResponse(req, res));
+    else {
+      school = school.replace(/[!@#$<>%^*()]/g, "");
+      SettingsController.addSchool(school, defaultResponse(req, res));
+    }
   });
 
   router.put('/settings/addskill', function(req, res){
@@ -752,8 +754,11 @@ module.exports = function(router) {
     if (!skill) {
       res.sendStatus(400, "Skill is null");
     }
-    skill = skill.replace(/[!@#$<>%^*()]/g, "");
-    SettingsController.addSkill(skill, defaultResponse(req, res));
+    else{
+      console.log('WRNJWURHUW?????')
+      skill = skill.replace(/[!@#$<>%^*()]/g, "");
+      SettingsController.addSkill(skill, defaultResponse(req, res));
+    }
   });
 
   /**

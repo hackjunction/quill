@@ -228,10 +228,14 @@ var profile = {
       type: String,
       maxlength: 100
     },
+    accommodatesPeople: Boolean,
     accommodatesAmount: {
       type: Number
     },
     needsAccommodation: {
+      type: Boolean
+    },
+    livesInHelsinkiArea: {
       type: Boolean
     }
   },
