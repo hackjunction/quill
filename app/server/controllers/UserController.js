@@ -1093,6 +1093,7 @@ UserController.kickFromTeam = function(id, userID, callback) {
           new: true
         }, function(err, u) {
           if(err || !u) return callback({message: 'User not found!'})
+          console.log(`Kicing ${u.profile.name} from team`)
           const userIndex = team.members.indexOf(u.id)
           team.members.splice(userIndex, 1)
           team.save(function(err) {
@@ -1119,14 +1120,15 @@ UserController.leaveTeam = function(id, callback){
       if (err) {
         return callback({message: 'Something went wrong'})
       }
-      if(team){
+      if(team && team.members.indexOf(user.id) > -1){
         console.log(`Team ${user.team} found`)
         const leaderID = team.leader
-        const userIndex = team.members.indexOf(id)
+        const userIndex = team.members.indexOf(user.id)
         team.members.splice(userIndex, 1) // Remove user from team
         if (team.members.length){
           if (leaderID === user.id) {
             team.leader = team.members[0]
+            console.log(`New leader is ${team.leader}`)
           }
           team.save(function(err){
             if (err){
@@ -1140,6 +1142,9 @@ UserController.leaveTeam = function(id, callback){
             console.log(`Deleted team with id ${teamID}`)
           })
         }
+      }
+      else {
+        console.log('Team not found or user not in the team anymore, removing user team data though.')
       }
       user.teamMatchmaking.enrolled = false
       user.teamMatchmaking.enrollmentType = undefined
