@@ -1153,10 +1153,14 @@ UserController.leaveTeam = function(id, callback){
       user.teamMatchmaking.team.roles = undefined
       user.teamMatchmaking.team.slackHandle = undefined
       user.teamMatchmaking.team.freeText = undefined
-      user.team = null
+      user.team = undefined
 
+      console.log(`Saving user ${user.id}`)
       user.save(function(err) {
-        if(err) return callback(err, user)
+        if(err) {
+          console.log(err)
+          return callback(err, user)
+        }
         console.log('User saved after leaving team')
         return callback(null, user)
       })
