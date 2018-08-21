@@ -138,7 +138,9 @@ angular.module('reg')
               type: "success",
               confirmButtonColor: "#5ABECF"
             }, function(){
-              $state.go('app.dashboard');
+              console.log(window.location.host)
+              window.location.assign(window.location.host + '/dashboard')
+              //$state.go('app.dashboard');
             });
           })
           .error(function(res){
@@ -183,17 +185,19 @@ angular.module('reg')
       function _updateSkills() {
         const profile = $scope.user.profile
         const skills = profile.beginnerSkills.concat(profile.intermediateSkills).concat(profile.advancedSkills).concat(profile.professionalSkills)
-        skills.forEach(function(skill) {
-          if (Settings.data.skills.indexOf(skill) === -1 && skill !== null) {
-            SettingsService.addSkill(skill)
-            .success(function(user){
-              return;
-            })
-            .error(function(res){
-              console.log(`Failed to add new skill ${skill}`);
-            });
-          }
-        })
+        if(skills.lenght){
+          skills.forEach(function(skill) {
+            if (Settings.data.skills.indexOf(skill) === -1 && skill !== null) {
+              SettingsService.addSkill(skill)
+              .success(function(user){
+                return;
+              })
+              .error(function(res){
+                console.log(`Failed to add new skill ${skill}`);
+              });
+            }
+          })
+        }
       }
 
       function _setupForm(){

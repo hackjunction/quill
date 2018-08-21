@@ -1116,27 +1116,30 @@ UserController.leaveTeam = function(id, callback){
     }
     const teamID = user.team
     Team.findById(user.team).exec(function(err, team) {
-      if (err || !team) {
-        return callback({message: 'Team not found'})
+      if (err) {
+        return callback({message: 'Something went wrong'})
       }
-      const leaderID = team.leader
-      const userIndex = team.members.indexOf(id)
-      team.members.splice(userIndex, 1) // Remove user from team
-      if (leaderID === user.id) {
-        team.leader = team.members[0]
-      }
-      if (team.members.length){
-        team.save(function(err){
-          if (err){
-            return callback(err, team);
+      if(team){
+        console.log(`Team ${user.team} found`)
+        const leaderID = team.leader
+        const userIndex = team.members.indexOf(id)
+        team.members.splice(userIndex, 1) // Remove user from team
+        if (team.members.length){
+          if (leaderID === user.id) {
+            team.leader = team.members[0]
           }
-          console.log('Team updated after user left the team')
-        })
-      } else {
-        Team.findOneAndRemove({_id: user.team}, function(err) {
-          if (err) return callback('Error deleting team')
-          console.log(`Deleted team with id ${teamID}`)
-        })
+          team.save(function(err){
+            if (err){
+              return callback(err, team);
+            }
+            console.log('Team updated after user left the team')
+          })
+        } else {
+          Team.findOneAndRemove({_id: user.team}, function(err) {
+            if (err) return callback('Error deleting team')
+            console.log(`Deleted team with id ${teamID}`)
+          })
+        }
       }
       user.teamMatchmaking.enrolled = false
       user.teamMatchmaking.enrollmentType = undefined
@@ -1146,7 +1149,6 @@ UserController.leaveTeam = function(id, callback){
       user.teamMatchmaking.team.slackHandle = undefined
       user.teamMatchmaking.team.freeText = undefined
       user.team = null
-      user.teamName = null
 
       user.save(function(err) {
         if(err) return callback(err, user)
