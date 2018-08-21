@@ -102,7 +102,7 @@
                 </div>
                 <br/>
                 <div class="required field" ng-class="{'disabled': teamLocked}" ng-show="!teamLocked">
-                  <label>Which tracks are you most interested in as a team? Max 3 options.</label>
+                  <label>Which themes are you most interested in as a team? Max 3 options.</label>
                   <select multiple="multiple"
                     class="ui multiple normal selection dropdown"
                     name="teamInterests"
@@ -145,7 +145,7 @@
                   Lock Team
                 </button>
                 <div class="ui field" ng-show="teamLocked">
-                  <p>You've selected these tracks:</p>
+                  <p>You've selected these themes:</p>
                   <p ng-repeat="i in teamInterests"><b>{{i}}</b></p>
                 </div>
             </div>
