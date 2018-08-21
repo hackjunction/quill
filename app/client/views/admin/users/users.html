@@ -166,7 +166,7 @@
             <th>Name</th>
             <th>E-mail address</th>
             <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
-            <th>School</th>
+            <th>Application Type</th>
             <th>Team</th>
             <th>Age</th>
             <th>V/S/A/C</th>
@@ -209,7 +209,12 @@
             </td>
             <td>{{user.email}}</td>
             <td>{{user.timestamp | date: 'mediumDate'}}</td>
-            <td>{{user.profile.school}}</td>
+            <td>
+              <div class="adminTeamSelection">
+                <i class="user icon" ng-if="user.profile.teamSelection === 'alone' || user.profile.teamSelection === 'teamOrAlone'"></i>
+                <i class="users icon" ng-if="user.profile.teamSelection === 'onlyTeam' || user.profile.teamSelection === 'teamOrAlone'"></i>
+              </div>
+            </td>
             <td>{{user.team}}</td>
             <td>{{user.profile.age}}</td>
             <td
