@@ -79,6 +79,7 @@ angular.module('reg')
             $scope.sortBy === 'date' ? $scope.sortByDate : $scope.sortByRating
           )
           .success(function(data){
+            console.log(data)
             updatePage(data);
           });
       }
