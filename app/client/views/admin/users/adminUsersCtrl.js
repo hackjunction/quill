@@ -70,7 +70,7 @@ angular.module('reg')
       }
 
       $scope.filterUsers = function() {
-        const sortDirection = $scope.sortBy === 'date' ? $scope.sortByDate : $scope.sortByRating
+        const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
         UserService
           .getPage(
             $stateParams.page,
@@ -80,7 +80,6 @@ angular.module('reg')
             sortDirection
           )
           .success(function(data){
-            console.log(data)
             updatePage(data);
           });
       }
@@ -147,7 +146,6 @@ angular.module('reg')
             UserService
               .resetTeam(user._id)
               .success(function(user){
-                console.log('yES')
                 if(user !== ""){//User cannot be found if user is accepted
                   if(index == null){ //we don't have index because toggleReject has been called in pop-up
                     for(var i = 0; i < $scope.users.length; i++){

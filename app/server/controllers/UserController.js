@@ -254,7 +254,6 @@ UserController.getPage = function(query, callback){
   var page = query.page;
   var size = parseInt(query.size);
   var text = query.filter.text;
-  console.log(text)
   var sortBy = query.sortBy;
   var sortDir = query.sortDir === 'true' ? -1 : 1;
   var textFilter = [];
@@ -318,34 +317,34 @@ UserController.getPage = function(query, callback){
    statusFilter.push({});
 
   if(sortBy === 'rating') {
-  User
-    .find(findQuery)
-    .sort({
-      'status.rating': sortDir
-    })
-    .select('+status.admittedBy')
-    .skip(page * size)
-    .limit(size)
-    .exec(function (err, users){
-      if (err || !users){
-        return callback(err);
-      }
-
-      User.count(findQuery).exec(function(err, count){
-
-        if (err){
+    User
+      .find(findQuery)
+      .sort({
+        'status.rating': sortDir
+      })
+      .select('+status.admittedBy')
+      .skip(page * size)
+      .limit(size)
+      .exec(function (err, users){
+        if (err || !users){
           return callback(err);
         }
 
-        return callback(null, {
-          users: users,
-          page: page,
-          size: size,
-          totalPages: Math.ceil(count / size)
-        });
-      });
+        User.count(findQuery).exec(function(err, count){
 
-    });
+          if (err){
+            return callback(err);
+          }
+
+          return callback(null, {
+            users: users,
+            page: page,
+            size: size,
+            totalPages: Math.ceil(count / size)
+          });
+        });
+
+      });
   }
   else if(sortBy === 'date') {
     User
