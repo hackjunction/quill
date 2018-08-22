@@ -315,49 +315,16 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.rating': 0})
   else
    statusFilter.push({});
-
-  if(sortBy === 'rating') {
-    User
-      .find(findQuery)
-      .sort({
-        'status.rating': sortDir
-      })
-      .select('+status.admittedBy')
-      .skip(page * size)
-      .limit(size)
-      .exec(function (err, users){
-        if (err || !users){
-          return callback(err);
-        }
-
-        User.count(findQuery).exec(function(err, count){
-
-          if (err){
-            return callback(err);
-          }
-
-          return callback(null, {
-            users: users,
-            page: page,
-            size: size,
-            totalPages: Math.ceil(count / size)
-          });
-        });
-
-      });
-  }
-  else if(sortBy === 'date') {
-    User
+  let queryParams = {}
+  queryParams[sortBy] = sortDir
+  User
     .find(findQuery)
-    .sort({
-      'timestamp': sortDir
-    })
+    .sort(queryParams)
     .select('+status.admittedBy')
     .skip(page * size)
     .limit(size)
     .exec(function (err, users){
       if (err || !users){
-        console.log(err)
         return callback(err);
       }
 
@@ -376,7 +343,6 @@ UserController.getPage = function(query, callback){
       });
 
     });
-  }
 };
 
 UserController.getMatchmaking = function(user, query, callback){

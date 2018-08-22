@@ -11,6 +11,7 @@ angular.module('reg')
       // to know when to filter by date
       $scope.sortDate = true;
       $scope.sortRating = true;
+      $scope.sortTeam = true,
       $scope.sortBy = 'date';
 
       // Semantic-UI moves modal content into a dimmer at the top level.
@@ -51,7 +52,7 @@ angular.module('reg')
 
       $scope.sortByRating = function(){
         $scope.sortRating = !$scope.sortRating;
-        $scope.sortBy = 'rating'
+        $scope.sortBy = 'status.rating'
         UserService
                   .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortRating)
                   .success(function(data){
@@ -61,9 +62,19 @@ angular.module('reg')
 
       $scope.sortByDate = function(){
         $scope.sortDate = !$scope.sortDate;
-        $scope.sortBy = 'date'
+        $scope.sortBy = 'timestamp'
         UserService
           .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortDate)
+          .success(function(data){
+            updatePage(data);
+          });
+      }
+
+      $scope.sortByTeam = function(){
+        $scope.sortTeam = !$scope.sortTeam;
+        $scope.sortBy = 'team'
+        UserService
+          .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortTeam)
           .success(function(data){
             updatePage(data);
           });
@@ -98,6 +109,23 @@ angular.module('reg')
           id: user._id
         });
       };
+
+      $scope.getTeam = function($event, user) {
+        $event.stopPropagation();
+        $scope.filter.text = user.team
+        const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
+        UserService
+          .getPage(
+            $stateParams.page,
+            $stateParams.size,
+            $scope.filter,
+            $scope.sortBy,
+            sortDirection
+          )
+          .success(function(data){
+            updatePage(data);
+          });
+      }
 
       $scope.toggleCheckIn = function($event, user, index) {
         $event.stopPropagation();

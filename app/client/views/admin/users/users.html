@@ -179,7 +179,7 @@
             <th>E-mail address</th>
             <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
             <th>Application Type</th>
-            <th>Team</th>
+            <th class="sortable" ng-click='sortByTeam()'>Team <i ng-class="{angle: true, icon: true, down: sortTeam, up: !sortTeam}"></i></th>
             <th>V/S/A/C</th>
             <th></th>
             <th></th>
@@ -220,7 +220,7 @@
                 <i class="users icon" ng-if="user.profile.teamSelection === 'onlyTeam' || user.profile.teamSelection === 'teamOrAlone'"></i>
               </div>
             </td>
-            <td>{{user.team}}</td>
+            <td ng-click="getTeam($event, user)">{{user.team}}</td>
             <td
               class="collapsing">
 
