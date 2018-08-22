@@ -313,6 +313,10 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.rating': {$gt: 0}})
   else if(query.filter.notRated === 'true')
     statusFilter.push({'status.rating': 0})
+  else if(query.filter.teams === 'true')
+    statusFilter.push({'team': {$ne: undefined}})
+  else if(query.filter.individuals === 'true')
+    statusFilter.push({'team': undefined})
   else
    statusFilter.push({});
   let queryParams = {}
@@ -1055,7 +1059,7 @@ UserController.kickFromTeam = function(id, userID, callback) {
         team: team._id
       }, {
         $set: {
-          team: null,
+          team: undefined,
           'teamMatchmaking.enrolled': false,
           'teamMatchmaking.enrollmentType': undefined
           }
