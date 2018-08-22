@@ -105,7 +105,7 @@ var profile = {
   essay: {
     type: String,
     min: 0,
-    maxlength: 1500
+    maxlength: 3000
   },
 
   aTalentContact: Boolean,
