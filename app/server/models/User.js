@@ -210,7 +210,7 @@ var profile = {
   terminal: {
     essay: {
       type: String,
-      maxlength: 500
+      maxlength: 2000
     },
     skills: {
       type: String,

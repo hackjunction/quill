@@ -482,6 +482,9 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please write something about why you should be chosen to Terminal.'
+                },
+                {
+                  type: 'maxLength[1000]'
                 }
               ]
             },
