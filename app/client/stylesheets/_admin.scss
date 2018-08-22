@@ -37,4 +37,14 @@
     }
 
   }
+
+  .adminTeamSelection {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .teamLocked {
+    display: block;
+    margin: auto;
+  }
 }

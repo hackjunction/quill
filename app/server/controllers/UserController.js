@@ -319,34 +319,52 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'team': undefined})
   else
    statusFilter.push({});
+  
+  // Date, rating or team sorting query params
   let queryParams = {}
   queryParams[sortBy] = sortDir
-  User
-    .find(findQuery)
-    .sort(queryParams)
-    .select('+status.admittedBy')
-    .skip(page * size)
-    .limit(size)
-    .exec(function (err, users){
-      if (err || !users){
-        return callback(err);
-      }
 
-      User.count(findQuery).exec(function(err, count){
+  let teamLockedMapping = {}
+  Team
+    .find()
+    .exec(function(err, teams) {
+      teams.forEach(function(team) {
+        teamLockedMapping[team._id] = team.teamLocked
+      })
+      User
+        .find(findQuery)
+        .sort(queryParams)
+        .select('+status.admittedBy')
+        .skip(page * size)
+        .limit(size)
+        .exec(function (err, users){
+          if (err || !users){
+            return callback(err);
+          }
+          // Mapping teamLocked to user data
+          const updatedUsers = users.map(user => {
+            return ({
+              ...user._doc,
+              teamLocked: teamLockedMapping[user.team] ? teamLockedMapping[user.team] : false
+            })
+          })
 
-        if (err){
-          return callback(err);
-        }
+          User.count(findQuery).exec(function(err, count){
 
-        return callback(null, {
-          users: users,
-          page: page,
-          size: size,
-          totalPages: Math.ceil(count / size)
+            if (err){
+              return callback(err);
+            }
+
+            return callback(null, {
+              users: updatedUsers,
+              page: page,
+              size: size,
+              totalPages: Math.ceil(count / size)
+            });
+          });
+
         });
-      });
-
-    });
+    })
 };
 
 UserController.getMatchmaking = function(user, query, callback){

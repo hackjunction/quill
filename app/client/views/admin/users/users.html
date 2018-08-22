@@ -184,10 +184,10 @@
             <th class="sortable" ng-click="sortByRating()">Rating <i ng-class="{angle: true, icon: true, down: sortRating, up: !sortRating}"></i></th>
             <th>ID</th>
             <th>Name</th>
-            <th>E-mail address</th>
-            <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
             <th>Application Type</th>
             <th class="sortable" ng-click='sortByTeam()'>Team <i ng-class="{angle: true, icon: true, down: sortTeam, up: !sortTeam}"></i></th>
+            <th>Team Locked</th>
+            <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
             <th>V/S/A/C</th>
             <th></th>
             <th></th>
@@ -220,8 +220,6 @@
             <td>
                 {{user.profile.name}}
             </td>
-            <td>{{user.email}}</td>
-            <td>{{user.timestamp | date: 'mediumDate'}}</td>
             <td>
               <div class="adminTeamSelection">
                 <i class="user icon" ng-if="user.profile.teamSelection === 'alone' || user.profile.teamSelection === 'teamOrAlone'"></i>
@@ -229,6 +227,20 @@
               </div>
             </td>
             <td ng-click="getTeam($event, user)">{{user.team}}</td>
+            <td
+              class="collapsing">
+
+              <!-- Verified -->
+              <i
+                ng-if="user.teamLocked"
+                class="green check circle icon teamLocked">
+              </i>
+              <i
+                ng-if="!user.teamLocked && user.team"
+                class="red remove circle icon teamLocked">
+              </i>
+            </td>
+            <td>{{user.timestamp | date: 'mediumDate'}}</td>
             <td
               class="collapsing">
 
