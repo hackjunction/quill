@@ -133,7 +133,7 @@ var profile = {
 
   AppliedreimbursementClass: {
     type: String,
-    enum: ['Finland', 'Baltics', 'Nordic', 'Europe', 'Rest of the World']
+    enum: ['Finland', 'Baltics', 'Nordics', 'Europe', 'Rest of the World']
   },
    AcceptedreimbursementClass: {
     type: String,
