@@ -70,13 +70,14 @@ angular.module('reg')
       }
 
       $scope.filterUsers = function() {
+        const sortDirection = $scope.sortBy === 'date' ? $scope.sortByDate : $scope.sortByRating
         UserService
           .getPage(
             $stateParams.page,
             $stateParams.size,
             $scope.filter,
             $scope.sortBy,
-            $scope.sortBy === 'date' ? $scope.sortByDate : $scope.sortByRating
+            sortDirection
           )
           .success(function(data){
             console.log(data)
@@ -130,6 +131,42 @@ angular.module('reg')
             });
         }
       };
+
+      $scope.resetTeam = function($event, user, index) {
+        $event.stopPropagation()
+        swal({
+          title: "Whoa, wait a minute!",
+          text: "You are about to reset team of " + user.profile.name + "!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, reset.",
+          closeOnConfirm: false
+          },
+          function(){
+            UserService
+              .resetTeam(user._id)
+              .success(function(user){
+                console.log('yES')
+                if(user !== ""){//User cannot be found if user is accepted
+                  if(index == null){ //we don't have index because toggleReject has been called in pop-up
+                    for(var i = 0; i < $scope.users.length; i++){
+                      if($scope.users[i]._id === user._id){
+                        $scope.users[i] = user;
+                        selectUser(user);
+                        }
+                      }
+                    }
+                    else
+                      $scope.users[index] = user;
+                  swal("Reset", user.profile.name + ' has team reseted.', "success");
+                  }
+                else
+                  swal("Could not reset", 'Users team could not be reseted', "error");
+              });
+          }
+        );
+      }
 
       $scope.toggleReject = function($event, user, index) {
         $event.stopPropagation();

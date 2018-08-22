@@ -41,6 +41,14 @@
             <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.rejected">
             <label> Rejected </label>
           </div>
+          <div class="ui checkbox">
+            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.notRated">
+            <label> Not Rated </label>
+          </div>
+          <div class="ui checkbox">
+            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.rated">
+            <label> Rated </label>
+          </div>
       </div>
       <div class="ui divider"></div>
 
@@ -132,6 +140,11 @@
         </div>
             <button
               class="ui negative button"
+              ng-click="resetTeam($event, selectedUser, $index)">
+              Reset Team
+            </button>
+            <button
+              class="ui negative button"
               ng-click="toggleReject($event, selectedUser, $index)">
               <i ng-if="!selectedUser.status.rejected">Reject
               </i>
@@ -168,20 +181,13 @@
             <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
             <th>Application Type</th>
             <th>Team</th>
-            <th>Age</th>
             <th>V/S/A/C</th>
-            <th>R€</th>
-            <th>A€</th>
             <th></th>
             <th></th>
             <th>Country</th>
-            <th>City</th>
-            <th>Home Country</th>
             <th>Travel</th>
             <th>Acc.</th>
-            <th>Track pref.</th>
-            <th>Occ. status</th>
-            <th>Exp.</th>
+            <th>Theme pref.</th>
             <th>Secret</th>
 
           </tr>
@@ -216,7 +222,6 @@
               </div>
             </td>
             <td>{{user.team}}</td>
-            <td>{{user.profile.age}}</td>
             <td
               class="collapsing">
 
@@ -271,13 +276,6 @@
                 class="red remove circle icon">
               </i>
             </td>
-            <td>
-            {{user.profile.AppliedreimbursementClass}}
-
-            </td>
-            <td>
-              {{user.profile.AcceptedreimbursementClass}}
-            </td>
 
             <td
               class="collapsing">
@@ -318,9 +316,6 @@
 
             </td>
             <td>{{user.profile.travelFromCountry}}</td>
-            <td>{{user.profile.travelFromCity}}</td>
-            <td>{{user.profile.homeCountry}}</td>
-
             <td
               class="collapsing">
 
@@ -348,9 +343,7 @@
                 class="red remove circle icon">
               </i>
             </td>
-            <td>{{user.profile.mostInterestingTrack}}</td>
-            <td>{{user.profile.occupationalStatus[0]}}</td>
-            <td>{{user.profile.codingExperience[0]}}</td>
+            <td>{{user.profile.mostInterestingThemes.join(', ')}}</td>
             <td>{{user.profile.secret}}</td>
           </tr>
         </tbody>

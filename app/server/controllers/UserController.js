@@ -254,6 +254,7 @@ UserController.getPage = function(query, callback){
   var page = query.page;
   var size = parseInt(query.size);
   var text = query.filter.text;
+  console.log(text)
   var sortBy = query.sortBy;
   var sortDir = query.sortDir === 'true' ? -1 : 1;
   var textFilter = [];
@@ -275,7 +276,7 @@ UserController.getPage = function(query, callback){
     textFilter.push({ 'profile.travelFromCountry': re });
     textFilter.push({ 'profile.travelFromCity': re });
     textFilter.push({ 'profile.school': re });
-    textFilter.push({ 'profile.mostInterestingTrack': re });
+    textFilter.push({ 'profile.mostInterestingThemes': re });
     textFilter.push({ 'id': re });
     textFilter.push({ 'profile.AppliedreimbursementClass': re });
     textFilter.push({ 'profile.secret': re });
@@ -309,6 +310,10 @@ UserController.getPage = function(query, callback){
   }
   else if(query.filter.rejected === 'true')
     statusFilter.push({'status.rejected': 'true'});
+  else if(query.filter.rated === 'true')
+    statusFilter.push({'status.rating': {$gt: 0}})
+  else if(query.filter.notRated === 'true')
+    statusFilter.push({'status.rating': 0})
   else
    statusFilter.push({});
 

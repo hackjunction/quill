@@ -120,6 +120,9 @@ angular.module('reg')
       getStats: function(){
         return $http.get(base + 'stats');
       },
+      resetTeam: function(id){
+        return $http.delete(base + id + '/team');
+      },
 
       admitUser: function(id, reimbClass){
         return $http.post(base + id + '/admit', {
