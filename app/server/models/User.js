@@ -46,19 +46,19 @@ var profile = {
 
   beginnerSkills: {
     type: [String],
-    maxlength: 500
+    maxlength: 2000
   },
   intermediateSkills: {
     type: [String],
-    maxlength: 500
+    maxlength: 2000
   },
   advancedSkills: {
     type: [String],
-    maxlength: 500
+    maxlength: 2000
   },
   professionalSkills: {
     type: [String],
-    maxlength: 500
+    maxlength: 2000
   },
 
   school: {
@@ -105,7 +105,7 @@ var profile = {
   essay: {
     type: String,
     min: 0,
-    maxlength: 3000
+    maxlength: 10000
   },
 
   aTalentContact: Boolean,
@@ -210,11 +210,11 @@ var profile = {
   terminal: {
     essay: {
       type: String,
-      maxlength: 2000
+      maxlength: 10000
     },
     skills: {
       type: String,
-      maxlength: 200
+      maxlength: 10000
     },
     terminalIndustries: {
       type: [String],
@@ -222,11 +222,11 @@ var profile = {
     },
     coolestThing: {
       type: String,
-      maxlength: 500
+      maxlength: 5000
     },
     portfolio: {
       type: String,
-      maxlength: 100
+      maxlength: 300
     },
     accommodatesPeople: Boolean,
     accommodatesAmount: {
