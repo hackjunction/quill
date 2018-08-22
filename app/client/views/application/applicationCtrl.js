@@ -475,6 +475,15 @@ angular.module('reg')
                 }
               ]
             },
+            essay: {
+              identifier: 'essay',
+              rules: [
+                {
+                  type: 'maxLength[1500]',
+                  prompt: 'This is too long! Max. 1500 characters'
+                }
+              ]
+            },
             terminalEssay: {
               identifier: 'terminalEssay',
               depends: 'terminal',
@@ -484,7 +493,8 @@ angular.module('reg')
                   prompt: 'Please write something about why you should be chosen to Terminal.'
                 },
                 {
-                  type: 'maxLength[1000]'
+                  type: 'maxLength[1000]',
+                  prompt: 'This is too long! Max. 1000 characters'
                 }
               ]
             },
