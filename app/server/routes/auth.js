@@ -111,6 +111,7 @@ module.exports = function(router){
 
     UserController.resetPassword(token, pass, function(err, user){
       if (err || !user){
+        console.log(err)
         return res.status(400).send(err);
       }
       return res.json(user);

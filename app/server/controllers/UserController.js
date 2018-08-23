@@ -1293,6 +1293,8 @@ UserController.resetPassword = function(token, password, callback){
       return callback(err);
     }
 
+    console.log('TempAuthToken verified')
+
     User
       .findOneAndUpdate({
         _id: id
