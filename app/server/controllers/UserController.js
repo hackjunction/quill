@@ -1306,7 +1306,7 @@ UserController.resetPassword = function(token, password, callback){
         if (err || !user){
           return callback(err);
         }
-
+        console.log('Sending pwd changed email!')
         Mailer.sendPasswordChangedEmail(user);
         return callback(null, {
           message: 'Password successfully reset!'

@@ -445,6 +445,7 @@ controller.sendPasswordChangedEmail = function(user, callback){
    */
   sendOne('email-password-changed', options, locals, function(err, info){
     if (err){
+      console.log('Error occurred when sending mail')
       console.log(err);
     }
     if (info){
