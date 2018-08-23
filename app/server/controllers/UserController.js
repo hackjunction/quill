@@ -268,6 +268,7 @@ UserController.getPage = function(query, callback){
 
   if(typeof query.filter.text != "undefined") {
     var re = new RegExp(escapeRegExp(text), 'i');
+    textFilter.push({ nickname: re});
     textFilter.push({ email: re });
     textFilter.push({ 'profile.name': re });
     textFilter.push({ 'team': re });
