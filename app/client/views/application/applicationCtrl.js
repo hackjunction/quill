@@ -554,16 +554,16 @@ angular.module('reg')
         $("#terminalIndustries").dropdown('set selected', $scope.user.profile.terminal ? $scope.user.profile.terminal.terminalIndustries : "");
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");
         $('.ui.dropdown').dropdown('refresh');
-        $(".ui.school").dropdown('set selected', $scope.user.profile.school);
         $(".ui.beginnerSkills").dropdown('set selected', $scope.user.profile.beginnerSkills);
         $(".ui.intermediateSkills").dropdown('set selected', $scope.user.profile.intermediateSkills);
         $(".ui.advancedSkills").dropdown('set selected', $scope.user.profile.advancedSkills);
         $(".ui.professionalSkills").dropdown('set selected', $scope.user.profile.professionalSkills);
         $(".ui.language").dropdown('set selected', $scope.user.profile.workingLanguages);
 
-        /* setTimeout(function () {
+        setTimeout(function () {
           
           $(".ui.toptools.dropdown").dropdown('set selected', $scope.user.profile.topLevelTools);
+          $(".ui.school").dropdown('set selected', $scope.user.profile.school);
           $("#greatLevelTools").dropdown('set selected', $scope.user.profile.greatLevelTools);
           $("#goodLevelTools").dropdown('set selected', $scope.user.profile.goodLevelTools);
           $("#beginnerLevelTools").dropdown('set selected', $scope.user.profile.beginnerLevelTools);
@@ -572,7 +572,7 @@ angular.module('reg')
             $('.ui.dropdown').addClass("disabled");
           }
 
-        }, 1); */
+        }, 1);
       }
 
       $scope.submitForm = function(){
