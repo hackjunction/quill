@@ -462,17 +462,24 @@ angular.module('reg')
                 name: 'Phone',
                 value: user.confirmation.phone
               },{
+                name: 'Enrolled in school',
+                value: user.profile.school ? true : false,
+                type: 'boolean'
+              },{
                 name: 'School',
                 value: user.profile.school
               },{
                 name: 'Graduation Year',
-                value: user.profile.graduationYear
+                value: user.profile.graduationYear ? user.profile.graduationYear : (user.profile.oldDegree ? user.profile.oldDegree.graduationYear : '')
               },{
                 name: 'Major',
-                value: user.profile.major
+                value: user.profile.major ? user.profile.major : (user.profile.oldDegree ? user.profile.oldDegree.major : '')
               },{
                 name: 'Degree',
-                value: user.profile.degree
+                value: user.profile.degree ? user.profile.degree : (user.profile.oldDegree ? user.profile.oldDegree.degree : '')
+              },{
+                name: 'Languages with working effiency',
+                value: user.profile.workingLanguages ? user.profile.workingLanguages.join(', ') : ''
               },{
                 name: 'Travels from Country',
                 value: user.profile.travelFromCountry
@@ -480,11 +487,19 @@ angular.module('reg')
                 name: 'Travels from City',
                 value: user.profile.travelFromCity
               },{
-                name: 'Home Country',
+                name: 'Nationality',
                 value: user.profile.homeCountry
               },{
-                name: 'Team role',
-                value: user.profile.description
+                name: 'Main Description',
+                value: `${user.profile.mainRole} - ${user.profile.bestRole}`
+              },
+              {
+                name: 'Secondary Description',
+                value: `${user.profile.subRole} - ${user.profile.secondBestRole}`
+              },{
+                name: 'Needs Visa',
+                value: user.profile.needsVisa,
+                type: 'boolean'
               },{
                 name: 'Needs Travel Reimbursement',
                 value: user.profile.needsReimbursement,
@@ -494,32 +509,54 @@ angular.module('reg')
                 value: user.profile.applyAccommodation,
                 type: 'boolean'
               },{
-                name: 'Most interesting track',
-                value: user.profile.mostInterestingTrack
+                name: 'Most interesting themes',
+                value: user.profile.mostInterestingThemes
               },{
-                name: 'Occupational status',
-                value: user.profile.occupationalStatus.join(', ')
+                name: 'Professional Skills',
+                value: user.profile.professionalSkills ? user.profile.professionalSkills.join(', ') : ''
               },{
-                name: 'Top level tools',
-                value: user.profile.topLevelTools
+                name: 'Advanced Skills',
+                value: user.profile.advancedSkills ? user.profile.advancedSkills.join(', ') : ''
               },{
-                name: 'Great level tools',
-                value: user.profile.greatLevelTools
+                name: 'Intermediate Skills',
+                value: user.profile.intermediateSkills ? user.profile.intermediateSkills.join(', ') : ''
               },{
-                name: 'Good level tools',
-                value: user.profile.goodLevelTools
-              },{
-                name: 'Beginner level tools',
-                value: user.profile.beginnerLevelTools
-              },{
-                name: 'Coding experience',
-                value: user.profile.codingExperience
+                name: 'Beginnner Skills',
+                value: user.profile.beginnerSkills ? user.profile.beginnerSkills.join(', ') : ''
               },{
                 name: 'Hackathons visited',
                 value: user.profile.howManyHackathons
               },{
                 name: 'Motivation',
                 value: user.profile.essay
+              },
+            ]
+          },{
+            name: 'Terminal',
+            fields: [
+              {
+                name: 'Motivation',
+                value: user.profile.terminal ? user.profile.terminal.essay : ''
+              },
+              {
+                name: 'Special skills',
+                value: user.profile.terminal ? user.profile.terminal.skills : ''
+              },
+              {
+                name: 'Industries',
+                value: user.profile.terminal ? user.profile.terminal.terminalIndustries.join(', ') : ''
+              },{
+                name: 'Coolest Thing worked on',
+                value: user.profile.terminal ? user.profile.terminal.coolestThing : ''
+              },{
+                name: 'Link to portfolio',
+                value: user.profile.terminal ? user.profile.terminal.portfolio : ''
+              },{
+                name: 'Needs Accommodation',
+                value: user.profile.terminal ? user.profile.terminal.needsAccommodation : false
+              },{
+                name: 'Accommodates People',
+                value: user.profile.terminal ? user.profile.terminal.accommodatesAmount : ''
               },
             ]
           },{
@@ -580,78 +617,7 @@ angular.module('reg')
                 value: user.confirmation.notes
               }
             ]
-          },{
-            name: 'Reimbursement',
-            fields: [
-              {
-                name: 'Date of birth',
-                value: formatTime(user.reimbursement.dateOfBirth)
-              },{
-                name: 'AddressLine 1',
-                value: user.reimbursement.addressLine1
-              },{
-                name: 'AddressLine 2',
-                value: user.reimbursement.addressLine2
-              },{
-                name: 'City',
-                value: user.reimbursement.city
-              },{
-                name: 'State/Province/Region',
-                value: user.reimbursement.stateProvinceRegion
-              },{
-                name: 'A country Of Bank',
-                value: user.reimbursement.countryOfBank
-              },{
-                name: 'Type of Country',
-                value: user.reimbursement.countryType
-              },{
-                name: 'Name Of the Bank',
-                value: user.reimbursement.nameOfBank
-              },{
-                name: 'Address Of the Bank',
-                value: user.reimbursement.addressOfBank
-              },{
-                name: 'Iban',
-                value: user.reimbursement.iban
-              },{
-                name: 'Account Number',
-                value: user.reimbursement.accountNumber
-              },{
-                name: 'Swift / BIC',
-                value: user.reimbursement.swiftOrBic
-              },{
-                name: 'Clearing Code',
-                value: user.reimbursement.clearingCode
-              },{
-                name: 'Brokerage Info',
-                value: user.reimbursement.brokerageInfo
-              },{
-                name: 'Name, Account owner',
-                value: user.reimbursement.accountOwnerName
-              },{
-                name: 'Birthdate, Account owner',
-                value: formatTime(user.reimbursement.accountOwnerBirthdate)
-              },{
-                name: 'Address 1, Account owner',
-                value: user.reimbursement.accountOwnerA1
-              },{
-                name: 'Address 2, Account owner',
-                value: user.reimbursement.accountOwnerA2
-              },{
-                name: 'ZIP, Account owner',
-                value: user.reimbursement.accountOwnerZIP
-              },{
-                name: 'City, Account owner',
-                value: user.reimbursement.accountOwnerCity
-              },{
-                name: 'Country, Account owner',
-                value: user.reimbursement.accountOwnerCountry
-              },{
-                name: 'Additional',
-                value: user.reimbursement.additional
-              },
-            ]
-          },
+          }
         ];
       }
 
