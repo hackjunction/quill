@@ -823,9 +823,6 @@ schema.virtual('status.name').get(function(){
   if (this.status.confirmed) {
     return "confirmed";
   }
-  if (this.status.softAdmitted) {
-    return "Soft Admitted - admitted but user doesn't know it yet"
-  }
   if (this.status.admitted) {
     return "admitted";
   }
