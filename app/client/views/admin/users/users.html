@@ -72,7 +72,13 @@
       <div class="ui header">
         Users
         <a class="btn" ng-click="exportCSV()">Export to CSV</a>
-        <a class="btn" ng-click="exportTRCSV()">Export TR data to CSV</a>
+        <a class="btn" ng-click="exportTRCSV()">Export TR CSV</a>
+        <button
+          ng-click="sendAcceptanceEmails()"
+          class="ui negative basic button"
+          style="margin-left: 10px">
+          Send Acceptance Emails
+        </button>
       </div>
       <div class="ui long user modal">
         <i class="close icon"></i>
@@ -90,7 +96,7 @@
               Status:
               <div
                 class="ui label">
-                {{selectedUser.status.name.toUpperCase()}}
+                {{getStatusName(selectedUser).toUpperCase()}}
               </div>
             </div>
             <p>
@@ -160,8 +166,8 @@
             </button>
             <button
               class="ui positive button"
-              ng-click="acceptUser($event, selectedUser, $index)">
-              Accept participant {{selectedUser.profile.name}}
+              ng-click="softAcceptUser($event, selectedUser, $index)">
+              Accept participant {{selectedUser.profile.name}} (Email isn't sent yet)
             </button>
             <div class="ui negative right labeled icon button">
             Close
@@ -188,7 +194,8 @@
             <th class="sortable" ng-click='sortByTeam()'>Team <i ng-class="{angle: true, icon: true, down: sortTeam, up: !sortTeam}"></i></th>
             <th>Team Locked</th>
             <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
-            <th>V/S/A/C</th>
+            <th>V/S/A1/A2/C</th>
+            <th></th>
             <th></th>
             <th></th>
             <th>Country</th>
@@ -206,7 +213,7 @@
             ng-class="rowClass(user)">
             <td class="rating" ng-click="rateUser($event, user, $index)">
               <span ng-if="user.status.rating === 0">Not rated</span>
-              <i ng-if="user.status.rating > 0" class="star outline icon"></i>
+              <i ng-if="user.status.rating > 0" class="star icon"></i>
               <i ng-if="user.status.rating > 1" class="star icon"></i>
               <i ng-if="user.status.rating > 2" class="star icon"></i>
               <i ng-if="user.status.rating > 3" class="star icon"></i>
@@ -264,6 +271,21 @@
                 class="red remove circle icon">
               </i>
 
+              <!-- Soft Admitted -->
+
+              <i
+              ng-if="user.status.softAdmitted"
+              class="green check circle icon">
+              </i>
+              <i
+                ng-if="!user.status.rejected && !user.status.softAdmitted"
+                class="thin circle icon">
+              </i>
+              <i
+                ng-if="user.status.rejected"
+                class="red remove circle icon">
+              </i>
+
               <!-- Admitted -->
               <i
                 ng-if="user.status.admitted"
@@ -288,12 +310,21 @@
               </i>
               <i
                 ng-if="user.status.admitted && !user.status.confirmed && !user.status.declined"
-                class="question icon">
+                class="thin circle icon">
               </i>
               <i
                 ng-if="user.status.admitted && user.status.declined"
                 class="red remove circle icon">
               </i>
+            </td>
+
+            <td
+              class="collapsing">
+              <button
+                ng-click="acceptUserAndSendMail($event, user)"
+                class="ui circular mini basic icon button">
+                <i class="envelope outline icon"></i>
+              </button>
             </td>
 
             <td

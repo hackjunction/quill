@@ -124,8 +124,12 @@ angular.module('reg')
         return $http.delete(base + id + '/team');
       },
 
-      admitUser: function(id, reimbClass){
-        return $http.post(base + id + '/admit', {
+      admitUser: function(id){
+        return $http.post(base + id + '/admit')
+      },
+
+      softAdmitUser: function(id, reimbClass) {
+        return $http.post(base + id + '/softAdmit', {
           reimbClass: reimbClass
         });
       },

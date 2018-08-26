@@ -592,6 +592,18 @@ module.exports = function(router) {
   });
 
   /**
+   * Soft admit a user. ADMIN ONLY
+   */
+
+  router.post('/users/:id/softAdmit', isAdmin, function(req, res){
+    // Accept the hacker. Admin only
+    var id = req.params.id;
+    var reimbClass = req.body.reimbClass;
+    var user = req.user;
+    UserController.softAdmitUser(id, user, reimbClass, defaultResponse(req, res));
+  });
+
+  /**
    * Admit a user. ADMIN ONLY, DUH
    *
    * Also attaches the user who did the admitting, for liabaility.
@@ -599,9 +611,8 @@ module.exports = function(router) {
   router.post('/users/:id/admit', isAdmin, function(req, res){
     // Accept the hacker. Admin only
     var id = req.params.id;
-    var reimbClass = req.body.reimbClass;
     var user = req.user;
-    UserController.admitUser(id, user, reimbClass, defaultResponse(req, res));
+    UserController.admitUser(id, user, defaultResponse(req, res));
   });
 
   /**

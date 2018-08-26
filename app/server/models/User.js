@@ -386,6 +386,11 @@ var status = {
     required: true,
     default: false,
   },
+  softAdmitted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   admitted: {
     type: Boolean,
     required: true,
@@ -682,15 +687,15 @@ var schema = new mongoose.Schema({
 
   teamMatchmaking: teamMatchmaking,
 
-});
-
-schema.set('toJSON', {
+},{
+  toObject: {
   virtuals: true
-});
-
-schema.set('toObject', {
-  virtuals: true
-});
+  },
+  toJSON: {
+  virtuals: true 
+  }
+  }
+);
 
 //=========================================
 // Instance Methods
@@ -818,7 +823,9 @@ schema.virtual('status.name').get(function(){
   if (this.status.confirmed) {
     return "confirmed";
   }
-
+  if (this.status.softAdmitted) {
+    return "Soft Admitted - admitted but user doesn't know it yet"
+  }
   if (this.status.admitted) {
     return "admitted";
   }

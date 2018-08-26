@@ -248,7 +248,56 @@ angular.module('reg')
         }
       };
 
-      $scope.acceptUser = function($event, user, index) {
+      $scope.sendAcceptanceEmails = function() {
+        const filterSoftAccepted = $scope.users.filter(u => u.status.softAdmitted)
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: `You're about to send acceptance emails (and accept) ${filterSoftAccepted.length} user(s).`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, accept them and send the emails.",
+          closeOnConfirm: false
+          }, function(){
+            filterSoftAccepted.forEach(user => {
+              UserService
+                .admitUser(user._id)
+                .success(function(user) {
+                  if(user) {
+                    
+                  } else {
+                    swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
+                  }
+                })
+            })
+            swal("Sending!", `Accepting and sending emails to ${filterSoftAccepted.length} users!`, "success");
+          })
+      }
+
+      $scope.acceptUserAndSendMail = function($event, user) {
+        $event.stopPropagation();
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: `You're about to send acceptance email and accept ${user.profile.name}.`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, accept and let them know about it!",
+          closeOnConfirm: false
+          }, function(){
+            UserService
+              .admitUser(user._id)
+              .success(function(user) {
+                if(user) {
+                  swal("Accepted", user.profile.name + ' has been accepted and an email has been sent! Now the user will see their status updated.', "success");
+                } else {
+                  swal("Could not be accepted", 'User cannot be accepted if the user is not soft accepted / rejected. Please soft accept first or remove rejection', "error");
+                }
+              })
+          })
+      }
+
+      $scope.softAcceptUser = function($event, user, index) {
         $event.stopPropagation();
 
         if (user.Class == null && user.profile.needsReimbursement){
@@ -267,7 +316,7 @@ angular.module('reg')
 
         swal({
           title: "Whoa, wait a minute!",
-          text: "You are about to accept " + user.profile.name + "!",
+          text: "You are about to SOFT accept " + user.profile.name + "!" + " This doesn't let the user know if they're accepted yet, it's just internal acceptance",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#DD6B55",
@@ -287,7 +336,7 @@ angular.module('reg')
               }, function(){
 
                 UserService
-                  .admitUser(user._id, Class)
+                  .softAdmitUser(user._id, Class)
                   .success(function(user){
                     if(user != ""){// User cannot be found if user is rejected
                       if(index == null){ //we don't have index because acceptUser has been called in pop-up
@@ -300,7 +349,7 @@ angular.module('reg')
                         }
                         else
                           $scope.users[index] = user;
-                          swal("Accepted", user.profile.name + ' has been admitted.', "success");
+                          swal("Soft Accepted", user.profile.name + ' has been soft accepted', "success");
                     }
                     else
                       swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
@@ -406,6 +455,36 @@ angular.module('reg')
           });
       }
 
+      $scope.getStatusName = function(user) {
+        if(user.status){
+          if (user.status.checkedIn) {
+            return 'checked in';
+          }
+        
+          if (user.status.declined) {
+            return "declined";
+          }
+        
+          if (user.status.confirmed) {
+            return "confirmed";
+          }
+          if (user.status.softAdmitted) {
+            return "Soft Admitted - admitted but user doesn't know it yet"
+          }
+          if (user.status.admitted) {
+            return "admitted";
+          }
+          if (user.status.completedProfile){
+            return "submitted";
+          }
+        
+          if (!user.verified){
+            return "unverified";
+          }
+        }
+        return "incomplete";
+      }
+
       function generateSections(user){
         return [
           {
@@ -420,9 +499,6 @@ angular.module('reg')
               },{
                 name: 'Confirm By',
                 value: formatTime(user.status.confirmBy) || 'N/A'
-              },{
-                name: 'Status',
-                value: user.status.name
               },{
                 name: 'Rejected',
                 value: user.status.rejected
