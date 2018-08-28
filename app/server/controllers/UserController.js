@@ -1333,7 +1333,7 @@ UserController.softAdmitUser = function(id, user, reimbClass, callback){
     .findOneAndUpdate({
       '_id': id,
       'verified': true,
-      'status.rejected': false
+      'status.rejected': false,
     },{
       $set: {
         'status.softAdmitted': true,

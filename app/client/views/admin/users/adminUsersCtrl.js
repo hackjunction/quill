@@ -249,7 +249,7 @@ angular.module('reg')
       };
 
       $scope.sendAcceptanceEmails = function() {
-        const filterSoftAccepted = $scope.users.filter(u => u.status.softAdmitted)
+        const filterSoftAccepted = $scope.users.filter(u => u.status.softAdmitted && !u.status.admitted)
         swal({
           title: 'Whoa, wait a minute!',
           text: `You're about to send acceptance emails (and accept) ${filterSoftAccepted.length} user(s).`,
@@ -259,18 +259,22 @@ angular.module('reg')
           confirmButtonText: "Yes, accept them and send the emails.",
           closeOnConfirm: false
           }, function(){
-            filterSoftAccepted.forEach(user => {
-              UserService
-                .admitUser(user._id)
-                .success(function(user) {
-                  if(user) {
-                    
-                  } else {
-                    swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
-                  }
-                })
-            })
-            swal("Sending!", `Accepting and sending emails to ${filterSoftAccepted.length} users!`, "success");
+            if(filterSoftAccepted.length){
+              filterSoftAccepted.forEach(user => {
+                UserService
+                  .admitUser(user._id)
+                  .success(function(user) {
+                    if(user) {
+                      
+                    } else {
+                      swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
+                    }
+                  })
+              })
+              swal("Sending!", `Accepting and sending emails to ${filterSoftAccepted.length} users!`, "success");
+            } else {
+              swal("Whoops", "You can't send or accept 0 users!", "error");
+            }
           })
       }
 
@@ -334,27 +338,29 @@ angular.module('reg')
               confirmButtonText: "Yes, accept this user.",
               closeOnConfirm: false
               }, function(){
-
-                UserService
-                  .softAdmitUser(user._id, Class)
-                  .success(function(user){
-                    if(user != ""){// User cannot be found if user is rejected
-                      if(index == null){ //we don't have index because acceptUser has been called in pop-up
-                        for(var i = 0; i < $scope.users.length; i++){
-                          if($scope.users[i]._id === user._id){
-                            $scope.users[i] = user;
-                            selectUser(user);
+                if(user.status.softAdmitted) {
+                  swal("Could not be accepted", 'User already soft accepted!', "error");
+                } else {
+                  UserService
+                    .softAdmitUser(user._id, Class)
+                    .success(function(user){
+                      if(user != ""){// User cannot be found if user is rejected
+                        if(index == null){ //we don't have index because acceptUser has been called in pop-up
+                          for(var i = 0; i < $scope.users.length; i++){
+                            if($scope.users[i]._id === user._id){
+                              $scope.users[i] = user;
+                              selectUser(user);
+                              }
                             }
                           }
-                        }
-                        else
-                          $scope.users[index] = user;
-                          swal("Soft Accepted", user.profile.name + ' has been soft accepted', "success");
-                    }
-                    else
-                      swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
-                  });
-
+                          else
+                            $scope.users[index] = user;
+                            swal("Soft Accepted", user.profile.name + ' has been soft accepted', "success");
+                      }
+                      else
+                        swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
+                    });
+                }
               });
 
           });
