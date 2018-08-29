@@ -641,7 +641,7 @@ var schema = new mongoose.Schema({
   timestamp: {
     type: Number,
     required: true,
-    default: .now(),
+    default: Date.now(),
   },
 
   lastUpdated: {
