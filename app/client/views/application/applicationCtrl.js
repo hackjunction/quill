@@ -259,6 +259,15 @@ angular.module('reg')
                 }
               ]
             },
+            secret: {
+              identifier: 'secret',
+              rules: [
+                {
+                  type: 'maxLength[300]',
+                  prompt: 'This is too long! Max. 300 characters'
+                }
+              ]
+            },
             skills: {
               identifier: 'skills',
               rules: [
