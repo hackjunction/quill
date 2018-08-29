@@ -295,6 +295,12 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.admitted': 'false'});
     statusFilter.push({'status.rejected': 'false'});
   }
+  else if(query.filter.softAdmitted === 'true') {
+    statusFilter.push({'status.softAdmitted': 'true'});
+    statusFilter.push({'status.admitted': 'false'});
+    statusFilter.push({'status.confirmed': 'false'});
+    statusFilter.push({'status.rejected': 'false'});
+  }
   else if(query.filter.admitted === 'true') {
     statusFilter.push({'status.admitted': 'true'});
     statusFilter.push({'status.confirmed': 'false'});
@@ -306,6 +312,10 @@ UserController.getPage = function(query, callback){
   }
   else if(query.filter.needsReimbursement === 'true') {
     statusFilter.push({'profile.needsReimbursement': 'true'});
+    statusFilter.push({'status.rejected': 'false'});
+  }
+  else if(query.filter.needsVisa === 'true') {
+    statusFilter.push({'profile.needsVisa': 'true'});
     statusFilter.push({'status.rejected': 'false'});
   }
   else if(query.filter.rejected === 'true')
