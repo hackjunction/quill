@@ -255,7 +255,7 @@ var profile = {
 
   secret: {
     type: String,
-    maxlength: 100,
+    maxlength: 2000,
   },
 
   freeComment: {
@@ -641,7 +641,7 @@ var schema = new mongoose.Schema({
   timestamp: {
     type: Number,
     required: true,
-    default: Date.now(),
+    default: .now(),
   },
 
   lastUpdated: {
