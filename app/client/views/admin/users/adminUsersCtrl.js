@@ -655,10 +655,17 @@ angular.module('reg')
               {
                 name: 'Github',
                 value: user.profile.github
-              },{
+              },
+              {
                 name: 'Interest in job opportunities',
                 value: user.profile.jobOpportunities
-              },{
+              },
+              {
+                name: 'Wants to be contacted by aTalent',
+                value: user.profile.aTalentContact,
+                type: 'boolean'
+              },
+              {
                 name: 'Special Needs',
                 value: user.confirmation.specialNeeds || 'None'
               },{

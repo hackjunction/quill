@@ -328,6 +328,8 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'team': {$ne: undefined}})
   else if(query.filter.individuals === 'true')
     statusFilter.push({'team': undefined})
+  else if(query.filter.terminal === 'true')
+    statusFilter.push({'profile.terminal.essay': {$ne: undefined}})
   else
    statusFilter.push({});
   
