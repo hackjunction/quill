@@ -576,6 +576,10 @@ angular.module('reg')
                 value: `${user.profile.mainRole} - ${user.profile.bestRole}`
               },
               {
+                name: 'Years of Experience in the field',
+                value: user.profile.yearsOfExperience
+              },
+              {
                 name: 'Secondary Description',
                 value: `${user.profile.subRole} - ${user.profile.secondBestRole}`
               },{
