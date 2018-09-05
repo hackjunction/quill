@@ -381,12 +381,12 @@ angular.module('reg')
                 }
               ]
             },
-            codingExperience: {
-              identifier: 'codingExperience',
+            yearsOfExperience: {
+              identifier: 'yearsOfExperience',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select your coding experience.'
+                  prompt: 'Please select years of experience.'
                 }
               ]
             },
@@ -559,6 +559,7 @@ angular.module('reg')
         $("#previousJunction").dropdown('set selected', $scope.user.profile.previousJunction);
         $("#heardAboutJunction").dropdown('set selected', $scope.user.profile.heardAboutJunction);
         $("#bestRole").dropdown('set selected', $scope.user.profile.bestRole);
+        $("#yearsOfExperience").dropdown('set selected', $scope.user.profile.yearsOfExperience);
         $("#secondBestRole").dropdown('set selected', $scope.user.profile.secondBestRole)
         $("#terminalIndustries").dropdown('set selected', $scope.user.profile.terminal ? $scope.user.profile.terminal.terminalIndustries : "");
         $(".oldDegree").dropdown('set selected', $scope.user.profile.oldDegree ? $scope.user.profile.oldDegree.degree : "");

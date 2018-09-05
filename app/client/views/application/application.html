@@ -875,7 +875,7 @@
         <div class="indent">
 
           <div class="field" ng-show="roleSelected">
-            <label>Select a role describe you the best *</label>
+            <label>Select a role to describe you the best *</label>
             <select
               class="ui normal selection dropdown roles"
               name="bestRole"
@@ -909,6 +909,27 @@
             </select>
           </div>
         </div>
+
+        <div class="indent">
+          <div class="field" ng-show="roleSelected">
+            <label>Years of experience in the field, major studies and work included *</label>
+            <select
+              class="ui normal selection dropdown roles"
+              name="yearsOfExperience"
+              id="yearsOfExperience"
+              ng-model="user.profile.yearsOfExperience"
+            >
+              <option value="">Select amount of years</option>
+              <option value="Under 1 year">Less than 1 year</option>
+              <option value="1-2 years">1-2 years</option>
+              <option value="2-3 years">2-3 years</option>
+              <option value="3-5 years">3-5 years</option>
+              <option value="+5 years">+5 years</option>
+            </select>
+          </div>
+        </div>
+
+
 
         <div class="field">
           <label>Which of the following describes you the second best? </label>

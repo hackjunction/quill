@@ -200,10 +200,10 @@ var profile = {
     type: [String]
   },
 
-  codingExperience: {
+  yearsOfExperience: {
     type: String,
     enum : {
-      values: 'None,1,1-2,3-5,5+'.split(',')
+      values: 'Less than 1 year,1-2 years,2-3 years,3-5 years,5+ years'.split(',')
     }
   },
 
@@ -775,7 +775,7 @@ schema.statics.verifyTempAuthToken = function(token, callback){
 
 schema.statics.findOneByEmail = function(email){
   return this.findOne({
-    email: new RegExp('^' + email + '$', 'i')
+    email: email
   });
 };
 
