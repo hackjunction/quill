@@ -603,6 +603,13 @@ module.exports = function(router) {
     UserController.softAdmitUser(id, user, reimbClass, defaultResponse(req, res));
   });
 
+  router.post('/users/:id/acceptTravelClass', isAdmin, function(req, res){
+    // Accept the Travel Grant class for a user
+    var id = req.params.id;
+    var reimbClass = req.body.reimbClass;
+    UserController.acceptTravelClass(id, reimbClass, defaultResponse(req, res));
+  })
+
   /**
    * Admit a user. ADMIN ONLY, DUH
    *

@@ -138,52 +138,27 @@
 
         </div>
         <div class="actions">
-          <div class="field"
-          ng-if="selectedUser.profile.needsReimbursement">
-          <label>
-            Choose reimbursement class for the participant. Participant requested class:
-            <strong>{{selectedUser.profile.AppliedreimbursementClass}}</strong>
-          </label>
-          <select
-            class="ui fluid dropdown"
-            id="class"
-            name="class"
-            ng-model="selectedUser.Class">
-            <option value="">Reimbursement class</option>
-            <option value="Finland">Finland</option>
-            <option value="Baltics">Baltics</option>
-            <option value="Nordic">Nord</option>
-            <option value="Europe">Europe</option>Outside Europe
-            <option value="Outside Europe">Outside Europe</option>
-            <option value="Special">Special amount</option>
-            <option value="Rejected">Rejected</option>
-          </select>
-          <input class="ui fluid input"
-           placeholder="Special amount"
-           ng-if="selectedUser.Class=='Special'"
-           ng-model="selectedUser.SpecialClass">
-        </div>
-            <button
-              class="ui negative button"
-              ng-click="resetTeam($event, selectedUser, $index)">
-              Reset Team
-            </button>
-            <button
-              class="ui negative button"
-              ng-click="toggleReject($event, selectedUser, $index)">
-              <i ng-if="!selectedUser.status.rejected">Reject
-              </i>
-              <i ng-if="selectedUser.status.rejected">Unreject
-              </i>
-            </button>
-            <button
-              class="ui positive button"
-              ng-click="softAcceptUser($event, selectedUser, $index)">
-              Accept participant {{selectedUser.profile.name}} (Email isn't sent yet)
-            </button>
-            <div class="ui negative right labeled icon button">
-            Close
-            <i class="checkmark icon"></i>
+          <button
+            class="ui negative button"
+            ng-click="resetTeam($event, selectedUser, $index)">
+            Reset Team
+          </button>
+          <button
+            class="ui negative button"
+            ng-click="toggleReject($event, selectedUser, $index)">
+            <i ng-if="!selectedUser.status.rejected">Reject
+            </i>
+            <i ng-if="selectedUser.status.rejected">Unreject
+            </i>
+          </button>
+          <button
+            class="ui positive button"
+            ng-click="softAcceptUser($event, selectedUser, $index)">
+            Accept participant {{selectedUser.profile.name}} (Email isn't sent yet)
+          </button>
+          <div class="ui negative right labeled icon button">
+          Close
+          <i class="checkmark icon"></i>
           </div>
         </div>
       </div>
@@ -193,6 +168,40 @@
           <div class="content">
               <div class="ui massive rating"></div>
           </div>
+      </div>
+
+      <div class="travel ui modal">
+        <div class="header">Accept Travel Grant class for {{selectedUser.email}}</div>
+        <div class="content">
+            <div class="field">
+              <label>
+                Choose reimbursement class for the participant. Participant requested class:
+                <strong>{{selectedUser.profile.AppliedreimbursementClass || "None"}}</strong>
+              <select
+                class="ui fluid dropdown"
+                id="class"
+                name="class"
+                ng-model="selectedUser.Class">
+                <option value="">Choose a class</option>
+                <option value="Finland">Finland</option>
+                <option value="Baltics">Baltics</option>
+                <option value="Nordics">Nordics</option>
+                <option value="Europe">Europe</option>
+                <option value="Rest of the World">Rest of the World</option>
+              </select>
+            </div>
+            <div class="actions" style="margin-top: 20px;">
+              <button
+                class="ui positive button"
+                ng-click="acceptTravelGrantClass($event, selectedUser, $index)">
+                  Accept Travel Grant
+              </button>
+              <button
+                class="ui negative button">
+                Cancel
+              </button>
+            </div>
+        </div>
       </div>
 
       <table
@@ -329,7 +338,14 @@
                 class="red remove circle icon">
               </i>
             </td>
-
+            <td
+              class="collapsing">
+              <button
+                ng-click="openTravelModal($event, user)"
+                class="ui circular mini basic icon button">
+                <i class="plane icon"></i>
+              </button>
+            </td>
             <td
               class="collapsing">
               <button
@@ -339,6 +355,7 @@
               </button>
             </td>
 
+            <!--
             <td
               class="collapsing">
               <button
@@ -347,7 +364,7 @@
                 <i class="linkify icon"></i>
               </button>
             </td>
-
+            -->
             <td
               class="right aligned collapsing">
 

@@ -1330,10 +1330,9 @@ UserController.resetPassword = function(token, password, callback){
 /**
  * [ADMIN ONLY]
  *
- * Admit a user.
+ * Soft admit a user.
  * @param  {String}   userId      User id of the admit
  * @param  {String}   user        User doing the admitting
- * @param  (String)   reimbClass  Users accepted reimbursement class/amount
  * @param  {Function} callback args(err, user)
  */
 UserController.softAdmitUser = function(id, user, reimbClass, callback){
@@ -1350,7 +1349,6 @@ UserController.softAdmitUser = function(id, user, reimbClass, callback){
       $set: {
         'status.softAdmitted': true,
         'status.admittedBy': user.email,
-        'profile.AcceptedreimbursementClass': reimbClass
       }
     }, {
       new: true
@@ -1360,6 +1358,39 @@ UserController.softAdmitUser = function(id, user, reimbClass, callback){
         return callback(err);
       }
       console.log(`User ${user._id} soft admitted successfully!`)
+      return callback(err, user);
+    });
+  };
+
+/**
+ * [ADMIN ONLY]
+ *
+ * Admit a user.
+ * @param  {String}   userId      User id of the admit
+ * @param  (String)   reimbClass  Users accepted reimbursement class/amount
+ * @param  {Function} callback args(err, user)
+ */
+UserController.acceptTravelClass = function(id, reimbClass, callback){
+  // ReimbClass was not set
+  if(reimbClass == null) {
+    reimbClass = "None";
+  }
+  User
+    .findOneAndUpdate({
+      '_id': id,
+      'status.softAdmitted': true,
+    },{
+      $set: {
+        'profile.AcceptedreimbursementClass': reimbClass
+      }
+    }, {
+      new: true
+    },
+    function(err, user) {
+      if (err || !user) {
+        return callback(err);
+      }
+      console.log(`User ${user._id} Travel grant class set to ${reimbClass} successfully!`)
       return callback(err, user);
     });
   };

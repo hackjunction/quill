@@ -301,22 +301,34 @@ angular.module('reg')
           })
       }
 
-      $scope.softAcceptUser = function($event, user, index) {
+      $scope.acceptTravelGrantClass = function($event, user, index) {
         $event.stopPropagation();
-
         if (user.Class == null && user.profile.needsReimbursement){
           swal("Could not be accepted", 'Please select travel reimbursement class', "error");
           return;
         }
-        else if(user.profile.needsReimbursement && user.Class === "Special" && user.SpecialClass != parseInt(user.SpecialClass,10)) {
-          swal("Could not be accepted", 'Special class input needs to be integer', "error");
-          return;
-        }
-        var Class;
-        if (user.Class === 'Special')
-          Class = user.SpecialClass;
-        else
-          Class = user.Class;
+        UserService
+          .acceptTravelClassForUser(user._id, user.Class)
+          .success(function(user) {
+            if(user != ""){// User cannot be found if user is rejected
+              if(index == null){ //we don't have index because acceptUser has been called in pop-up
+                for(var i = 0; i < $scope.users.length; i++){
+                  if($scope.users[i]._id === user._id){
+                    $scope.users[i] = user;
+                    }
+                  }
+                }
+                else
+                  $scope.users[index] = user;
+                  swal("Travel Grant Class set!", `${user.profile.name} has TG Class set to ${user.profile.AcceptedreimbursementClass}`, "success");
+            }
+            else
+              swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
+          })
+      }
+
+      $scope.softAcceptUser = function($event, user, index) {
+        $event.stopPropagation();
 
         swal({
           title: "Whoa, wait a minute!",
@@ -342,7 +354,7 @@ angular.module('reg')
                   swal("Could not be accepted", 'User already soft accepted!', "error");
                 } else {
                   UserService
-                    .softAdmitUser(user._id, Class)
+                    .softAdmitUser(user._id)
                     .success(function(user){
                       if(user != ""){// User cannot be found if user is rejected
                         if(index == null){ //we don't have index because acceptUser has been called in pop-up
@@ -384,6 +396,12 @@ angular.module('reg')
           return 'warning';
         }
       };
+
+      $scope.openTravelModal = function($event, user) {
+        $event.stopPropagation();
+        $scope.selectedUser = user;
+        $('.travel.modal').modal('show');
+      }
 
       function rateUser($event, user, index) {
         $event.stopPropagation();

@@ -128,8 +128,12 @@ angular.module('reg')
         return $http.post(base + id + '/admit')
       },
 
-      softAdmitUser: function(id, reimbClass) {
-        return $http.post(base + id + '/softAdmit', {
+      softAdmitUser: function(id) {
+        return $http.post(base + id + '/softAdmit');
+      },
+
+      acceptTravelClassForUser: function(id, reimbClass) {
+        return $http.post(base + id + '/acceptTravelClass', {
           reimbClass: reimbClass
         });
       },
