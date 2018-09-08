@@ -446,10 +446,10 @@ var status = {
   }
 };
 var reimbursement = {
-   merchantID: {
+   paypalEmail: {
      type: String,
      default: '',
-     maxlength: 30,
+     maxlength: 70,
    },
    dateOfBirth: {
      type: String,

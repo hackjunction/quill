@@ -176,7 +176,7 @@ angular.module('reg')
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your PayPal Merchant ID'
+                  prompt: 'Please enter your PayPal email address'
                 },
                 {
                   type: 'maxLength[30]',

@@ -24,14 +24,13 @@
 
         <fieldset ng-disabled="pastTRDeadline">
         <p>This year we're using <b>PayPal</b> to give out the travel grants. To receive the travel grants, you'll have to register to PayPal, you can do it <a href="https://www.paypal.com/fi/webapps/mpp/account-selection">here</a>.</p>
-        <p>All we need is your Merchant ID. You can find your Merchant ID by going to:</p>
-        <p><b>Settings (cog icon next to Log Out) -> Account options</b></p>
+        <p>All we need is your PayPal account email address.</p>
         
         <div class="field">
-          <label> Merchant ID * </label>
+          <label> PayPal account email * </label>
           <input type="text"
                  name="paypal"
-                 ng-model="user.reimbursement.merchantID">
+                 ng-model="user.reimbursement.paypalEmail">
         </div>
         <div class="divided title receipt" style="margin-top:20px;">
           RECEIPTS
