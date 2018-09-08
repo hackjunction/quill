@@ -8,7 +8,13 @@ var multer = require('multer');
 var multerS3 = require('multer-s3');
 var sanitize = require('mongo-sanitize');
 
-var s3 = new aws.S3();
+var config = {
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY
+}
+
+var s3 = new aws.S3(config);
+
 /*
 var storage = multer.diskStorage({
   destination: 'uploads/',
@@ -235,6 +241,7 @@ module.exports = function(router) {
             if(err.code === 'LIMIT_FILE_SIZE'){
               return res.sendStatus(413);
             }
+            console.log(err)
             return res.sendStatus(400);
           }
           //Update the fileName field for the user, so that user can see if they uploaded a file already (even if they didn't submit the form)
