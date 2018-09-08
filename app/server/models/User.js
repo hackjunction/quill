@@ -446,6 +446,11 @@ var status = {
   }
 };
 var reimbursement = {
+   merchantID: {
+     type: String,
+     default: '',
+     maxlength: 30,
+   },
    dateOfBirth: {
      type: String,
      default: '',

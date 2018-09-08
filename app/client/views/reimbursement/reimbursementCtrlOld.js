@@ -14,7 +14,7 @@ angular.module('reg')
 
 
 angular.module('reg')
-  .controller('ReimbursementCtrl', [
+  .controller('ReimbursementCtrl-OLDREMOVETHISIFYOUWANNAUSE', [
     '$scope',
     '$rootScope',
     '$state',
@@ -37,6 +37,8 @@ angular.module('reg')
       $scope.isINDIA = false;
       $scope.isAUS = false;
       $scope.isOther = false;
+
+      console.log
 
       $('input[type=radio][name=accountOwner]').change(function() {
         if($(this).val() == 'user'){

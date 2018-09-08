@@ -1,37 +1,15 @@
 <div class="page">
   <div class="divided title">
-    Travel Reimbursement
-    <i class="help circle icon link head" data-content="Fill all the necessary information to receive travel reimbursement after the hackathon." data-variation="inverted" data-position="right center"></i>
+    Travel Grants
+    <i class="help circle icon link head" data-content="Fill all the necessary information to receive travel grant after the hackathon." data-variation="inverted" data-position="right center"></i>
   </div>
 
   <div class="ui stackable page grid">
     <div class="column">
-      <h1 ng-hide="!pastTRDeadline">Travel reimbursement application is closed</h1>
+      <h1 ng-hide="!pastTRDeadline">Travel grant application is closed</h1>
 
       <div ng-show="user.status.reimbursementApplied" style="text-align:center; margin-bottom:40px;">
-        <h3><i class="checkmark box icon"></i>Your Travel Reimbursement submission has been received</h1>        
-      </div>        
-      <div class="small title">General information</div>
-      <ol>
-        <li class="tip">The information we receive will be directly run into our payment system, and thus, we’ll relieve our responsibility for examining individuals’ erroneous travel reimbursement filings.</li>
-        <li class="tip">Brokerage fees are paid by the <b>participant</b>. We’ll refrain from any liability or costs that will come from the wire transfer and to the brokers' slots.</li>
-        <li class="tip">Everything is paid in <b>euros (€)</b> which means that in some countries e.g. in Russia, you must have a euro account.</li>
-        <li class="tip">You should use your <b>own account</b>. If you are unable to use your own, please contact us.</li>
-        <li class="tip">The money will be transferred as a wire transfer (from Junction Oy)</li>
-        <li class="tip">If you are in doubt, turn to your bank and if they do not know, then turn to us. In this case, type in the "<b>Additional Information</b>" field.</li>
-        <li class="tip">The recipient's name, the amount paid and the item (order confirmation and ticket, in some cases the same) should be found in the <b>single PDF file</b>. In this file, it is essential to find the total sum participant paid for the trip to Helsinki. A picture of a ticket or other ticket showing the travel dates, the price of the ticket that you paid and the name. The amount due for the travel allowance is cannot be higher than the ticket price.</li>
-        <li class="tip"><b>Deadline</b> for submission of application and for travel receipt is <b>23:59 03.12.2017, UTC+3</b>. Subsequent notifications are not quoted.</li>
-        <li class="tip">It may take some time to receive the travel reimbursement, as be begin the process during after all the participants have registered in the event.</li>
-        <li class="tip">The address/country you type here should be the address where you’re <b>living and would be paying taxes</b>.</li>
-        <li class="tip">Recipients belonging under Finnish tax jurisdiction will be required to pay their travel reimbursements as “earned income” (“ansiotulo” in Finnish). Other recipients will be obligated to pay travel reimbursements as “tax at the source” which is flat 35 % for everyone outside of Finnish tax jurisdiction. However, Junction will be responsible for this tax obligation. Hence, other recipients will receive their travel reimbursements in full.</li>
-        <li class="tip">Failure to follow these instructions will lead to <b>rejection</b> of your travel reimbursement</li>
-      </ol>
-      <div class="ui checkbox">
-        <input type="checkbox"
-               name="generalCheck"
-               class="generalCheck"
-               ng-model="generalCheck">
-        <label for="generalCheck"><b>I´ve read through the general and accept the guidelines.</b></label>
+        <h3><i class="checkmark box icon"></i>Your Travel Grant submission has been received</h1>        
       </div>
     </div>
   </div>
@@ -40,20 +18,28 @@
   <div class="ui stackable page grid">
     <div class="column">
       <div class="ui form"
-           ng-class="{'loading': loading}"
-           ng-show="generalCheck">
+           ng-class="{'loading': loading}">
 
         <div class="divided title">Required Information</div>
 
         <fieldset ng-disabled="pastTRDeadline">
-
+        <p>This year we're using <b>PayPal</b> to give out the travel grants. To receive the travel grants, you'll have to register to PayPal, you can do it <a href="https://www.paypal.com/fi/webapps/mpp/account-selection">here</a>.</p>
+        <p>All we need is your Merchant ID. You can find your Merchant ID by going to:</p>
+        <p><b>Settings (cog icon next to Log Out) -> Account options</b></p>
+        
+        <div class="field">
+          <label> Merchant ID * </label>
+          <input type="text"
+                 name="paypal"
+                 ng-model="user.reimbursement.merchantID">
+        </div>
         <div class="divided title receipt" style="margin-top:20px;">
           RECEIPTS
         </div>
 
         <div class="field">
             <label>
-              Choose <b>ONE</b> PDF-file of your travel reimbusements to upload (Max. 2MB)
+              Choose <b>ONE</b> PDF-file of your travels to upload (Max. 2MB)
             </label>
             <ol>
               <li>
