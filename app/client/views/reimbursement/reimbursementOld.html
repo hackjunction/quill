@@ -1,0 +1,1194 @@
+<div class="page">
+  <div class="divided title">
+    Travel Reimbursement
+    <i class="help circle icon link head" data-content="Fill all the necessary information to receive travel reimbursement after the hackathon." data-variation="inverted" data-position="right center"></i>
+  </div>
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <h1 ng-hide="!pastTRDeadline">Travel reimbursement application is closed</h1>
+
+      <div ng-show="user.status.reimbursementApplied" style="text-align:center; margin-bottom:40px;">
+        <h3><i class="checkmark box icon"></i>Your Travel Reimbursement submission has been received</h1>        
+      </div>        
+      <div class="small title">General information</div>
+      <ol>
+        <li class="tip">The information we receive will be directly run into our payment system, and thus, we’ll relieve our responsibility for examining individuals’ erroneous travel reimbursement filings.</li>
+        <li class="tip">Brokerage fees are paid by the <b>participant</b>. We’ll refrain from any liability or costs that will come from the wire transfer and to the brokers' slots.</li>
+        <li class="tip">Everything is paid in <b>euros (€)</b> which means that in some countries e.g. in Russia, you must have a euro account.</li>
+        <li class="tip">You should use your <b>own account</b>. If you are unable to use your own, please contact us.</li>
+        <li class="tip">The money will be transferred as a wire transfer (from Junction Oy)</li>
+        <li class="tip">If you are in doubt, turn to your bank and if they do not know, then turn to us. In this case, type in the "<b>Additional Information</b>" field.</li>
+        <li class="tip">The recipient's name, the amount paid and the item (order confirmation and ticket, in some cases the same) should be found in the <b>single PDF file</b>. In this file, it is essential to find the total sum participant paid for the trip to Helsinki. A picture of a ticket or other ticket showing the travel dates, the price of the ticket that you paid and the name. The amount due for the travel allowance is cannot be higher than the ticket price.</li>
+        <li class="tip"><b>Deadline</b> for submission of application and for travel receipt is <b>23:59 03.12.2017, UTC+3</b>. Subsequent notifications are not quoted.</li>
+        <li class="tip">It may take some time to receive the travel reimbursement, as be begin the process during after all the participants have registered in the event.</li>
+        <li class="tip">The address/country you type here should be the address where you’re <b>living and would be paying taxes</b>.</li>
+        <li class="tip">Recipients belonging under Finnish tax jurisdiction will be required to pay their travel reimbursements as “earned income” (“ansiotulo” in Finnish). Other recipients will be obligated to pay travel reimbursements as “tax at the source” which is flat 35 % for everyone outside of Finnish tax jurisdiction. However, Junction will be responsible for this tax obligation. Hence, other recipients will receive their travel reimbursements in full.</li>
+        <li class="tip">Failure to follow these instructions will lead to <b>rejection</b> of your travel reimbursement</li>
+      </ol>
+      <div class="ui checkbox">
+        <input type="checkbox"
+               name="generalCheck"
+               class="generalCheck"
+               ng-model="generalCheck">
+        <label for="generalCheck"><b>I´ve read through the general and accept the guidelines.</b></label>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <div class="ui form"
+           ng-class="{'loading': loading}"
+           ng-show="generalCheck">
+
+        <div class="divided title">Required Information</div>
+
+        <fieldset ng-disabled="pastTRDeadline">
+
+        <div class="field">
+          <label> Full Name </label>
+          <input type="text"
+                 name="fullName"
+                 disabled="true"
+                 placeholder="{{user.profile.name}}">
+        </div>
+
+        <div class="field">
+          <label> Date of Birth </label>
+          <input type="date"
+                 name="dateOfBirth"
+                 class="dateOfBirth"
+                 ng-model="user.reimbursement.dateOfBirth">
+        </div>
+
+        <div class="field">
+            <label> Nationality </label>
+            <select class="ui fluid search selection dropdown"
+            name="nationality"
+            id="nationality"
+            ng-model="user.reimbursement.nationality">
+            <option value="">Country...</option>
+            <option value="Afganistan">Afghanistan</option>
+            <option value="Albania">Albania</option>
+            <option value="Algeria">Algeria</option>
+            <option value="American Samoa">American Samoa</option>
+            <option value="Andorra">Andorra</option>
+            <option value="Angola">Angola</option>
+            <option value="Anguilla">Anguilla</option>
+            <option value="Antigua &amp; Barbuda">Antigua &amp; Barbuda</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Armenia">Armenia</option>
+            <option value="Aruba">Aruba</option>
+            <option value="Australia">Australia</option>
+            <option value="Austria">Austria</option>
+            <option value="Azerbaijan">Azerbaijan</option>
+            <option value="Bahamas">Bahamas</option>
+            <option value="Bahrain">Bahrain</option>
+            <option value="Bangladesh">Bangladesh</option>
+            <option value="Barbados">Barbados</option>
+            <option value="Belarus">Belarus</option>
+            <option value="Belgium">Belgium</option>
+            <option value="Belize">Belize</option>
+            <option value="Benin">Benin</option>
+            <option value="Bermuda">Bermuda</option>
+            <option value="Bhutan">Bhutan</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Bonaire">Bonaire</option>
+            <option value="Bosnia &amp; Herzegovina">Bosnia &amp; Herzegovina</option>
+            <option value="Botswana">Botswana</option>
+            <option value="Brazil">Brazil</option>
+            <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
+            <option value="Brunei">Brunei</option>
+            <option value="Bulgaria">Bulgaria</option>
+            <option value="Burkina Faso">Burkina Faso</option>
+            <option value="Burundi">Burundi</option>
+            <option value="Cambodia">Cambodia</option>
+            <option value="Cameroon">Cameroon</option>
+            <option value="Canada">Canada</option>
+            <option value="Canary Islands">Canary Islands</option>
+            <option value="Cape Verde">Cape Verde</option>
+            <option value="Cayman Islands">Cayman Islands</option>
+            <option value="Central African Republic">Central African Republic</option>
+            <option value="Chad">Chad</option>
+            <option value="Channel Islands">Channel Islands</option>
+            <option value="Chile">Chile</option>
+            <option value="China">China</option>
+            <option value="Christmas Island">Christmas Island</option>
+            <option value="Cocos Island">Cocos Island</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Comoros">Comoros</option>
+            <option value="Congo">Congo</option>
+            <option value="Cook Islands">Cook Islands</option>
+            <option value="Costa Rica">Costa Rica</option>
+            <option value="Cote DIvoire">Cote D'Ivoire</option>
+            <option value="Croatia">Croatia</option>
+            <option value="Cuba">Cuba</option>
+            <option value="Curaco">Curacao</option>
+            <option value="Cyprus">Cyprus</option>
+            <option value="Czech Republic">Czech Republic</option>
+            <option value="Denmark">Denmark</option>
+            <option value="Djibouti">Djibouti</option>
+            <option value="Dominica">Dominica</option>
+            <option value="Dominican Republic">Dominican Republic</option>
+            <option value="East Timor">East Timor</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Egypt">Egypt</option>
+            <option value="El Salvador">El Salvador</option>
+            <option value="Equatorial Guinea">Equatorial Guinea</option>
+            <option value="Eritrea">Eritrea</option>
+            <option value="Estonia">Estonia</option>
+            <option value="Ethiopia">Ethiopia</option>
+            <option value="Falkland Islands">Falkland Islands</option>
+            <option value="Faroe Islands">Faroe Islands</option>
+            <option value="Fiji">Fiji</option>
+            <option value="Finland">Finland</option>
+            <option value="France">France</option>
+            <option value="French Guiana">French Guiana</option>
+            <option value="French Polynesia">French Polynesia</option>
+            <option value="French Southern Ter">French Southern Ter</option>
+            <option value="Gabon">Gabon</option>
+            <option value="Gambia">Gambia</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Germany">Germany</option>
+            <option value="Ghana">Ghana</option>
+            <option value="Gibraltar">Gibraltar</option>
+            <option value="Greece">Greece</option>
+            <option value="Greenland">Greenland</option>
+            <option value="Grenada">Grenada</option>
+            <option value="Guadeloupe">Guadeloupe</option>
+            <option value="Guam">Guam</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="Guinea">Guinea</option>
+            <option value="Guyana">Guyana</option>
+            <option value="Haiti">Haiti</option>
+            <option value="Hawaii">Hawaii</option>
+            <option value="Honduras">Honduras</option>
+            <option value="Hong Kong">Hong Kong</option>
+            <option value="Hungary">Hungary</option>
+            <option value="Iceland">Iceland</option>
+            <option value="India">India</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Iran">Iran</option>
+            <option value="Iraq">Iraq</option>
+            <option value="Ireland">Ireland</option>
+            <option value="Isle of Man">Isle of Man</option>
+            <option value="Israel">Israel</option>
+            <option value="Italy">Italy</option>
+            <option value="Jamaica">Jamaica</option>
+            <option value="Japan">Japan</option>
+            <option value="Jordan">Jordan</option>
+            <option value="Kazakhstan">Kazakhstan</option>
+            <option value="Kenya">Kenya</option>
+            <option value="Kiribati">Kiribati</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Kyrgyzstan">Kyrgyzstan</option>
+            <option value="Laos">Laos</option>
+            <option value="Latvia">Latvia</option>
+            <option value="Lebanon">Lebanon</option>
+            <option value="Lesotho">Lesotho</option>
+            <option value="Liberia">Liberia</option>
+            <option value="Libya">Libya</option>
+            <option value="Liechtenstein">Liechtenstein</option>
+            <option value="Lithuania">Lithuania</option>
+            <option value="Luxembourg">Luxembourg</option>
+            <option value="Macau">Macau</option>
+            <option value="Macedonia">Macedonia</option>
+            <option value="Madagascar">Madagascar</option>
+            <option value="Malaysia">Malaysia</option>
+            <option value="Malawi">Malawi</option>
+            <option value="Maldives">Maldives</option>
+            <option value="Mali">Mali</option>
+            <option value="Malta">Malta</option>
+            <option value="Marshall Islands">Marshall Islands</option>
+            <option value="Martinique">Martinique</option>
+            <option value="Mauritania">Mauritania</option>
+            <option value="Mauritius">Mauritius</option>
+            <option value="Mayotte">Mayotte</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Midway Islands">Midway Islands</option>
+            <option value="Moldova">Moldova</option>
+            <option value="Monaco">Monaco</option>
+            <option value="Mongolia">Mongolia</option>
+            <option value="Montenegro">Montenegro</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Morocco">Morocco</option>
+            <option value="Mozambique">Mozambique</option>
+            <option value="Myanmar">Myanmar</option>
+            <option value="Nambia">Nambia</option>
+            <option value="Nauru">Nauru</option>
+            <option value="Nepal">Nepal</option>
+            <option value="Netherland Antilles">Netherland Antilles</option>
+            <option value="Netherlands">Netherlands (Holland, Europe)</option>
+            <option value="Nevis">Nevis</option>
+            <option value="New Caledonia">New Caledonia</option>
+            <option value="New Zealand">New Zealand</option>
+            <option value="Nicaragua">Nicaragua</option>
+            <option value="Niger">Niger</option>
+            <option value="Nigeria">Nigeria</option>
+            <option value="Niue">Niue</option>
+            <option value="Norfolk Island">Norfolk Island</option>
+            <option value="North Korea">North Korea</option>
+            <option value="Norway">Norway</option>
+            <option value="Oman">Oman</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="Palau Island">Palau Island</option>
+            <option value="Palestine">Palestine</option>
+            <option value="Panama">Panama</option>
+            <option value="Papua New Guinea">Papua New Guinea</option>
+            <option value="Paraguay">Paraguay</option>
+            <option value="Peru">Peru</option>
+            <option value="Phillipines">Philippines</option>
+            <option value="Pitcairn Island">Pitcairn Island</option>
+            <option value="Poland">Poland</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Puerto Rico">Puerto Rico</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Reunion">Reunion</option>
+            <option value="Romania">Romania</option>
+            <option value="Russia">Russia</option>
+            <option value="Rwanda">Rwanda</option>
+            <option value="St Barthelemy">St Barthelemy</option>
+            <option value="St Eustatius">St Eustatius</option>
+            <option value="St Helena">St Helena</option>
+            <option value="St Kitts-Nevis">St Kitts-Nevis</option>
+            <option value="St Lucia">St Lucia</option>
+            <option value="St Maarten">St Maarten</option>
+            <option value="St Pierre &amp; Miquelon">St Pierre &amp; Miquelon</option>
+            <option value="St Vincent &amp; Grenadines">St Vincent &amp; Grenadines</option>
+            <option value="Saipan">Saipan</option>
+            <option value="Samoa">Samoa</option>
+            <option value="Samoa American">Samoa American</option>
+            <option value="San Marino">San Marino</option>
+            <option value="Sao Tome &amp; Principe">Sao Tome &amp; Principe</option>
+            <option value="Saudi Arabia">Saudi Arabia</option>
+            <option value="Senegal">Senegal</option>
+            <option value="Serbia">Serbia</option>
+            <option value="Seychelles">Seychelles</option>
+            <option value="Sierra Leone">Sierra Leone</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Slovakia">Slovakia</option>
+            <option value="Slovenia">Slovenia</option>
+            <option value="Solomon Islands">Solomon Islands</option>
+            <option value="Somalia">Somalia</option>
+            <option value="South Africa">South Africa</option>
+            <option value="South Korea">South Korea</option>
+            <option value="Spain">Spain</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+            <option value="Sudan">Sudan</option>
+            <option value="Suriname">Suriname</option>
+            <option value="Swaziland">Swaziland</option>
+            <option value="Sweden">Sweden</option>
+            <option value="Switzerland">Switzerland</option>
+            <option value="Syria">Syria</option>
+            <option value="Tahiti">Tahiti</option>
+            <option value="Taiwan">Taiwan</option>
+            <option value="Tajikistan">Tajikistan</option>
+            <option value="Tanzania">Tanzania</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Togo">Togo</option>
+            <option value="Tokelau">Tokelau</option>
+            <option value="Tonga">Tonga</option>
+            <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+            <option value="Tunisia">Tunisia</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Turkmenistan">Turkmenistan</option>
+            <option value="Turks &amp; Caicos Is">Turks &amp; Caicos Is</option>
+            <option value="Tuvalu">Tuvalu</option>
+            <option value="Uganda">Uganda</option>
+            <option value="Ukraine">Ukraine</option>
+            <option value="United Arab Erimates">United Arab Emirates</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="United States of America">United States of America</option>
+            <option value="Uraguay">Uruguay</option>
+            <option value="Uzbekistan">Uzbekistan</option>
+            <option value="Vanuatu">Vanuatu</option>
+            <option value="Vatican City State">Vatican City State</option>
+            <option value="Venezuela">Venezuela</option>
+            <option value="Vietnam">Vietnam</option>
+            <option value="Virgin Islands (Brit)">Virgin Islands (Brit)</option>
+            <option value="Virgin Islands (USA)">Virgin Islands (USA)</option>
+            <option value="Wake Island">Wake Island</option>
+            <option value="Wallis &amp; Futana Is">Wallis &amp; Futana Is</option>
+            <option value="Yemen">Yemen</option>
+            <option value="Zaire">Zaire</option>
+            <option value="Zambia">Zambia</option>
+            <option value="Zimbabwe">Zimbabwe</option>
+            </select>
+          </div>
+
+        <div class="field">
+          <label>
+            <span>Home Address Line 1</span>
+            <i class="help circle icon link" data-content="Please type your street address in this field e.g. “Hacker Boulevard”." data-variation="inverted" data-position="right center"></i>
+          </label>
+          <input type="text"
+                 name="addressLine1"
+                 ng-model="user.reimbursement.addressLine1"
+                 placeholder="Hackerstreet">
+        </div>
+
+        <div class="field">
+          <label>
+            <span>Home Address Line 2</span>
+            <i class="help circle icon link" data-content="Please type here your building number and apartment/suite e.g. “67X 32”." data-variation="inverted" data-position="right center"></i>
+          </label>
+          <input type="text"
+                 name="addressLine1"
+                 ng-model="user.reimbursement.addressLine2"
+                 placeholder="13 A 37">
+        </div>
+
+        <div class="field">
+          <label> Home City </label>
+          <input type="text"
+                 name="city"
+                 ng-model="user.reimbursement.city"
+                 placeholder="Hack">
+        </div>
+
+        <div class="field">
+          <label>
+            <span>ZIP code</span>
+            <i class="help circle icon link" data-content="Please type here your area’s ZIP/Postal code e.g. “10001”" data-variation="inverted" data-position="right center"></i>
+          </label>
+          <input type="text"
+                 name="zipCode"
+                 class="zipCodeField"
+                 ng-model="user.reimbursement.zipCode">
+        </div>
+
+        <div class="field">
+          <label> Home State / Province / Region </label>
+          <input type="text"
+                 name="stateProvinceRegion"
+                 ng-model="user.reimbursement.stateProvinceRegion"
+                 placeholder="Southern Hackland">
+        </div>
+
+        <div class="field">
+          <label> Home Country </label>
+          <select class="ui fluid search selection dropdown"
+          name="countryOfLiving"
+          id="countryOfLiving"
+          ng-model="user.reimbursement.countryOfLiving">
+          <option value="">Country...</option>
+          <option value="Afganistan">Afghanistan</option>
+          <option value="Albania">Albania</option>
+          <option value="Algeria">Algeria</option>
+          <option value="American Samoa">American Samoa</option>
+          <option value="Andorra">Andorra</option>
+          <option value="Angola">Angola</option>
+          <option value="Anguilla">Anguilla</option>
+          <option value="Antigua &amp; Barbuda">Antigua &amp; Barbuda</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Armenia">Armenia</option>
+          <option value="Aruba">Aruba</option>
+          <option value="Australia">Australia</option>
+          <option value="Austria">Austria</option>
+          <option value="Azerbaijan">Azerbaijan</option>
+          <option value="Bahamas">Bahamas</option>
+          <option value="Bahrain">Bahrain</option>
+          <option value="Bangladesh">Bangladesh</option>
+          <option value="Barbados">Barbados</option>
+          <option value="Belarus">Belarus</option>
+          <option value="Belgium">Belgium</option>
+          <option value="Belize">Belize</option>
+          <option value="Benin">Benin</option>
+          <option value="Bermuda">Bermuda</option>
+          <option value="Bhutan">Bhutan</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="Bonaire">Bonaire</option>
+          <option value="Bosnia &amp; Herzegovina">Bosnia &amp; Herzegovina</option>
+          <option value="Botswana">Botswana</option>
+          <option value="Brazil">Brazil</option>
+          <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
+          <option value="Brunei">Brunei</option>
+          <option value="Bulgaria">Bulgaria</option>
+          <option value="Burkina Faso">Burkina Faso</option>
+          <option value="Burundi">Burundi</option>
+          <option value="Cambodia">Cambodia</option>
+          <option value="Cameroon">Cameroon</option>
+          <option value="Canada">Canada</option>
+          <option value="Canary Islands">Canary Islands</option>
+          <option value="Cape Verde">Cape Verde</option>
+          <option value="Cayman Islands">Cayman Islands</option>
+          <option value="Central African Republic">Central African Republic</option>
+          <option value="Chad">Chad</option>
+          <option value="Channel Islands">Channel Islands</option>
+          <option value="Chile">Chile</option>
+          <option value="China">China</option>
+          <option value="Christmas Island">Christmas Island</option>
+          <option value="Cocos Island">Cocos Island</option>
+          <option value="Colombia">Colombia</option>
+          <option value="Comoros">Comoros</option>
+          <option value="Congo">Congo</option>
+          <option value="Cook Islands">Cook Islands</option>
+          <option value="Costa Rica">Costa Rica</option>
+          <option value="Cote DIvoire">Cote D'Ivoire</option>
+          <option value="Croatia">Croatia</option>
+          <option value="Cuba">Cuba</option>
+          <option value="Curaco">Curacao</option>
+          <option value="Cyprus">Cyprus</option>
+          <option value="Czech Republic">Czech Republic</option>
+          <option value="Denmark">Denmark</option>
+          <option value="Djibouti">Djibouti</option>
+          <option value="Dominica">Dominica</option>
+          <option value="Dominican Republic">Dominican Republic</option>
+          <option value="East Timor">East Timor</option>
+          <option value="Ecuador">Ecuador</option>
+          <option value="Egypt">Egypt</option>
+          <option value="El Salvador">El Salvador</option>
+          <option value="Equatorial Guinea">Equatorial Guinea</option>
+          <option value="Eritrea">Eritrea</option>
+          <option value="Estonia">Estonia</option>
+          <option value="Ethiopia">Ethiopia</option>
+          <option value="Falkland Islands">Falkland Islands</option>
+          <option value="Faroe Islands">Faroe Islands</option>
+          <option value="Fiji">Fiji</option>
+          <option value="Finland">Finland</option>
+          <option value="France">France</option>
+          <option value="French Guiana">French Guiana</option>
+          <option value="French Polynesia">French Polynesia</option>
+          <option value="French Southern Ter">French Southern Ter</option>
+          <option value="Gabon">Gabon</option>
+          <option value="Gambia">Gambia</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Germany">Germany</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Gibraltar">Gibraltar</option>
+          <option value="Greece">Greece</option>
+          <option value="Greenland">Greenland</option>
+          <option value="Grenada">Grenada</option>
+          <option value="Guadeloupe">Guadeloupe</option>
+          <option value="Guam">Guam</option>
+          <option value="Guatemala">Guatemala</option>
+          <option value="Guinea">Guinea</option>
+          <option value="Guyana">Guyana</option>
+          <option value="Haiti">Haiti</option>
+          <option value="Hawaii">Hawaii</option>
+          <option value="Honduras">Honduras</option>
+          <option value="Hong Kong">Hong Kong</option>
+          <option value="Hungary">Hungary</option>
+          <option value="Iceland">Iceland</option>
+          <option value="India">India</option>
+          <option value="Indonesia">Indonesia</option>
+          <option value="Iran">Iran</option>
+          <option value="Iraq">Iraq</option>
+          <option value="Ireland">Ireland</option>
+          <option value="Isle of Man">Isle of Man</option>
+          <option value="Israel">Israel</option>
+          <option value="Italy">Italy</option>
+          <option value="Jamaica">Jamaica</option>
+          <option value="Japan">Japan</option>
+          <option value="Jordan">Jordan</option>
+          <option value="Kazakhstan">Kazakhstan</option>
+          <option value="Kenya">Kenya</option>
+          <option value="Kiribati">Kiribati</option>
+          <option value="Kuwait">Kuwait</option>
+          <option value="Kyrgyzstan">Kyrgyzstan</option>
+          <option value="Laos">Laos</option>
+          <option value="Latvia">Latvia</option>
+          <option value="Lebanon">Lebanon</option>
+          <option value="Lesotho">Lesotho</option>
+          <option value="Liberia">Liberia</option>
+          <option value="Libya">Libya</option>
+          <option value="Liechtenstein">Liechtenstein</option>
+          <option value="Lithuania">Lithuania</option>
+          <option value="Luxembourg">Luxembourg</option>
+          <option value="Macau">Macau</option>
+          <option value="Macedonia">Macedonia</option>
+          <option value="Madagascar">Madagascar</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="Malawi">Malawi</option>
+          <option value="Maldives">Maldives</option>
+          <option value="Mali">Mali</option>
+          <option value="Malta">Malta</option>
+          <option value="Marshall Islands">Marshall Islands</option>
+          <option value="Martinique">Martinique</option>
+          <option value="Mauritania">Mauritania</option>
+          <option value="Mauritius">Mauritius</option>
+          <option value="Mayotte">Mayotte</option>
+          <option value="Mexico">Mexico</option>
+          <option value="Midway Islands">Midway Islands</option>
+          <option value="Moldova">Moldova</option>
+          <option value="Monaco">Monaco</option>
+          <option value="Mongolia">Mongolia</option>
+          <option value="Montenegro">Montenegro</option>
+          <option value="Montserrat">Montserrat</option>
+          <option value="Morocco">Morocco</option>
+          <option value="Mozambique">Mozambique</option>
+          <option value="Myanmar">Myanmar</option>
+          <option value="Nambia">Nambia</option>
+          <option value="Nauru">Nauru</option>
+          <option value="Nepal">Nepal</option>
+          <option value="Netherland Antilles">Netherland Antilles</option>
+          <option value="Netherlands">Netherlands (Holland, Europe)</option>
+          <option value="Nevis">Nevis</option>
+          <option value="New Caledonia">New Caledonia</option>
+          <option value="New Zealand">New Zealand</option>
+          <option value="Nicaragua">Nicaragua</option>
+          <option value="Niger">Niger</option>
+          <option value="Nigeria">Nigeria</option>
+          <option value="Niue">Niue</option>
+          <option value="Norfolk Island">Norfolk Island</option>
+          <option value="North Korea">North Korea</option>
+          <option value="Norway">Norway</option>
+          <option value="Oman">Oman</option>
+          <option value="Pakistan">Pakistan</option>
+          <option value="Palau Island">Palau Island</option>
+          <option value="Palestine">Palestine</option>
+          <option value="Panama">Panama</option>
+          <option value="Papua New Guinea">Papua New Guinea</option>
+          <option value="Paraguay">Paraguay</option>
+          <option value="Peru">Peru</option>
+          <option value="Phillipines">Philippines</option>
+          <option value="Pitcairn Island">Pitcairn Island</option>
+          <option value="Poland">Poland</option>
+          <option value="Portugal">Portugal</option>
+          <option value="Puerto Rico">Puerto Rico</option>
+          <option value="Qatar">Qatar</option>
+          <option value="Reunion">Reunion</option>
+          <option value="Romania">Romania</option>
+          <option value="Russia">Russia</option>
+          <option value="Rwanda">Rwanda</option>
+          <option value="St Barthelemy">St Barthelemy</option>
+          <option value="St Eustatius">St Eustatius</option>
+          <option value="St Helena">St Helena</option>
+          <option value="St Kitts-Nevis">St Kitts-Nevis</option>
+          <option value="St Lucia">St Lucia</option>
+          <option value="St Maarten">St Maarten</option>
+          <option value="St Pierre &amp; Miquelon">St Pierre &amp; Miquelon</option>
+          <option value="St Vincent &amp; Grenadines">St Vincent &amp; Grenadines</option>
+          <option value="Saipan">Saipan</option>
+          <option value="Samoa">Samoa</option>
+          <option value="Samoa American">Samoa American</option>
+          <option value="San Marino">San Marino</option>
+          <option value="Sao Tome &amp; Principe">Sao Tome &amp; Principe</option>
+          <option value="Saudi Arabia">Saudi Arabia</option>
+          <option value="Senegal">Senegal</option>
+          <option value="Serbia">Serbia</option>
+          <option value="Seychelles">Seychelles</option>
+          <option value="Sierra Leone">Sierra Leone</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Slovakia">Slovakia</option>
+          <option value="Slovenia">Slovenia</option>
+          <option value="Solomon Islands">Solomon Islands</option>
+          <option value="Somalia">Somalia</option>
+          <option value="South Africa">South Africa</option>
+          <option value="South Korea">South Korea</option>
+          <option value="Spain">Spain</option>
+          <option value="Sri Lanka">Sri Lanka</option>
+          <option value="Sudan">Sudan</option>
+          <option value="Suriname">Suriname</option>
+          <option value="Swaziland">Swaziland</option>
+          <option value="Sweden">Sweden</option>
+          <option value="Switzerland">Switzerland</option>
+          <option value="Syria">Syria</option>
+          <option value="Tahiti">Tahiti</option>
+          <option value="Taiwan">Taiwan</option>
+          <option value="Tajikistan">Tajikistan</option>
+          <option value="Tanzania">Tanzania</option>
+          <option value="Thailand">Thailand</option>
+          <option value="Togo">Togo</option>
+          <option value="Tokelau">Tokelau</option>
+          <option value="Tonga">Tonga</option>
+          <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+          <option value="Tunisia">Tunisia</option>
+          <option value="Turkey">Turkey</option>
+          <option value="Turkmenistan">Turkmenistan</option>
+          <option value="Turks &amp; Caicos Is">Turks &amp; Caicos Is</option>
+          <option value="Tuvalu">Tuvalu</option>
+          <option value="Uganda">Uganda</option>
+          <option value="Ukraine">Ukraine</option>
+          <option value="United Arab Erimates">United Arab Emirates</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States of America">United States of America</option>
+          <option value="Uraguay">Uruguay</option>
+          <option value="Uzbekistan">Uzbekistan</option>
+          <option value="Vanuatu">Vanuatu</option>
+          <option value="Vatican City State">Vatican City State</option>
+          <option value="Venezuela">Venezuela</option>
+          <option value="Vietnam">Vietnam</option>
+          <option value="Virgin Islands (Brit)">Virgin Islands (Brit)</option>
+          <option value="Virgin Islands (USA)">Virgin Islands (USA)</option>
+          <option value="Wake Island">Wake Island</option>
+          <option value="Wallis &amp; Futana Is">Wallis &amp; Futana Is</option>
+          <option value="Yemen">Yemen</option>
+          <option value="Zaire">Zaire</option>
+          <option value="Zambia">Zambia</option>
+          <option value="Zimbabwe">Zimbabwe</option>
+          </select>
+        </div>
+
+        <div class="divided title" style="margin-top:20px;">Bank Information</div>
+        <div class="inline fields">
+          <label>Will the reimbursement be paid to your <b>own</b> bank account?</label>
+          <div class="field">
+            <div class="ui radio checkbox" name="ownerCheck">
+              <input type="radio" name="accountOwner" checked="true" ng-model="accountOwner" value="user">
+              <label>Yes</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="accountOwner" ng-model="accountOwner" value="other">
+              <label>No</label>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="accountOwnerFields" ng-show="accountOwner == 'other'">
+          <div class="title">
+            Account Owner Information
+            <i class="help circle icon link" data-content="Please type the account owner's information in the fields below." data-variation="inverted" data-position="right center"></i>
+          </div>
+          <div class="field">
+            <label> Full Name </label>
+            <input type="text"
+                   name="ACNAME"
+                   class="ACNAME"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerName">
+          </div>
+
+          <div class="field">
+            <label> Date of Birth </label>
+            <input type="date"
+                   name="ACBD"
+                   class="ACBD"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerBirthdate">
+          </div>
+
+          <div class="field">
+            <label>
+              <span>Address Line 1</span>
+              <i class="help circle icon link" data-content="Please type account owner's street address in this field e.g. “Hacker Boulevard”." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="ACAL1"
+                   class="ACAL1"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerA1">
+          </div>
+
+          <div class="field">
+            <label>
+              <span>Address Line 2</span>
+              <i class="help circle icon link" data-content="Please type here account owner's building number and apartment/suite e.g. “67X 32”." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="ACAL2"
+                   class="ACAL2"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerA2">
+          </div>
+
+          <div class="field">
+            <label> City </label>
+            <input type="text"
+                   name="ACCITY"
+                   class="ACCITY"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerCity"
+                   placeholder="Hack">
+          </div>
+
+          <div class="field">
+            <label>
+              <span>ZIP code</span>
+              <i class="help circle icon link" data-content="Please type here account owner's area’s ZIP/Postal code e.g. “10001”" data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="ACZIP"
+                   class="ACZIP"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerZIP">
+          </div>
+
+          <div class="field">
+            <label> State / Province / Region </label>
+            <input type="text"
+                   name="ACREG"
+                   class="ACREG"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerRegion">
+          </div>
+
+          <div class="field">
+            <label>Country</label>
+            <input type="text"
+                   name="ACCOUNTRY"
+                   class="ACCOUNTRY"
+                   disabled="true"
+                   ng-model="user.reimbursement.accountOwnerCountry">
+          </div>
+        </div>
+
+        <br/>
+
+        <div class="accountInformationFields">
+          <div class="title" style="padding-bottom:20px">
+            Account Information
+          </div>
+          <div class="field">
+            <p>Based on your country of your bank, you will be given the fields to fill. If you don't have information for some of the fields provided (for example, IBAN or BIC), you can leave it empty if you are absolutely sure you do not have to fill that info. Also, leave out the spaces on the codes that have it!</p>
+            <label>Country of your bank</label>
+            <select class="ui fluid search selection dropdown"
+                   name="countryOfBank"
+                   id="countryOfB"
+                   ng-change="onBankCountryUpdate()"
+                   ng-model="user.reimbursement.countryOfBank">
+             <option value="">Country...</option>
+             <option value="Afganistan">Afghanistan</option>
+             <option value="Albania">Albania</option>
+             <option value="Algeria">Algeria</option>
+             <option value="American Samoa">American Samoa</option>
+             <option value="Andorra">Andorra</option>
+             <option value="Angola">Angola</option>
+             <option value="Anguilla">Anguilla</option>
+             <option value="Antigua &amp; Barbuda">Antigua &amp; Barbuda</option>
+             <option value="Argentina">Argentina</option>
+             <option value="Armenia">Armenia</option>
+             <option value="Aruba">Aruba</option>
+             <option value="Australia">Australia</option>
+             <option value="Austria">Austria</option>
+             <option value="Azerbaijan">Azerbaijan</option>
+             <option value="Bahamas">Bahamas</option>
+             <option value="Bahrain">Bahrain</option>
+             <option value="Bangladesh">Bangladesh</option>
+             <option value="Barbados">Barbados</option>
+             <option value="Belarus">Belarus</option>
+             <option value="Belgium">Belgium</option>
+             <option value="Belize">Belize</option>
+             <option value="Benin">Benin</option>
+             <option value="Bermuda">Bermuda</option>
+             <option value="Bhutan">Bhutan</option>
+             <option value="Bolivia">Bolivia</option>
+             <option value="Bonaire">Bonaire</option>
+             <option value="Bosnia &amp; Herzegovina">Bosnia &amp; Herzegovina</option>
+             <option value="Botswana">Botswana</option>
+             <option value="Brazil">Brazil</option>
+             <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
+             <option value="Brunei">Brunei</option>
+             <option value="Bulgaria">Bulgaria</option>
+             <option value="Burkina Faso">Burkina Faso</option>
+             <option value="Burundi">Burundi</option>
+             <option value="Cambodia">Cambodia</option>
+             <option value="Cameroon">Cameroon</option>
+             <option value="Canada">Canada</option>
+             <option value="Canary Islands">Canary Islands</option>
+             <option value="Cape Verde">Cape Verde</option>
+             <option value="Cayman Islands">Cayman Islands</option>
+             <option value="Central African Republic">Central African Republic</option>
+             <option value="Chad">Chad</option>
+             <option value="Channel Islands">Channel Islands</option>
+             <option value="Chile">Chile</option>
+             <option value="Christmas Island">Christmas Island</option>
+             <option value="Cocos Island">Cocos Island</option>
+             <option value="Colombia">Colombia</option>
+             <option value="Comoros">Comoros</option>
+             <option value="Congo">Congo</option>
+             <option value="Cook Islands">Cook Islands</option>
+             <option value="Costa Rica">Costa Rica</option>
+             <option value="Cote DIvoire">Cote D'Ivoire</option>
+             <option value="Croatia">Croatia</option>
+             <option value="Cuba">Cuba</option>
+             <option value="Curaco">Curacao</option>
+             <option value="Cyprus">Cyprus</option>
+             <option value="Czech Republic">Czech Republic</option>
+             <option value="Denmark">Denmark</option>
+             <option value="Djibouti">Djibouti</option>
+             <option value="Dominica">Dominica</option>
+             <option value="Dominican Republic">Dominican Republic</option>
+             <option value="East Timor">East Timor</option>
+             <option value="Ecuador">Ecuador</option>
+             <option value="Egypt">Egypt</option>
+             <option value="El Salvador">El Salvador</option>
+             <option value="Equatorial Guinea">Equatorial Guinea</option>
+             <option value="Eritrea">Eritrea</option>
+             <option value="Estonia">Estonia</option>
+             <option value="Ethiopia">Ethiopia</option>
+             <option value="Falkland Islands">Falkland Islands</option>
+             <option value="Faroe Islands">Faroe Islands</option>
+             <option value="Fiji">Fiji</option>
+             <option value="Finland">Finland</option>
+             <option value="France">France</option>
+             <option value="French Guiana">French Guiana</option>
+             <option value="French Polynesia">French Polynesia</option>
+             <option value="French Southern Ter">French Southern Ter</option>
+             <option value="Gabon">Gabon</option>
+             <option value="Gambia">Gambia</option>
+             <option value="Georgia">Georgia</option>
+             <option value="Germany">Germany</option>
+             <option value="Ghana">Ghana</option>
+             <option value="Gibraltar">Gibraltar</option>
+             <option value="Great Britain">Great Britain</option>
+             <option value="Greece">Greece</option>
+             <option value="Greenland">Greenland</option>
+             <option value="Grenada">Grenada</option>
+             <option value="Guadeloupe">Guadeloupe</option>
+             <option value="Guam">Guam</option>
+             <option value="Guatemala">Guatemala</option>
+             <option value="Guinea">Guinea</option>
+             <option value="Guyana">Guyana</option>
+             <option value="Haiti">Haiti</option>
+             <option value="Hawaii">Hawaii</option>
+             <option value="Honduras">Honduras</option>
+             <option value="Hong Kong">Hong Kong</option>
+             <option value="Hungary">Hungary</option>
+             <option value="Iceland">Iceland</option>
+             <option value="India">India</option>
+             <option value="Indonesia">Indonesia</option>
+             <option value="Iraq">Iraq</option>
+             <option value="Ireland">Ireland</option>
+             <option value="Isle of Man">Isle of Man</option>
+             <option value="Israel">Israel</option>
+             <option value="Italy">Italy</option>
+             <option value="Jamaica">Jamaica</option>
+             <option value="Japan">Japan</option>
+             <option value="Jordan">Jordan</option>
+             <option value="Kazakhstan">Kazakhstan</option>
+             <option value="Kenya">Kenya</option>
+             <option value="Kiribati">Kiribati</option>
+             <option value="Korea North">Korea North</option>
+             <option value="Korea Sout">Korea South</option>
+             <option value="Kuwait">Kuwait</option>
+             <option value="Kyrgyzstan">Kyrgyzstan</option>
+             <option value="Laos">Laos</option>
+             <option value="Latvia">Latvia</option>
+             <option value="Lebanon">Lebanon</option>
+             <option value="Lesotho">Lesotho</option>
+             <option value="Liberia">Liberia</option>
+             <option value="Libya">Libya</option>
+             <option value="Liechtenstein">Liechtenstein</option>
+             <option value="Lithuania">Lithuania</option>
+             <option value="Luxembourg">Luxembourg</option>
+             <option value="Macau">Macau</option>
+             <option value="Macedonia">Macedonia</option>
+             <option value="Madagascar">Madagascar</option>
+             <option value="Malaysia">Malaysia</option>
+             <option value="Malawi">Malawi</option>
+             <option value="Maldives">Maldives</option>
+             <option value="Mali">Mali</option>
+             <option value="Malta">Malta</option>
+             <option value="Marshall Islands">Marshall Islands</option>
+             <option value="Martinique">Martinique</option>
+             <option value="Mauritania">Mauritania</option>
+             <option value="Mauritius">Mauritius</option>
+             <option value="Mayotte">Mayotte</option>
+             <option value="Midway Islands">Midway Islands</option>
+             <option value="Moldova">Moldova</option>
+             <option value="Monaco">Monaco</option>
+             <option value="Mongolia">Mongolia</option>
+             <option value="Montserrat">Montserrat</option>
+             <option value="Morocco">Morocco</option>
+             <option value="Mozambique">Mozambique</option>
+             <option value="Myanmar">Myanmar</option>
+             <option value="Nambia">Nambia</option>
+             <option value="Nauru">Nauru</option>
+             <option value="Nepal">Nepal</option>
+             <option value="Netherland Antilles">Netherland Antilles</option>
+             <option value="Netherlands">Netherlands (Holland, Europe)</option>
+             <option value="Nevis">Nevis</option>
+             <option value="New Caledonia">New Caledonia</option>
+             <option value="New Zealand">New Zealand</option>
+             <option value="Nicaragua">Nicaragua</option>
+             <option value="Niger">Niger</option>
+             <option value="Nigeria">Nigeria</option>
+             <option value="Niue">Niue</option>
+             <option value="Norfolk Island">Norfolk Island</option>
+             <option value="Norway">Norway</option>
+             <option value="Oman">Oman</option>
+             <option value="Pakistan">Pakistan</option>
+             <option value="Palau Island">Palau Island</option>
+             <option value="Palestine">Palestine</option>
+             <option value="Panama">Panama</option>
+             <option value="Papua New Guinea">Papua New Guinea</option>
+             <option value="Paraguay">Paraguay</option>
+             <option value="Peru">Peru</option>
+             <option value="Phillipines">Philippines</option>
+             <option value="Pitcairn Island">Pitcairn Island</option>
+             <option value="Poland">Poland</option>
+             <option value="Portugal">Portugal</option>
+             <option value="Puerto Rico">Puerto Rico</option>
+             <option value="Qatar">Qatar</option>
+             <option value="Republic of Montenegro">Republic of Montenegro</option>
+             <option value="Republic of Serbia">Republic of Serbia</option>
+             <option value="Reunion">Reunion</option>
+             <option value="Romania">Romania</option>
+             <option value="Russia">Russia</option>
+             <option value="Rwanda">Rwanda</option>
+             <option value="St Barthelemy">St Barthelemy</option>
+             <option value="St Eustatius">St Eustatius</option>
+             <option value="St Helena">St Helena</option>
+             <option value="St Kitts-Nevis">St Kitts-Nevis</option>
+             <option value="St Lucia">St Lucia</option>
+             <option value="St Maarten">St Maarten</option>
+             <option value="St Pierre &amp; Miquelon">St Pierre &amp; Miquelon</option>
+             <option value="St Vincent &amp; Grenadines">St Vincent &amp; Grenadines</option>
+             <option value="Saipan">Saipan</option>
+             <option value="Samoa">Samoa</option>
+             <option value="Samoa American">Samoa American</option>
+             <option value="San Marino">San Marino</option>
+             <option value="Sao Tome &amp; Principe">Sao Tome &amp; Principe</option>
+             <option value="Saudi Arabia">Saudi Arabia</option>
+             <option value="Senegal">Senegal</option>
+             <option value="Serbia">Serbia</option>
+             <option value="Seychelles">Seychelles</option>
+             <option value="Sierra Leone">Sierra Leone</option>
+             <option value="Singapore">Singapore</option>
+             <option value="Slovakia">Slovakia</option>
+             <option value="Slovenia">Slovenia</option>
+             <option value="Solomon Islands">Solomon Islands</option>
+             <option value="Somalia">Somalia</option>
+             <option value="South Africa">South Africa</option>
+             <option value="Spain">Spain</option>
+             <option value="Sri Lanka">Sri Lanka</option>
+             <option value="Sudan">Sudan</option>
+             <option value="Suriname">Suriname</option>
+             <option value="Swaziland">Swaziland</option>
+             <option value="Sweden">Sweden</option>
+             <option value="Switzerland">Switzerland</option>
+             <option value="Tahiti">Tahiti</option>
+             <option value="Taiwan">Taiwan</option>
+             <option value="Tajikistan">Tajikistan</option>
+             <option value="Tanzania">Tanzania</option>
+             <option value="Thailand">Thailand</option>
+             <option value="Togo">Togo</option>
+             <option value="Tokelau">Tokelau</option>
+             <option value="Tonga">Tonga</option>
+             <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+             <option value="Tunisia">Tunisia</option>
+             <option value="Turkey">Turkey</option>
+             <option value="Turkmenistan">Turkmenistan</option>
+             <option value="Turks &amp; Caicos Is">Turks &amp; Caicos Is</option>
+             <option value="Tuvalu">Tuvalu</option>
+             <option value="Uganda">Uganda</option>
+             <option value="Ukraine">Ukraine</option>
+             <option value="United Arab Erimates">United Arab Emirates</option>
+             <option value="United Kingdom">United Kingdom</option>
+             <option value="United States of America">United States of America</option>
+             <option value="Uraguay">Uruguay</option>
+             <option value="Uzbekistan">Uzbekistan</option>
+             <option value="Vanuatu">Vanuatu</option>
+             <option value="Vatican City State">Vatican City State</option>
+             <option value="Venezuela">Venezuela</option>
+             <option value="Vietnam">Vietnam</option>
+             <option value="Virgin Islands (Brit)">Virgin Islands (Brit)</option>
+             <option value="Virgin Islands (USA)">Virgin Islands (USA)</option>
+             <option value="Wake Island">Wake Island</option>
+             <option value="Wallis &amp; Futana Is">Wallis &amp; Futana Is</option>
+             <option value="Yemen">Yemen</option>
+             <option value="Zaire">Zaire</option>
+             <option value="Zambia">Zambia</option>
+             <option value="Zimbabwe">Zimbabwe</option>
+             <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="field" ng-show="isSEPA || isOther || isUS || isINDIA || isRUS || isAUS">
+            <label>
+              <span>Name of the bank</span>
+              <i class="help circle icon link" data-content="Please type here your bank’s full name, google the full name if you’re not sure what it is." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="nameOfBank"
+                   ng-model="user.reimbursement.nameOfBank"
+                   placeholder="Central Bank of Hacktown">
+          </div>
+
+          <div class="field" ng-show="isSEPA || isOther || isINDIA || isRUS || isUS">
+            <label>
+              <span class="swiftBicLabel">SWIFT / BIC</span>
+              <i class="help circle icon link" data-content="Please type here your bank’s SWIFT/BIC (Bank/Business Identifier Code). Each bank has its own unique identifier code varying from 8 to 11 characters. As multinational banks have different SWIFT/BIC codes in different areas and countries, remember to pay attention that you choose the correct one e.g. Nordea’s SWIFT/BIC is NDEAFIHH in Finland and NDEADKKK in Denmark." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="swiftOrBic"
+                   class="swiftOrBicField"
+                   ng-model="user.reimbursement.swiftOrBic"
+                   placeholder="HACKIN17">
+          </div>
+
+          <div class="field" ng-show="isSEPA">
+            <label>
+              <span>IBAN</span>
+              <i class="help circle icon link" data-content="Please type here your bank account series in IBAN form. IBAN is the standardized International Bank Account Number which consist of country code and a number series of different standardized length in IBAN-countries. Note that the form only accepts exact number of characters in a specific IBAN-country e.g. 18 characters in Finland and 27 characters in Italy." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="iban"
+                   class="ibanField"
+                   ng-model="user.reimbursement.iban"
+                   placeholder="HT000028112017">
+          </div>
+
+          <div class="field" ng-show="isUS || isINDIA || isRUS || isAUS">
+            <label>
+              <span>BBAN</span>
+              <i class="help circle icon link" data-content="Please type here your Basic Bank Account Number which is composed of 10 to 30 characters e.g. 3704 0044 0532 0130 00. Every country has it’s specific BBAN format and length depending on its own standards." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="bban"
+                   class="bbanField"
+                   ng-model="user.reimbursement.bban">
+          </div>
+
+          <div class="field" ng-show="isINDIA">
+            <label>Receipt Purpose Code</label>
+            <input type="text"
+                   name="rpc"
+                   class="rpcField"
+                   ng-model="user.reimbursement.receiptPurposeCode"
+                   placeholder="P0001">
+          </div>
+
+          <div class="field" ng-show="isOther  || isAUS || isUS">
+            <label>
+              <span class="ccLabel">Clearing code</span>
+              <i class="help circle icon link" data-content="Please type here your clearing code/NCC/Fedwire/ABA/Routing Number/IFSC which is commonly used in non-SEPA countries e.g. in US, Australia and India. The clearing codes vary across different countries so we kindly ask you to check your bank’s clearing code yourself or contact your bank in case of confusion." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="clearingCode"
+                   class="clearingCodeField"
+                   ng-model="user.reimbursement.clearingCode">
+          </div>
+
+          <div class="field" ng-show="isOther">
+            <label class="accountNumberLabel">IBAN / BBAN / Account number</label>
+            <input type="text"
+                   name="accountNumber"
+                   class="accountNumberField"
+                   ng-model="user.reimbursement.accountNumber">
+          </div>
+
+          <div class="field" ng-show="isOther || isUS || isRUS || isAUS || isINDIA">
+            <label>
+              <span>City of the bank</span>
+              <i class="help circle icon link" data-content="Please type here your bank’s city location e.g. Moscow for the Sberbank." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="cityOfBank"
+                   class="cityOfBankField"
+                   ng-model="user.reimbursement.cityOfBank">
+          </div>
+
+          <div class="field" ng-show="isOther || isUS || isRUS || isAUS || isINDIA">
+            <label>
+              <span>Address of the bank</span>
+              <i class="help circle icon link" data-content="Please type here the address of your bank e.g. 19 Vavilova Street." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="addressOfBank"
+                   class="addressOfBankField"
+                   ng-model="user.reimbursement.addressOfBank">
+          </div>
+
+          <div class="field" ng-show="isOther || isUS || isRUS || isAUS || isINDIA">
+            <label>
+              <span>ZIP code of the bank</span>
+              <i class="help circle icon link" data-content="Please type here the ZIP/Postal code of your bank. Check ZIP Code tooltip for further info." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <input type="text"
+                   name="zipCodeBank"
+                   class="zipCodeBankField"
+                   ng-model="user.reimbursement.zipCodeOfBank">
+          </div>
+
+          <div class="field" ng-show="isOther || isUS || isRUS || isAUS || isINDIA">
+            <label>
+              <span>Brokerage information</span>
+              <i class="help circle icon link" data-content="Please type here here your brokerage’s name, full address, city and country. Further info for these in other tooltips." data-variation="inverted" data-position="right center"></i>
+            </label>
+            <textarea name="brokerageInfo"
+                      class="brokerageInfoField"
+                      ng-model="user.reimbursement.brokerageInfo"/>
+          </div>
+        </div>
+
+        <div class="divided title receipt" style="margin-top:20px;">
+          RECEIPTS
+        </div>
+
+        <div class="field">
+            <label>
+              Choose <b>ONE</b> PDF-file of your travel reimbusements to upload (Max. 2MB)
+            </label>
+            <ol>
+              <li>
+                The pdf-file should contain your <b>TRAVEL RECEIPTS</b> that must contain:<br>
+                <ul> 
+                    <li><b>YOUR NAME</b></li>
+                    <li><b>TOTAL SUM OF THE PAID AMOUNT</b></li>
+                </ul>
+              </li>
+              <li>
+              <p>You can use a <a href="http://combinepdf.com/" target="_blank"><b>pdf-combiner</b></a> to combine many pdf-files to one single file.</p> 
+              </li>
+              <li>
+              <p>You can also include bank information in the same pdf-file if you want to.</p>         
+              </li>
+              <li>
+              <p>Press the <b>Upload-button</b> to send us the file.</p>
+              </li>
+              <li>
+                <p>If you've uploaded already a file, uploading a new file will <b>REPLACE AND DELETE</b> the previous one.</p>   
+              </li>
+            </ol>
+            <input
+               type="file"
+               name="fileUpload"
+               file-input="files"
+               accept="application/pdf"
+               id="fileName"
+               ng-disabled="disableUpload"
+               onchange="angular.element(this).scope().updateFileName()"/>
+            <p ng-show="user.reimbursement.fileName">You've successfully uploaded us this file: <b>{{user.reimbursement.fileName}}</b></p>             
+            <button class="ui button sea-serpent" ng-click="upload()" style="margin-top:10px;">Upload</button>
+            <div class="ui inline loader"></div>   
+        </div>
+
+        <div class="field">
+          <label>Additional information</label>
+          <textarea ng-model="user.reimbursement.additional"/>
+        </div>
+
+        <div class="field">
+          <label>Check that your information is correct!</label>
+          <div class="ui checkbox">
+            <input type="checkbox"
+                   name="correctInfo"
+                   class="correctInfo">
+            <label for="correctInfo">I've double checked and I'm sure that my information is correct</label>
+          </div>
+        </div>
+
+        <br>
+        <br>
+        <div class="ui small negative message"
+            ng-show='error'>
+          {{error}} <br>
+          <ul>
+            <div data-ng-repeat="i in fieldErrors">
+              <li>{{ i }}</li>
+            </div>
+          </ul>
+        </div>
+
+
+        <div class="field">
+          <button type="submit"
+                  class="fluid ui sea-serpent button"
+                  ng-click="submitForm()">
+            Submit
+          </button>
+        </div>
+
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>

@@ -199,7 +199,7 @@ module.exports = function(router) {
           //create storage using multerS3
           storage: multerS3({
             s3: s3,
-            bucket: 'junction-2017-tr-receipts',
+            bucket: 'junction-2018-travel-grant-receipts',
             contentType: multerS3.AUTO_CONTENT_TYPE,
             metadata: function(req, file, cb) {
               cb(null, {fieldName: file.fieldname});

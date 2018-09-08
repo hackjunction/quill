@@ -323,7 +323,7 @@ angular.module('reg')
                   swal("Travel Grant Class set!", `${user.profile.name} has TG Class set to ${user.profile.AcceptedreimbursementClass}`, "success");
             }
             else
-              swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
+              swal("Could not be accepted", 'User must be Soft Accepted to set their Travel Grant Class. Please Soft Accept them first', "error");
           })
       }
 
@@ -332,7 +332,7 @@ angular.module('reg')
 
         swal({
           title: "Whoa, wait a minute!",
-          text: "You are about to SOFT accept " + user.profile.name + "!" + " This doesn't let the user know if they're accepted yet, it's just internal acceptance",
+          text: "You are about to SOFT accept " + user.profile.name + "!" + " This doesn't let the user know if they're accepted yet, it's just internal acceptance.",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#DD6B55",

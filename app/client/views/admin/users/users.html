@@ -341,6 +341,14 @@
             <td
               class="collapsing">
               <button
+                ng-click="softAcceptUser($event, user, $index)"
+                class="ui circular mini basic icon button">
+                <i class="thumbs up outline icon"></i>
+              </button>
+            </td>
+            <td
+              class="collapsing">
+              <button
                 ng-click="openTravelModal($event, user)"
                 class="ui circular mini basic icon button">
                 <i class="plane icon"></i>
