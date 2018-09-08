@@ -92,6 +92,7 @@
           Send Acceptance Emails
         </button>
       </div>
+      <p ng-if="lookingAtATeam">Team Average rating: {{teamAverage}}</p>
       <div class="ui long user modal">
         <i class="close icon"></i>
         <div class="header">
@@ -255,9 +256,7 @@
               </div>
             </td>
             <td ng-click="getTeam($event, user)">{{user.team}}</td>
-            <td
-              class="collapsing">
-
+            <td class="collapsing">
               <!-- Verified -->
               <i
                 ng-if="user.teamLocked"

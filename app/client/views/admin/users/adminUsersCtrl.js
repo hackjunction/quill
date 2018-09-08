@@ -11,7 +11,8 @@ angular.module('reg')
       // to know when to filter by date
       $scope.sortDate = true;
       $scope.sortRating = true;
-      $scope.sortTeam = true,
+      $scope.sortTeam = true;
+      $scope.lookingAtATeam = false;
       $scope.sortBy = 'date';
 
       // Semantic-UI moves modal content into a dimmer at the top level.
@@ -36,6 +37,10 @@ angular.module('reg')
         $scope.users = data.users;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
+
+        if($scope.lookingAtATeam) {
+          $scope.teamAverage = $scope.users.reduce((sum, user) => sum + user.status.rating, 0) / $scope.users.length
+        }
 
         var p = [];
         for (var i = 0; i < data.totalPages; i++){
@@ -82,6 +87,7 @@ angular.module('reg')
 
       $scope.filterUsers = function() {
         const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
+        $scope.lookingAtATeam = false;
         UserService
           .getPage(
             $stateParams.page,
@@ -112,6 +118,7 @@ angular.module('reg')
 
       $scope.getTeam = function($event, user) {
         $event.stopPropagation();
+        $scope.lookingAtATeam = true;
         $scope.filter.text = user.team
         const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
         UserService
