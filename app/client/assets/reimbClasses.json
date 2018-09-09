@@ -338,8 +338,11 @@
    "Korea North": {
       "Class": "Rest of the World"
    },
-   "Korea SRest of the Worldh": {
+   "Korea South": {
       "Class": "Rest of the World"
+   },
+   "Kosovo": {
+     "Class": "Europe"
    },
    "Kuwait": {
       "Class": "Rest of the World"
