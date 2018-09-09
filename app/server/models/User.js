@@ -300,6 +300,9 @@ var confirmation = {
     min: 0,
     maxlength: 20,
   },
+  firstPriorityTrack: String,
+  secondPriorityTrack: String,
+  thirdPriorityTrack: String
 };
 
 var teamMatchmaking = {

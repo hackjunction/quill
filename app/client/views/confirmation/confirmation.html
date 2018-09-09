@@ -122,21 +122,105 @@
             ng-show="user.profile.needsReimbursement">
           <div class="divided title">Travel</div>
           <div class="field">
-            <span ng-show="classAmount !=='Rejected'">
+            <span ng-show="classAmount !=='None'">
             <p>
-              As a reminder, the maximum reimbursement are as follows:
+              As a reminder, the maximum travel grants are as follows:
             </p>
               <p>You will be granted <strong>{{classAmount}}€</strong> for travelling to Junction 2018!</p>
-              <p>To receive this reimbursement, please go the Travel Reimbursement tab and fill in the necessary information. The reimbursement will be granted after the event.</p>
-            </span>
-            <span ng-show="classAmount =='Rejected'">
-              <p>We have run out of travel reimbursements. Due to this you will not be granted any travel reimbursements.</p>
+              <p>To receive this grant, please go the Travel Grants tab and fill in the necessary information. The grant will be granted after the event.</p>
             </span>
           </div>
           </div>
 
-          <br>
+          <div ng-if="user.team" class="divided title">Team Interests</div>
 
+          <div class="field">
+            <label> What are the three tracks you are most interested in? * </label>
+            <p style="margin-bottom: 10px;">
+            Select one track for each priority. You will be assigned to one of these tracks.
+            </p>
+          </div>
+          <div class="fields">
+            <div class="ten wide field">
+              <select
+                class="ui fluid dropdown"
+                name="firstPrioTrack"
+                id="firstPrioTrack"
+                ng-model="user.confirmation.firstPriorityTrack"
+              >
+                <option value="">Select a track</option>
+                <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+                <option value="Future Cities">Future Cities</option>
+                <option value="Digital Retail">Digital Retail</option>
+                <option value="Smart Cloud">Smart Cloud</option>
+                <option value="Mobility">Mobility</option>
+                <option value="Data Economics">Data Economics</option>
+                <option value="Game Jam">Game Jam</option>
+                <option value="Internet of Things">Internet of Things</option>
+                <option value="HealthTech">HealthTech</option>
+                <option value="AI and Big Data">AI and Big Data</option>
+              </select>
+            </div>
+            <div class="six wide field">
+              <h5 class="ui block teal header">
+                First Priority
+              </h5>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="ten wide field">
+              <select
+                class="ui fluid dropdown"
+                name="secondPrioTrack"
+                id="secondPrioTrack"
+                ng-model="user.confirmation.secondPriorityTrack"
+              >
+                <option value="">Select a track</option>
+                <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+                <option value="Future Cities">Future Cities</option>
+                <option value="Digital Retail">Digital Retail</option>
+                <option value="Smart Cloud">Smart Cloud</option>
+                <option value="Mobility">Mobility</option>
+                <option value="Data Economics">Data Economics</option>
+                <option value="Game Jam">Game Jam</option>
+                <option value="Internet of Things">Internet of Things</option>
+                <option value="HealthTech">HealthTech</option>
+                <option value="AI and Big Data">AI and Big Data</option>
+              </select>
+            </div>
+            <div class="six wide field">
+              <h5 class="ui block teal header">
+                Second Priority
+              </h5>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="ten wide field">
+              <select
+                class="ui fluid dropdown"
+                name="thirdPrioTrack"
+                id="thirdPrioTrack"
+                ng-model="user.confirmation.thirdPriorityTrack"
+              >
+                <option value="">Select a track</option>
+                <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+                <option value="Future Cities">Future Cities</option>
+                <option value="Digital Retail">Digital Retail</option>
+                <option value="Smart Cloud">Smart Cloud</option>
+                <option value="Mobility">Mobility</option>
+                <option value="Data Economics">Data Economics</option>
+                <option value="Game Jam">Game Jam</option>
+                <option value="Internet of Things">Internet of Things</option>
+                <option value="HealthTech">HealthTech</option>
+                <option value="AI and Big Data">AI and Big Data</option>
+              </select>
+            </div>
+            <div class="six wide field">
+              <h5 class="ui block teal header">
+                Third Priority
+              </h5>
+            </div>
+          </div>
 
           <div class="divided title">everything else</div>
 
