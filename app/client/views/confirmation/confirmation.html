@@ -86,7 +86,7 @@
           <div class="field">
             <label> Your phone number </label>
             <p>
-              In case we need to contact you
+              In case we need to contact you.
             </p>
             <input type="text"
                    name="phone"
@@ -137,15 +137,16 @@
           <div class="field">
             <label> What are the three tracks you are most interested in? * </label>
             <p style="margin-bottom: 10px;">
-            Select one track for each priority. You will be assigned to one of these tracks.
+            Your <b>team leader</b> must fill in your top three tracks. You will be assigned to a track already before the event. We are trying our best to get you to your first option.
             </p>
           </div>
-          <div class="fields">
+          <div ng-if="user.team" class="fields">
             <div class="ten wide field">
               <select
                 class="ui fluid dropdown"
                 name="firstPrioTrack"
                 id="firstPrioTrack"
+                ng-disabled="teamLeader != user.id"
                 ng-model="user.confirmation.firstPriorityTrack"
               >
                 <option value="">Select a track</option>
@@ -167,12 +168,13 @@
               </h5>
             </div>
           </div>
-          <div class="fields">
+          <div ng-if="user.team" class="fields">
             <div class="ten wide field">
               <select
                 class="ui fluid dropdown"
                 name="secondPrioTrack"
                 id="secondPrioTrack"
+                ng-disabled="teamLeader != user.id"
                 ng-model="user.confirmation.secondPriorityTrack"
               >
                 <option value="">Select a track</option>
@@ -194,12 +196,13 @@
               </h5>
             </div>
           </div>
-          <div class="fields">
+          <div ng-if="user.team" class="fields">
             <div class="ten wide field">
               <select
                 class="ui fluid dropdown"
                 name="thirdPrioTrack"
                 id="thirdPrioTrack"
+                ng-disabled="teamLeader != user.id"
                 ng-model="user.confirmation.thirdPriorityTrack"
               >
                 <option value="">Select a track</option>

@@ -19,6 +19,15 @@ var schema = new mongoose.Schema({
   },
   trackInterests: {
     type: [String]
+  },
+  firstPriorityTrack: {
+    type: String
+  },
+  secondPriorityTrack: {
+    type: String
+  },
+  thirdPriorityTrack: {
+    type: String
   }
 });
 

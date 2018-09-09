@@ -682,7 +682,32 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
               return callback(err);
             }
             Mailer.sendConfirmationEmail(user);
-            return callback(err, user);
+            console.log(confirmation.firstPriorityTrack)
+            if(user.team) {
+              Team
+                .findOne({
+                '_id': user.team
+                })
+                .exec(function(err, team) {
+                  if(err) return callback(err);
+                  console.log('team found')
+                  console.log(team)
+                  if(team.leader == user.id) {
+                    console.log('is teamlead')
+                    team.firstPriorityTrack = confirmation.firstPriorityTrack;
+                    team.secondPriorityTrack = confirmation.secondPriorityTrack;
+                    team.thirdPriorityTrack = confirmation.thirdPriorityTrack;
+                    team.save(function(err){
+                      if (err){
+                        return callback(err, t);
+                      }
+                      console.log(`Team track priorities updated!!`)
+                    });
+                  }
+                  return callback(err, user);
+                })
+            }
+            else return callback(err, user);
           });
         });
     });

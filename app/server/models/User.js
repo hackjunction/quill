@@ -297,12 +297,8 @@ var confirmation = {
   notes: String,
   phone: {
     type: String,
-    min: 0,
     maxlength: 20,
-  },
-  firstPriorityTrack: String,
-  secondPriorityTrack: String,
-  thirdPriorityTrack: String
+  }
 };
 
 var teamMatchmaking = {

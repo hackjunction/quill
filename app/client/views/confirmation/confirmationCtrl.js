@@ -12,6 +12,8 @@ angular.module('reg')
       // Set up the user
       var user = currentUser.data;
       $scope.user = user;
+      $scope.user.confirmation.phone = `+${user.confirmation.phone}`
+      console.log(user.confirmation)
 
       $scope.pastConfirmation = Date.now() > user.status.confirmBy;
 
@@ -56,8 +58,29 @@ angular.module('reg')
 
       // -------------------------------
 
+      function _getTeamInfo(){
+        UserService
+          .getTeamInfo()
+          .success(function(team) {
+            $scope.teamLeader = team.leader;
+            $scope.user.confirmation.firstPriorityTrack = team.firstPriorityTrack;
+            $scope.user.confirmation.secondPriorityTrack = team.secondPriorityTrack;
+            $scope.user.confirmation.thirdPriorityTrack = team.thirdPriorityTrack;
+            console.log(team);
+            _setupForm();
+          })
+          .error(function(res){
+            $scope.error = res.message;
+          });
+      }
+      if ($scope.user.team){
+        _getTeamInfo();
+      }
+
       function _updateUser(e){
         var confirmation = $scope.user.confirmation;
+        confirmation.phone = confirmation.phone.substring(1);
+        console.log(confirmation)
         // Get the dietary restrictions as an array
         var drs = [];
         Object.keys($scope.dietaryRestrictions).forEach(function(key){
@@ -86,6 +109,13 @@ angular.module('reg')
 
       function _setupForm(){
         // Semantic-UI form validation
+        var priorityRules = []
+        if ($scope.teamLeader == $scope.user.id) {
+          priorityRules = [{
+            type: 'empty',
+            prompt: 'As a team leader you have to pick a track for this priority!'
+          }]
+        }
         $('.ui.form').form({
           inline:true,
           fields: {
@@ -101,14 +131,30 @@ angular.module('reg')
             phone: {
               identifier: 'phone',
               rules: [{
-                  type: 'regExp[/^$|^[+][ 0-9]{6,20}$/]',
+                  type: 'regExp[/^$|^[+][0-9]{0,20}$/]',
                   prompt: "Please give your phone number with country code in format: +NUMBER You can also leave phone number blank"
                   }
               ]
+            },
+            firstPrio: {
+              identifier: 'firstPrioTrack',
+              rules: priorityRules
+            },
+            secondPrio: {
+              identifier: 'secondPrioTrack',
+              rules: priorityRules
+            },
+            thirdPrio: {
+              identifier: 'thirdPrioTrack',
+              rules: priorityRules
             }
             },
             onSuccess: function(event, fields){
             _updateUser();
+
+            $("#firstPrioTrack").dropdown('set selected', $scope.user.confirmation.firstPriorityTrack);
+            $("#secondPrioTrack").dropdown('set selected', $scope.user.confirmation.secondPriorityTrack);
+            $("#thirdPrioTrack").dropdown('set selected', $scope.user.confirmation.thirdPriorityTrack);
           },
           onFailure: function(formErrors, fields){
             $scope.fieldErrors = formErrors;
