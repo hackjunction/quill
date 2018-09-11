@@ -13,7 +13,6 @@ angular.module('reg')
       var user = currentUser.data;
       $scope.user = user;
       $scope.user.confirmation.phone = `+${user.confirmation.phone}`
-      console.log(user.confirmation)
 
       $scope.pastConfirmation = Date.now() > user.status.confirmBy;
 
@@ -66,7 +65,6 @@ angular.module('reg')
             $scope.user.confirmation.firstPriorityTrack = team.firstPriorityTrack;
             $scope.user.confirmation.secondPriorityTrack = team.secondPriorityTrack;
             $scope.user.confirmation.thirdPriorityTrack = team.thirdPriorityTrack;
-            console.log(team);
             _setupForm();
           })
           .error(function(res){
@@ -80,7 +78,6 @@ angular.module('reg')
       function _updateUser(e){
         var confirmation = $scope.user.confirmation;
         confirmation.phone = confirmation.phone.substring(1);
-        console.log(confirmation)
         // Get the dietary restrictions as an array
         var drs = [];
         Object.keys($scope.dietaryRestrictions).forEach(function(key){
