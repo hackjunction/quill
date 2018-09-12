@@ -42,6 +42,7 @@ function calculateStats(settings){
     teams: {},
     verified: 0,
     submitted: 0,
+    rated: 0,
     admitted: 0,
     confirmed: 0,
     confirmedMit: 0,
@@ -193,6 +194,9 @@ function calculateStats(settings){
 
         // Count submitted
         newStats.submitted += user.status.completedProfile ? 1 : 0;
+
+        // Count submitted
+        newStats.rated += user.status.rating > 0 ? 1 : 0;
 
         // Count accepted
         newStats.admitted += user.status.admitted ? 1 : 0;
