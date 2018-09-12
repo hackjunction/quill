@@ -132,6 +132,10 @@ angular.module('reg')
         return $http.post(base + id + '/softAdmit');
       },
 
+      acceptTerminal: function(id) {
+        return $http.post(base + id + '/acceptTerminal');
+      },
+
       acceptTravelClassForUser: function(id, reimbClass) {
         return $http.post(base + id + '/acceptTravelClass', {
           reimbClass: reimbClass

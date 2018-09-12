@@ -629,6 +629,13 @@ module.exports = function(router) {
     UserController.admitUser(id, user, defaultResponse(req, res));
   });
 
+  router.post('/users/:id/acceptTerminal', isAdmin, function(req, res){
+    // Accept the hacker. Admin only
+    var id = req.params.id;
+    var user = req.user;
+    UserController.acceptTerminal(id, defaultResponse(req, res));
+  });
+
   /**
    * [ADMIN]
    *

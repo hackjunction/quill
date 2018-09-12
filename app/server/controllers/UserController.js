@@ -1450,8 +1450,32 @@ UserController.admitUser = function(id, user, callback){
           console.log(err)
           return callback(err, user);
         }
-        console.log('Ye?')
         Mailer.sendAdmittanceEmail(user);
+        return callback(err, user);
+      });
+    });
+  };
+
+UserController.acceptTerminal = function(id, callback){
+  Settings.getRegistrationTimes(function(err, times){
+    User
+      .findOneAndUpdate({
+        '_id': id,
+        'verified': true,
+        'status.softAdmitted': true,
+        'status.rejected': false
+      },{
+        $set: {
+          'status.terminalAccepted': true,
+        }
+      }, {
+        new: true
+      },
+      function(err, user) {
+        if (err || !user) {
+          console.log(err)
+          return callback(err, user);
+        }
         return callback(err, user);
       });
     });

@@ -334,6 +334,38 @@ angular.module('reg')
           })
       }
 
+      $scope.acceptTerminal = function($event, user, index) {
+        $event.stopPropagation();
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: `You're about to accept ${user.profile.name} to Terminal!`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, accept the user to Terminal",
+          closeOnConfirm: false
+          }, function(){
+            UserService
+              .acceptTerminal(user._id)
+              .success(function(user) {
+                if(user != ""){// User cannot be found if user is rejected
+                  if(index == null){ //we don't have index because acceptUser has been called in pop-up
+                    for(var i = 0; i < $scope.users.length; i++){
+                      if($scope.users[i]._id === user._id){
+                        $scope.users[i] = user;
+                        }
+                      }
+                    }
+                    else
+                      $scope.users[index] = user;
+                      swal("Accepted to Terminal!", `${user.profile.name} has been accepted to Terminal, they will know this later in emails.`, "success");
+                }
+                else
+                  swal("Could not be accepted", 'User must be Soft Accepted to be accepted to Terminal.', "error");
+              })
+          })
+      }
+
       $scope.softAcceptUser = function($event, user, index) {
         $event.stopPropagation();
 

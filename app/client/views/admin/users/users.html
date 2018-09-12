@@ -222,6 +222,8 @@
             <th></th>
             <th></th>
             <th>Check Out/In</th>
+            <th>Terminal</th>
+            <th></th>
             <th>Country</th>
             <th>Travel</th>
             <th>Acc.</th>
@@ -261,11 +263,11 @@
               <!-- Verified -->
               <i
                 ng-if="user.teamLocked"
-                class="green check circle icon teamLocked">
+                class="green check circle icon centered">
               </i>
               <i
                 ng-if="!user.teamLocked && user.team"
-                class="red remove circle icon teamLocked">
+                class="red remove circle icon centered">
               </i>
             </td>
             <td>{{user.timestamp | date: 'mediumDate'}}</td>
@@ -401,6 +403,24 @@
 
               </button>
 
+            </td>
+            <td>
+              <i
+                ng-if="user.status.terminalAccepted"
+                class="green check circle icon centered">
+              </i>
+              <i
+                ng-if="!user.status.terminalAccepted"
+                class="red remove circle icon centered">
+              </i>
+            </td>
+            <td
+              class="collapsing">
+              <button
+                ng-click="acceptTerminal($event, user)"
+                class="ui circular mini basic icon button">
+                <i class="sign in icon"></i>
+              </button>
             </td>
             <td>{{user.profile.travelFromCountry}}</td>
             <td
