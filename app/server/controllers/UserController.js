@@ -290,45 +290,45 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.completedProfile': 'false'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.submitted === 'true') {
+  if(query.filter.submitted === 'true') {
     statusFilter.push({'status.completedProfile': 'true'});
     statusFilter.push({'status.admitted': 'false'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.softAdmitted === 'true') {
+  if(query.filter.softAdmitted === 'true') {
     statusFilter.push({'status.softAdmitted': 'true'});
     statusFilter.push({'status.admitted': 'false'});
     statusFilter.push({'status.confirmed': 'false'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.admitted === 'true') {
+  if(query.filter.admitted === 'true') {
     statusFilter.push({'status.admitted': 'true'});
     statusFilter.push({'status.confirmed': 'false'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.confirmed ==='true') {
+  if(query.filter.confirmed ==='true') {
     statusFilter.push({'status.confirmed': 'true'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.needsReimbursement === 'true') {
+  if(query.filter.needsReimbursement === 'true') {
     statusFilter.push({'profile.needsReimbursement': 'true'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.needsVisa === 'true') {
+  if(query.filter.needsVisa === 'true') {
     statusFilter.push({'profile.needsVisa': 'true'});
     statusFilter.push({'status.rejected': 'false'});
   }
-  else if(query.filter.rejected === 'true')
+  if(query.filter.rejected === 'true')
     statusFilter.push({'status.rejected': 'true'});
-  else if(query.filter.rated === 'true')
+  if(query.filter.rated === 'true')
     statusFilter.push({'status.rating': {$gt: 0}})
-  else if(query.filter.notRated === 'true')
+  if(query.filter.notRated === 'true')
     statusFilter.push({'status.rating': 0})
-  else if(query.filter.teams === 'true')
+  if(query.filter.teams === 'true')
     statusFilter.push({'team': {$ne: undefined}})
-  else if(query.filter.individuals === 'true')
+  if(query.filter.individuals === 'true')
     statusFilter.push({'team': undefined})
-  else if(query.filter.terminal === 'true')
+  if(query.filter.terminal === 'true')
     statusFilter.push({'profile.terminal.essay': {$ne: undefined}})
   else
    statusFilter.push({});
