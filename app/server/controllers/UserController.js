@@ -322,6 +322,8 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.rejected': 'true'});
   if(query.filter.rated === 'true')
     statusFilter.push({'status.rating': {$gt: 0}})
+  if(query.filter.rated5 === 'true')
+    statusFilter.push({'status.rating': 5})
   if(query.filter.notRated === 'true')
     statusFilter.push({'status.rating': 0})
   if(query.filter.teams === 'true')

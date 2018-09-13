@@ -43,6 +43,8 @@ function calculateStats(settings){
     verified: 0,
     submitted: 0,
     rated: 0,
+    rated5Stars: 0,
+    rated4Stars: 0,
     admitted: 0,
     confirmed: 0,
     confirmedMit: 0,
@@ -195,8 +197,14 @@ function calculateStats(settings){
         // Count submitted
         newStats.submitted += user.status.completedProfile ? 1 : 0;
 
-        // Count submitted
+        // Count rated
         newStats.rated += user.status.rating > 0 ? 1 : 0;
+
+        // Count rated 5 stars
+        newStats.rated += user.status.rating == 5 ? 1 : 0;
+
+        // Count rated 4 stars
+        newStats.rated += user.status.rating == 4 ? 1 : 0;
 
         // Count accepted
         newStats.admitted += user.status.admitted ? 1 : 0;

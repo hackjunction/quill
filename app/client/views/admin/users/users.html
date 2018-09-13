@@ -57,6 +57,10 @@
             <label> Rated </label>
           </div>
           <div class="ui checkbox">
+            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.rated5">
+            <label> Rated 5 Stars </label>
+          </div>
+          <div class="ui checkbox">
             <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.teams">
             <label> Teams </label>
           </div>
