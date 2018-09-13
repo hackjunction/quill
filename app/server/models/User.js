@@ -200,6 +200,11 @@ var profile = {
     type: [String]
   },
 
+  emailNews: {
+    type: Boolean,
+    default: false
+  },
+
   yearsOfExperience: {
     type: String,
     enum : {

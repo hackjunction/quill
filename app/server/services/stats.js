@@ -48,6 +48,7 @@ function calculateStats(settings){
     rated3Stars: 0,
     rated2Stars: 0,
     rated1Stars: 0,
+    softAdmitted: 0,
     admitted: 0,
     confirmed: 0,
     confirmedMit: 0,
@@ -217,6 +218,9 @@ function calculateStats(settings){
 
         // Count rated 1 stars
         newStats.rated1Stars += user.status.rating == 1 ? 1 : 0;
+
+        // Count accepted
+        newStats.softAdmitted += user.status.softAdmitted ? 1 : 0;
 
         // Count accepted
         newStats.admitted += user.status.admitted ? 1 : 0;
