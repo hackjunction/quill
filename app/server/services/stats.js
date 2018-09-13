@@ -201,10 +201,10 @@ function calculateStats(settings){
         newStats.rated += user.status.rating > 0 ? 1 : 0;
 
         // Count rated 5 stars
-        newStats.rated += user.status.rating == 5 ? 1 : 0;
+        newStats.rated += user.status.rated5Stars == 5 ? 1 : 0;
 
         // Count rated 4 stars
-        newStats.rated += user.status.rating == 4 ? 1 : 0;
+        newStats.rated += user.status.rated4Stars == 4 ? 1 : 0;
 
         // Count accepted
         newStats.admitted += user.status.admitted ? 1 : 0;
