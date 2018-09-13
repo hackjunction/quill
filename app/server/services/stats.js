@@ -45,6 +45,9 @@ function calculateStats(settings){
     rated: 0,
     rated5Stars: 0,
     rated4Stars: 0,
+    rated3Stars: 0,
+    rated2Stars: 0,
+    rated1Stars: 0,
     admitted: 0,
     confirmed: 0,
     confirmedMit: 0,
@@ -201,10 +204,19 @@ function calculateStats(settings){
         newStats.rated += user.status.rating > 0 ? 1 : 0;
 
         // Count rated 5 stars
-        newStats.rated += user.status.rated5Stars == 5 ? 1 : 0;
+        newStats.rated5Stars += user.status.rating == 5 ? 1 : 0;
 
         // Count rated 4 stars
-        newStats.rated += user.status.rated4Stars == 4 ? 1 : 0;
+        newStats.rated4Stars += user.status.rating == 4 ? 1 : 0;
+
+        // Count rated 3 stars
+        newStats.rated3Stars += user.status.rating == 3 ? 1 : 0;
+
+        // Count rated 2 stars
+        newStats.rated2Stars += user.status.rating == 2 ? 1 : 0;
+
+        // Count rated 1 stars
+        newStats.rated1Stars += user.status.rating == 1 ? 1 : 0;
 
         // Count accepted
         newStats.admitted += user.status.admitted ? 1 : 0;
