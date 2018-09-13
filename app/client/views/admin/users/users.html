@@ -11,68 +11,74 @@
             <input type="text"
                    placeholder="Search..."
                    ng-model="filter.text"
-                   ng-init="filter.text=''"
-                   ng-change="filterUsers()">
+                   ng-init="filter.text=''">
               <i class="search icon"></i>
           </div>
         </div>
          <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.verified">
+            <input type="checkbox" ng-model="filter.verified">
             <label> Verified </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.submitted">
+            <input type="checkbox" ng-model="filter.submitted">
             <label> Submitted </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.softAdmitted">
+            <input type="checkbox" ng-model="filter.softAdmitted">
             <label> Soft Admitted </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.admitted">
+            <input type="checkbox" ng-model="filter.admitted">
             <label> Admitted </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.confirmed">
+            <input type="checkbox" ng-model="filter.confirmed">
             <label> Confirmed </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.needsVisa">
+            <input type="checkbox" ng-model="filter.needsVisa">
             <label> Need Visa </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.needsReimbursement">
+            <input type="checkbox" ng-model="filter.needsReimbursement">
             <label> Need travel reimbursements </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.rejected">
+            <input type="checkbox" ng-model="filter.rejected">
             <label> Rejected </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.notRated">
+            <input type="checkbox"  ng-model="filter.notRated">
             <label> Not Rated </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.rated">
+            <input type="checkbox"  ng-model="filter.rated">
             <label> Rated </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.rated5">
+            <input type="checkbox"  ng-model="filter.rated5">
             <label> Rated 5 Stars </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.teams">
+            <input type="checkbox" ng-model="filter.teams">
             <label> Teams </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.individuals">
+            <input type="checkbox" ng-model="filter.individuals">
             <label> Individuals </label>
           </div>
           <div class="ui checkbox">
-            <input type="checkbox"  ng-change="filterUsers()" ng-model="filter.terminal">
+            <input type="checkbox" ng-model="filter.terminal">
             <label> Terminal Interest </label>
           </div>
       </div>
+      <br>
+      <button
+        class="ui positive button centered"
+        ng-click="filterUsers()">
+          FILTER
+      </button>
+
       <div class="ui divider"></div>
 
       <button
