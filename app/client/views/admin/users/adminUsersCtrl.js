@@ -518,6 +518,18 @@ angular.module('reg')
           });
       }
 
+      function fixLink(string) {
+        console.log(string)
+        const http = 'http://'
+        const https = 'https://'
+
+        if(!string.startsWith(http) && !string.startsWith(https)) {
+          return https + string
+        }
+
+        return string
+      }
+
       $scope.getStatusName = function(user) {
         if(user.status){
           if (user.status.checkedIn) {
@@ -693,7 +705,8 @@ angular.module('reg')
                 value: user.profile.terminal ? user.profile.terminal.coolestThing : ''
               },{
                 name: 'Link to portfolio',
-                value: user.profile.terminal ? user.profile.terminal.portfolio : ''
+                value: user.profile.terminal && user.profile.terminal.portfolio ? fixLink(user.profile.terminal.portfolio) : '',
+                type: 'link'
               },{
                 name: 'Needs Accommodation',
                 value: user.profile.terminal ? user.profile.terminal.needsAccommodation : false
@@ -707,15 +720,18 @@ angular.module('reg')
             fields: [
               {
                 name: 'Portfolio',
-                value: user.profile.portfolio
+                value: user.profile.portfolio ? fixLink(user.profile.portfolio) : '',
+                type: 'link'
               },
               {
                 name: 'Linkedin',
-                value: user.profile.linkedin
+                value: user.profile.linkedin ? fixLink(user.profile.linkedin) : '',
+                type: 'link'
               },
               {
                 name: 'Github',
-                value: user.profile.github
+                value: user.profile.github ? fixLink(user.profile.github) : '',
+                type: 'link'
               },
               {
                 name: 'Interest in job opportunities',
