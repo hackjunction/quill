@@ -292,6 +292,7 @@ UserController.getPage = function(query, callback){
   }
   if(query.filter.submitted === 'true') {
     statusFilter.push({'status.completedProfile': 'true'});
+    statusFilter.push({'status.softAdmitted': 'false'});
     statusFilter.push({'status.rejected': 'false'});
   }
   if(query.filter.softAdmitted === 'true') {
@@ -308,6 +309,9 @@ UserController.getPage = function(query, callback){
   if(query.filter.confirmed ==='true') {
     statusFilter.push({'status.confirmed': 'true'});
     statusFilter.push({'status.rejected': 'false'});
+  }
+  if(query.filter.acceptedToTerminal === 'true') {
+    statusFilter.push({'status.terminalAccepted': 'true'});
   }
   if(query.filter.needsReimbursement === 'true') {
     statusFilter.push({'profile.needsReimbursement': 'true'});
