@@ -483,32 +483,35 @@ angular.module('reg')
           var titles = generateSections(data[0]);
            for(var i = 0; i < titles.length; i++){
             for(var j = 0; j < titles[i].fields.length; j++){
-              output += titles[i].fields[j].name + ";";
+              output += titles[i].fields[j].name + ",";
             }
            }
-           output += "\n";
+           output += "\r\n";
 
           for (var rows = 0; rows < data.length; rows++){
             row = generateSections(data[rows]);
             for (var i = 0; i < row.length; i++){
               for(var j = 0; j < row[i].fields.length;j++){
                 if(!row[i].fields[j].value){
-                  output += ";";
+                  output += ",";
                   continue;
                 }
                 var field = row[i].fields[j].value;
                 try {
-                  output += field.replace(/(\r\n|\n|\r)/gm," ") + ";";
+                  output += field.replace(/(\r\n|\n|\r|,)/gm," ") + ",";
                 } catch (err){
-                  output += field + ";";
+                  output += field + ",";
                 }
               }
             }
-            output += "\n";
+            output += "\r\n";
           }
 
+          var csvData = new Blob([output], { type: 'text/csv' }); 
+          var csvUrl = URL.createObjectURL(csvData);
+
           var element = document.createElement('a');
-          element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
+          element.setAttribute('href', 'data:application/csv;charset=utf-8,' + encodeURIComponent(output));
           element.setAttribute('download', "base " + new Date().toDateString() + ".csv");
           element.style.display = 'none';
           document.body.appendChild(element);
@@ -629,7 +632,7 @@ angular.module('reg')
                 value: user.profile.degree ? user.profile.degree : (user.profile.oldDegree ? user.profile.oldDegree.degree : '')
               },{
                 name: 'Languages with working effiency',
-                value: user.profile.workingLanguages ? user.profile.workingLanguages.join(', ') : ''
+                value: user.profile.workingLanguages ? user.profile.workingLanguages.join(' & ') : ''
               },{
                 name: 'Travels from Country',
                 value: user.profile.travelFromCountry
@@ -664,19 +667,19 @@ angular.module('reg')
                 type: 'boolean'
               },{
                 name: 'Most interesting themes',
-                value: user.profile.mostInterestingThemes
+                value: user.profile.mostInterestingThemes ? user.profile.mostInterestingThemes.join(' & ') : ''
               },{
                 name: 'Professional Skills',
-                value: user.profile.professionalSkills ? user.profile.professionalSkills.join(', ') : ''
+                value: user.profile.professionalSkills ? user.profile.professionalSkills.join(' & ') : ''
               },{
                 name: 'Advanced Skills',
-                value: user.profile.advancedSkills ? user.profile.advancedSkills.join(', ') : ''
+                value: user.profile.advancedSkills ? user.profile.advancedSkills.join(' & ') : ''
               },{
                 name: 'Intermediate Skills',
-                value: user.profile.intermediateSkills ? user.profile.intermediateSkills.join(', ') : ''
+                value: user.profile.intermediateSkills ? user.profile.intermediateSkills.join(' & ') : ''
               },{
                 name: 'Beginnner Skills',
-                value: user.profile.beginnerSkills ? user.profile.beginnerSkills.join(', ') : ''
+                value: user.profile.beginnerSkills ? user.profile.beginnerSkills.join(' & ') : ''
               },{
                 name: 'Hackathons visited',
                 value: user.profile.howManyHackathons
@@ -689,7 +692,7 @@ angular.module('reg')
             name: 'Terminal',
             fields: [
               {
-                name: 'Motivation',
+                name: 'Terminal Motivation',
                 value: user.profile.terminal ? user.profile.terminal.essay : ''
               },
               {
@@ -698,7 +701,7 @@ angular.module('reg')
               },
               {
                 name: 'Industries',
-                value: user.profile.terminal ? user.profile.terminal.terminalIndustries.join(', ') : ''
+                value: user.profile.terminal ? user.profile.terminal.terminalIndustries.join(' & ') : ''
               },{
                 name: 'Coolest Thing worked on',
                 value: user.profile.terminal ? user.profile.terminal.coolestThing : ''
@@ -746,7 +749,7 @@ angular.module('reg')
                 value: user.confirmation.specialNeeds || 'None'
               },{
                 name: 'Previous Junctions',
-                value: user.profile.previousJunction.join(', ')
+                value: user.profile.previousJunction.join(' & ')
               },{
                 name: 'Secret code',
                 value: user.profile.secret
@@ -766,7 +769,7 @@ angular.module('reg')
             fields: [
               {
                 name: 'Dietary Restrictions',
-                value: user.confirmation.dietaryRestrictions.join(', ')
+                value: user.confirmation.dietaryRestrictions.join(' & ')
               },{
                 name: 'Shirt Size',
                 value: user.confirmation.shirtSize
