@@ -511,7 +511,7 @@ angular.module('reg')
           var csvUrl = URL.createObjectURL(csvData);
 
           var element = document.createElement('a');
-          element.setAttribute('href', 'data:application/csv;charset=utf-8,' + encodeURIComponent(output));
+          element.setAttribute('href', csvUrl);
           element.setAttribute('download', "base " + new Date().toDateString() + ".csv");
           element.style.display = 'none';
           document.body.appendChild(element);
