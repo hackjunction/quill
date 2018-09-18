@@ -519,7 +519,6 @@ angular.module('reg')
       }
 
       function fixLink(string) {
-        console.log(string)
         const http = 'http://'
         const https = 'https://'
 
