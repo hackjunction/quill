@@ -40,6 +40,7 @@ angular.module('reg')
 
         if($scope.lookingAtATeam) {
           $scope.teamAverage = $scope.users.reduce((sum, user) => sum + user.status.rating, 0) / $scope.users.length
+          $scope.currentPage = 0;
         }
 
         var p = [];
@@ -229,7 +230,7 @@ angular.module('reg')
                       }
                       else
                         $scope.users[index] = user;
-                    swal("Accepted", user.profile.name + ' has been rejected.', "success");
+                    swal("Rejected", user.profile.name + ' has been rejected.', "success");
                     }
                   else
                     swal("Could not be rejected", 'User cannot be rejected if its not verified or it is admitted', "error");

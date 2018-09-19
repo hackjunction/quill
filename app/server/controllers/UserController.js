@@ -855,7 +855,13 @@ UserController.rateById = function(id, rating, callback){
         console.log(err)
         return callback(err);
       }
-      return callback(err, user);
+      Team.findById(user.team).exec(function(e, team) {
+        if(e) return callback(e)
+        if(team && team.teamLocked) {
+          return callback(err, {...user._doc, teamLocked: true})
+        }
+        return callback(err, user)
+      })
     });
 };
 

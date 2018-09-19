@@ -248,7 +248,7 @@ function calculateStats(settings){
         newStats.RbalticsTotal += user.profile.AppliedreimbursementClass == "Baltics" ? 1 : 0;
         newStats.RnordicTotal += user.profile.AppliedreimbursementClass == "Nord" ? 1 : 0;
         newStats.ReuropeTotal += user.profile.AppliedreimbursementClass == "Europe" ? 1 : 0;
-        newStats.RoutsideTotal += user.profile.AppliedreimbursementClass == "Outside Europe" ? 1 : 0;
+        newStats.RoutsideTotal += user.profile.AppliedreimbursementClass == "Rest of the World" ? 1 : 0;
 
         if(!user.status.declined){
           var regex = /\d/g;
@@ -280,20 +280,20 @@ function calculateStats(settings){
             }
             newStats.AeuropeTotal += 1;
             newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.Europe;
-          } else if (user.profile.AcceptedreimbursementClass == "Outside Europe") {
+          } else if (user.profile.AcceptedreimbursementClass == "Rest of the World") {
             if (user.status.confirmed) {
               newStats.CoutsideTotal += 1;
-              newStats.TotalAmountofReimbursementsConfirmed += settings.reimbursementClass.Outside;
+              newStats.TotalAmountofReimbursementsConfirmed += settings.reimbursementClass.RestOfTheWorld;
             }
             newStats.AoutsideTotal += 1;
-            newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.Outside;
-          } else if (regex.test(user.profile.AcceptedreimbursementClass)) {
+            newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.RestOfTheWorld;
+          } else if (user.profile.AcceptedreimbursementClass == "Golden Ticket") {
             if (user.status.confirmed) {
               newStats.Cspecial += 1;
-              newStats.TotalAmountofReimbursementsConfirmed += parseInt(user.profile.AcceptedreimbursementClass);
+              newStats.TotalAmountofReimbursementsConfirmed += settings.reimbursementClass.GoldenTicket;
             }
             newStats.Aspecial += 1;
-            newStats.TotalAmountofReimbursementsAccepted += parseInt(user.profile.AcceptedreimbursementClass);
+            newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.GoldenTicket;
           } else if (user.profile.AcceptedreimbursementClass == "Rejected") {
             if (user.status.confirmed) {
               newStats.CrejectedTotal += 1;

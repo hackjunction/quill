@@ -16,20 +16,24 @@ var reimbursementClass = {
   },
   Baltics: {
     type: Number,
-    default: 50
+    default: 40
   },
   Nordic: {
     type: Number,
-    default: 50
+    default: 60
   },
   Europe: {
     type: Number,
-    default: 75
+    default: 80
   },
-  Outside: {
+  RestOfTheWorld: {
     type: Number,
     default: 150
   },
+  GoldenTicket: {
+    type: Number,
+    default: 200
+  }
 };
 
 var schema = new mongoose.Schema({

@@ -12,7 +12,7 @@ angular.module('reg')
       // Set up the user
       var user = currentUser.data;
       $scope.user = user;
-      $scope.user.confirmation.phone = `+${user.confirmation.phone}`
+      $scope.user.confirmation.phone = $scope.user.confirmation.phone ? `+${user.confirmation.phone}` : '';
 
       $scope.pastConfirmation = Date.now() > user.status.confirmBy;
 
