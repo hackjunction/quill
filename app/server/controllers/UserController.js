@@ -1470,7 +1470,8 @@ UserController.admitUser = function(id, user, callback){
           console.log(err)
           return callback(err, user);
         }
-        Mailer.sendAdmittanceEmail(user);
+        if(user.status.terminalAccepted) Mailer.sendAdmittanceTerminalEmail(user);
+        else Mailer.sendAdmittanceEmail(user);
         return callback(err, user);
       });
     });

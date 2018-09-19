@@ -235,7 +235,7 @@ controller.sendAdmittanceEmail = function(user, callback) {
  };
  var travelText = "";
  if (user.profile.needsReimbursement) {
-   if (user.profile.AcceptedreimbursementClass === 'Rejected') {
+   if (user.profile.AcceptedreimbursementClass === 'Rejected' || !user.profile.AcceptedreimbursementClass) {
      travelText = 'Unfortunately we have run out of travel reimbursements, so will not be able to grant you reimbursements this time.'
    } else {
      travelText = 'For travelling from ' + user.profile.travelFromCountry + ' you will be granted ' + getAcceptedreimbAmount(user) +' €.'
@@ -259,6 +259,48 @@ controller.sendAdmittanceEmail = function(user, callback) {
    }
  });
 };
+
+
+/*
+* Send a status update email for admittance.
+* @param  {[type]}   email    [description]
+* @param  {Function} callback [description]
+* @return {[type]}            [description]
+*/
+controller.sendAdmittanceTerminalEmail = function(user, callback) {
+
+  var options = {
+    to: user.email,
+    subject: "[Junction 2018] - You have been admitted!"
+  };
+  var travelText = "";
+  if (user.profile.needsReimbursement) {
+    if (user.profile.AcceptedreimbursementClass === 'Rejected' || !user.profile.AcceptedreimbursementClass) {
+      travelText = 'Unfortunately we have run out of travel reimbursements, so will not be able to grant you reimbursements this time.'
+    } else {
+      travelText = 'For travelling from ' + user.profile.travelFromCountry + ' you will be granted ' + getAcceptedreimbAmount(user) +' €.'
+    }
+  }
+
+  console.log('sending terminal email')
+  var locals = {
+    nickname: user.nickname,
+    dashUrl: ROOT_URL,
+    travelText: travelText
+  };
+ 
+  sendOne('email-admittance-terminal', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback){
+      callback(err, info);
+    }
+  });
+ };
 
 /**
 * Send a status update email for submission.
