@@ -697,7 +697,6 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
               return callback(err);
             }
             Mailer.sendConfirmationEmail(user);
-            console.log(confirmation.firstPriorityTrack)
             if(user.team) {
               Team
                 .findOne({

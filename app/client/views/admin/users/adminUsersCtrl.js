@@ -523,8 +523,8 @@ angular.module('reg')
       }
 
       function fixLink(string) {
-        const http = 'http://'
-        const https = 'https://'
+        var http = 'http://'
+        var https = 'https://'
 
         if(!string.startsWith(http) && !string.startsWith(https)) {
           return https + string
@@ -716,7 +716,11 @@ angular.module('reg')
               },{
                 name: 'Accommodates People',
                 value: user.profile.terminal ? user.profile.terminal.accommodatesAmount : ''
-              },
+              },{
+                name: 'Confirmed attendance',
+                value: user.confirmation.terminalConfirmation,
+                type: 'boolean'
+              }
             ]
           },{
             name: 'Additional',

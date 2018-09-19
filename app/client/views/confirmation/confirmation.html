@@ -134,7 +134,7 @@
 
           <div ng-if="user.team" class="divided title">Team Interests</div>
 
-          <div class="field">
+          <div class="field" ng-if="user.team">
             <label> What are the three tracks you are most interested in? * </label>
             <p style="margin-bottom: 10px;">
             Your <b>team leader</b> must fill in your top three tracks. You will be assigned to a track already before the event. We are trying our best to get you to your first option.
@@ -373,6 +373,22 @@
                 Third Priority
               </h5>
             </div>
+
+            <br>
+            <br>
+          </div>
+
+          <div class="divided title" ng-if="user.status.terminalAccepted">Terminal Confirmation</div>
+
+          <div class="field" ng-if="user.status.terminalAccepted">
+            <label>Confirm your spot in Terminal!</label>
+            <p>You were accepted to Terminal, congratulations! Now we'd like you to confirm that you're still interested.</p>
+            <div class="ui checkbox">
+              <input type="checkbox" ng-model="user.confirmation.terminalConfirmation" />
+              <label>I confirm that I'll be attending Terminal</label>
+            </div>
+            <br>
+            <br>
           </div>
 
           <div class="divided title">everything else</div>

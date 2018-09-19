@@ -126,14 +126,14 @@
 
           <div
             class="ui sea-serpent button"
-            ng-show="!user.teamCode"
+            ng-show="!user.team"
             ui-sref="app.team">
             Create or join a team
           </div>
 
           <div
             class="ui sea-serpent button"
-            ng-show="user.teamCode"
+            ng-show="user.team"
             ui-sref="app.team">
             View your Team
           </div>
@@ -168,7 +168,7 @@
 
           <div
             class="ui vermilion button"
-            ng-show="user.teamCode"
+            ng-show="user.team"
             ui-sref="app.team">
             View your Team
           </div>

@@ -291,6 +291,7 @@ var confirmation = {
     type: String,
     maxlength: 500,
   },
+  terminalConfirmation: Boolean,
   shirtSize: {
     type: String,
     enum: {

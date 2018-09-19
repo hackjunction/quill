@@ -678,7 +678,6 @@ module.exports = function(router) {
   router.post('/users/:id/checkin', isAdminOrVolunteer, function(req, res){
     var id = req.params.id;
     var user = req.user;
-    console.log("checked in")
     UserController.checkInById(id, user, defaultResponse(req, res));
   });
 
@@ -783,7 +782,6 @@ module.exports = function(router) {
       res.sendStatus(400, "Skill is null");
     }
     else{
-      console.log('WRNJWURHUW?????')
       skill = skill.replace(/[!@#$<>%^*()]/g, "");
       SettingsController.addSkill(skill, defaultResponse(req, res));
     }
