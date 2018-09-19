@@ -321,6 +321,12 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'profile.needsVisa': 'true'});
     statusFilter.push({'status.rejected': 'false'});
   }
+  if(query.filter.requestedTG !== '') {
+    statusFilter.push({'profile.AppliedreimbursementClass': query.filter.requestedTG});
+  }
+  if(query.filter.acceptedTG !== '') {
+    statusFilter.push({'profile.AcceptedreimbursementClass': query.filter.acceptedTG});
+  }
   if(query.filter.rejected === 'true')
     statusFilter.push({'status.rejected': 'true'});
   if(query.filter.rated === 'true')

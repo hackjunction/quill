@@ -83,6 +83,29 @@
             <input type="checkbox" ng-model="filter.acceptedToTerminal">
             <label> Accepted Terminal </label>
           </div>
+          <div class="ui select">
+            <label>Requested TG Class</label>
+            <select ng-model="filter.requestedTG">
+            <option value="">Select a TG Class</option>
+            <option value="Finland">Finland</option>
+            <option value="Baltics">Baltics</option>
+            <option value="Nordics">Nordics</option>
+            <option value="Europe">Europe</option>
+            <option value="Rest of the World">Rest of the World</option>
+            </select>
+          </div>
+          <div class="ui select">
+              <label>Accepted TG Class</label>
+              <select ng-model="filter.acceptedTG">
+              <option value="">Select a TG Class</option>
+              <option value="Finland">Finland</option>
+              <option value="Baltics">Baltics</option>
+              <option value="Nordics">Nordics</option>
+              <option value="Europe">Europe</option>
+              <option value="Rest of the World">Rest of the World</option>
+              <option value="Golden Ticket">Golden Ticket</option>
+              </select>
+          </div>
       </div>
       <br>
       <button
