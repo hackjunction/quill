@@ -47,6 +47,22 @@ angular.module('reg')
         $scope.pages = p;
       }
 
+      function serializeFilters(filters) {
+        var out = "";
+        for (var v in filters) {if(typeof(filters[v])==="boolean"&&filters[v]) out += v+",";}
+        return (out.length===0)?"":out.substr(0,out.length-1);
+      }
+
+      function deserializeFilters(text) {
+        var out = {};
+        if (!text) return out;
+        text.split(",").forEach(function(f){out[f]=true});
+        return (text.length===0)?{}:out;
+      }
+
+      $scope.filter = deserializeFilters($stateParams.filter);
+      $scope.filter.text = $stateParams.query || "";
+
       UserService
         .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortDate)
         .success(function(data){
@@ -104,7 +120,9 @@ angular.module('reg')
       $scope.goToPage = function(page){
         $state.go('app.admin.users', {
           page: page,
-          size: $stateParams.size || 50
+          size: $stateParams.size || 50,
+          filter:  serializeFilters($scope.filter),
+          query: $scope.filter.text
         });
       };
 
