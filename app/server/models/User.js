@@ -461,6 +461,10 @@ var reimbursement = {
      default: '',
      maxlength: 70,
    },
+   passport: {
+     type: String,
+     maxlength: 50,
+   },
    dateOfBirth: {
      type: String,
      default: '',
@@ -468,11 +472,11 @@ var reimbursement = {
    },
    addressLine1: {
      type: String,
-     maxlength: 30
+     maxlength: 60
    },
    addressLine2: {
      type: String,
-     maxlength: 30
+     maxlength: 60
    },
    stateProvinceRegion: {
      type: String,
@@ -480,7 +484,7 @@ var reimbursement = {
    },
    city : {
      type: String,
-     maxlength: 30
+     maxlength: 60
    },
    nationality:{
      type: String,

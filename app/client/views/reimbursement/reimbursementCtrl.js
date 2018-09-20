@@ -140,7 +140,7 @@ angular.module('reg')
                 },
                 {
                   type: 'maxLength[30]',
-                  prompt: 'The Merchant ID can be only max. 30 characters!'
+                  prompt: 'The email can be only max. 30 characters!'
                 }
               ]
             },
@@ -162,12 +162,29 @@ angular.module('reg')
                 }
               ]
             },
+            passport: {
+              identifier: 'passport',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your passport number.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The passport number or SSN can be only max. 60 characters!'
+                }
+              ]
+            },
             addressLine1: {
               identifier: 'addressLine1',
               rules: [
                 {
                   type: 'empty',
                   prompt: 'Please enter your street address.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The address can be only max. 60 characters!'
                 }
               ]
             },
@@ -177,6 +194,10 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please enter information about your apartment.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The address can be only max. 60 characters!'
                 }
               ]
             },
@@ -186,6 +207,10 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please enter the city you live in.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The city can be only max. 60 characters!'
                 }
               ]
             },
