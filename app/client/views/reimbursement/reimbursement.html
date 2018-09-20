@@ -14,15 +14,48 @@
     </div>
   </div>
 
+  <div class="ui stackable page grid">
+    <div class="column">
+      <h1 ng-hide="!pastTRDeadline">Travel reimbursement application is closed</h1>
+
+      <div ng-show="user.status.reimbursementApplied" style="text-align:center; margin-bottom:40px;">
+        <h3><i class="checkmark box icon"></i>Your Travel Reimbursement submission has been received</h1>        
+      </div>        
+      <div class="small title">General information</div>
+      <ol>
+        <li class="tip">You might have to pay taxes according to your country local tax legislation for receiving this travel grant. Please make sure to abide by the law and other rules and regulations at all times.</li>
+        <li class="tip">All travel grant payments above 100€ outside of Finland are subject to a tax-at-source taxation, Junction will take care of this tax for you.</li>
+        <li class="tip">The address/country you type here must be the address where you're registered to as a taxpayer.</li>
+        <li class="tip">Possible brokerage fees to transfer money from PayPal account to your bank account are paid by the participant. We'll refrain from any liability or costs that will come from the wire transfer and to the brokers' slots.</li>
+        <li class="tip">Everything is paid in euros (€).</li>
+        <li class="tip">The money will be transferred from Junction Oy.</li>
+        <li class="tip">The recipient's name, the amount paid and the receipt of the purchase should be found in the single PDF file. In this file, it is essential to find the total sum participant paid for the trip to Helsinki. A picture of a ticket or other ticket showing the travel dates, departure location, arrival location, the price of the ticket and traveller name (applicant and traveller name should match). The amount due for the travel grant is cannot be higher than the ticket price.</li>
+        <li class="tip">The submitter is responsible for the information submitted. Thus, we'll relieve our responsibility for examining individuals' erroneous travel reimbursement filings. Make sure you have filled in correct information.</li>
+        <li class="tip">Deadline for submission of application and for travel receipt is 23:59 02.12.2018, UTC+3 (Finnish Time). Subsequent notifications are not quoted.</li>
+        <li class="tip">Failure to follow these instructions will lead to rejection of your travel reimbursement.</li>
+      </ol>
+      <div class="ui checkbox">
+        <input type="checkbox"
+                name="generalCheck"
+                class="generalCheck"
+                ng-model="generalCheck">
+        <label for="generalCheck"><b>I´ve read through the general and accept the guidelines.</b></label>
+      </div>
+    </div>
+  </div>
+
 
   <div class="ui stackable page grid">
     <div class="column">
       <div class="ui form"
-           ng-class="{'loading': loading}">
+          ng-show="generalCheck"
+          ng-class="{'loading': loading}">
 
         <div class="divided title">Required Information</div>
 
         <fieldset ng-disabled="pastTRDeadline">
+
+        <p>Gathering the following information is required from us by law for the use of authorities.</p>
         <div class="field">
           <label> Full Name </label>
           <input type="text"
@@ -73,19 +106,11 @@
           </div>
   
           <div class="field">
-            <label> Home State / Province / Region </label>
-            <input type="text"
-                   name="stateProvinceRegion"
-                   ng-model="user.reimbursement.stateProvinceRegion"
-                   placeholder="Southern Hackland">
-          </div>
-  
-          <div class="field">
             <label> Home Country </label>
             <select class="ui fluid search selection dropdown"
-            name="countryOfLiving"
-            id="countryOfLiving"
-            ng-model="user.reimbursement.countryOfLiving">
+            name="homeCountry"
+            id="homeCountry"
+            ng-model="user.reimbursement.homeCountry">
             <option value="">Country...</option>
             <option value="Afganistan">Afghanistan</option>
             <option value="Albania">Albania</option>
@@ -342,7 +367,7 @@
                   class="dateOfBirth"
                   ng-model="user.reimbursement.dateOfBirth">
         </div>
-
+        
         <p>To receive travel grants, you'll have to have a PayPal account or choose to receive the money to someone else's PayPal account. If you don't have a PayPal account, you can register <a href="https://www.paypal.com/fi/webapps/mpp/account-selection">here</a>.</p>
         <p>All we need is the PayPal account e-mail address.</p>
         

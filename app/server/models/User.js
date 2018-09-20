@@ -487,9 +487,9 @@ var reimbursement = {
      maxlength: 40,
      default: ''
    },
-   countryOfLiving: {
+   homeCountry: {
      type: String,
-     maxlength: 70,
+     maxlength: 100,
    },
    accountOwnerName : {
      type: String,

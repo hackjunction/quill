@@ -38,8 +38,6 @@ angular.module('reg')
       $scope.isAUS = false;
       $scope.isOther = false;
 
-      console.log
-
       $('input[type=radio][name=accountOwner]').change(function() {
         if($(this).val() == 'user'){
           $('.ACNAME').attr('disabled', true);
