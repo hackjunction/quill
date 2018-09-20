@@ -421,6 +421,15 @@ setInterval(function() {
   });
 }, 600000);
 
+setTimeout(function () {
+    Settings
+        .getPublicSettings(function(err, settings){
+            if (err || !settings){
+                throw err;
+            }
+            calculateStats(settings);
+        });
+}, 8000);
 
 var Stats = {};
 
