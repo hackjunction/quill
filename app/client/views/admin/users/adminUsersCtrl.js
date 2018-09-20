@@ -466,6 +466,8 @@ angular.module('reg')
       $scope.openTravelModal = function($event, user) {
         $event.stopPropagation();
         $scope.selectedUser = user;
+        $("#travelClass").val(user.profile.AppliedreimbursementClass);
+        $scope.selectedUser.Class = user.profile.AppliedreimbursementClass;
         $('.travel.modal').modal('show');
       }
 

@@ -233,6 +233,7 @@
               <th></th>
               <th></th>
               <th></th>
+              <th>Grant Accepted</th>
               <th>Check Out/In</th>
               <th>Terminal</th>
               <th></th>
@@ -375,6 +376,17 @@
                 </button>
               </td>
 
+              <td class="collapsing">
+                <i
+                  ng-if="user.profile.AcceptedreimbursementClass"
+                  class="green check circle icon centered">
+                </i>
+                <i
+                  ng-if="!user.profile.AcceptedreimbursementClass && user.profile.AppliedreimbursementClass"
+                  class="red remove circle icon centered">
+                </i>
+              </td>
+
               <!--
               <td
                 class="collapsing">
@@ -484,12 +496,14 @@
         <div class="content">
             <div class="field">
               <label>
-                Choose reimbursement class for the participant. Participant requested class:
-                <strong>{{selectedUser.profile.AppliedreimbursementClass || "None"}}</strong>
+                Choose reimbursement class for the participant.
+              </label>
+              <p>Participant requested class: <strong>{{selectedUser.profile.AppliedreimbursementClass || "None"}}</strong></p>
+              <p ng-if="selectedUser.profile.AcceptedreimbursementClass">This user has been <b>accepted class</b>: {{selectedUser.profile.AcceptedreimbursementClass}}</p>
               <select
                 class="ui fluid dropdown"
-                id="class"
-                name="class"
+                id="travelClass"
+                name="travelClass"
                 ng-model="selectedUser.Class">
                 <option value="">Choose a class</option>
                 <option value="Finland">Finland</option>
@@ -530,6 +544,7 @@
             <th></th>
             <th></th>
             <th></th>
+            <th>Grant Accepted</th>
             <th>Check Out/In</th>
             <th>Terminal</th>
             <th></th>
@@ -568,7 +583,6 @@
             </td>
             <td ng-click="getTeam($event, user)">{{user.team}}</td>
             <td class="collapsing">
-              <!-- Verified -->
               <i
                 ng-if="user.teamLocked"
                 class="green check circle icon centered">
@@ -671,6 +685,17 @@
                 class="ui circular mini basic icon button">
                 <i class="envelope outline icon"></i>
               </button>
+            </td>
+
+            <td class="collapsing">
+              <i
+                ng-if="user.profile.AcceptedreimbursementClass"
+                class="green check circle icon centered">
+              </i>
+              <i
+                ng-if="!user.profile.AcceptedreimbursementClass"
+                class="red remove circle icon centered">
+              </i>
             </td>
 
             <!--
