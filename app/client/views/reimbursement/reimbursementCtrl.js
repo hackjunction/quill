@@ -32,6 +32,11 @@ angular.module('reg')
       $scope.pastTRDeadline = (Date.now() > Settings.data.timeTR);
       $scope.fileSelected = false;
 
+      $('.icon')
+      .popup({
+        on: 'hover'
+      });
+
       $scope.upload = function() {
         var fd = new FormData()
         angular.forEach($scope.files,function(file){
@@ -48,7 +53,6 @@ angular.module('reg')
           .success(function(data) {
             $scope.user.reimbursement.fileName = $scope.fileName;
             $scope.user.reimbursement.fileUploaded = true;
-            checkCountryType();
             $('.loader').attr('class', 'ui inline loader');
             swal("Success!", "Your file has been uploaded to our servers.")
           })
@@ -57,6 +61,16 @@ angular.module('reg')
             swal("Error!", "Your file is not in the right format or is too large.")
           });
         }
+      }
+
+      $scope.updateFileName = function() {
+        //When a new file is chosen, update the file name for the user in the scope
+        if(!$scope.fileSelected){
+          $scope.fileSelected = true;
+        }
+        var strings = $('#fileName').val().split('\\');
+        var fileName = strings[strings.length - 1];
+        $scope.fileName = fileName;
       }
 
 
@@ -81,60 +95,6 @@ angular.module('reg')
 
       function _setupForm(){
         // Semantic-UI form validation
-        
-
-        
-
-        
-
-        var clearingCode = {
-          identifier: 'clearingCode',
-          rules: [
-            {
-              type: 'empty',
-              prompt: 'Please enter the clearing code.'
-            }
-          ]
-        };
-
-        var addressOfBank = {
-          identifier: 'addressOfBank',
-          rules: [
-            {
-              type: 'empty',
-              prompt: 'Please enter the address of your bank.'
-            }
-          ]
-        };
-        var cityOfBank =  {
-          identifier: 'cityOfBank',
-          rules: [
-            {
-              type: 'empty',
-              prompt: 'Please enter the city of your bank.'
-            }
-          ]
-        };
-
-        var zipCodeBank = {
-          identifier: 'zipCodeBank',
-          rules: [
-            {
-              type: 'empty',
-              prompt: 'Please enter ZIP Code of your bank.'
-            }
-          ]
-        };
-
-        var brokerageInfo = {
-          identifier: 'brokerageInfo',
-          rules: [
-            {
-              type: 'maxLength[50]',
-              prompt: 'This field can only be 50 characters long.'
-            }
-          ]
-        };
 
         var fileUpload = {
           identifier: 'fileUpload',
@@ -180,10 +140,98 @@ angular.module('reg')
                 },
                 {
                   type: 'maxLength[30]',
-                  prompt: 'The Merchant ID can be only max. 30 characters!'
+                  prompt: 'The email can be only max. 30 characters!'
                 }
               ]
-            }
+            },
+            fullName: {
+              identifier: 'fullName',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your full name.'
+                }
+              ]
+            },
+            dateOfBirth: {
+              identifier: 'dateOfBirth',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your date of birth.'
+                }
+              ]
+            },
+            passport: {
+              identifier: 'passport',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your passport number.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The passport number or SSN can be only max. 60 characters!'
+                }
+              ]
+            },
+            addressLine1: {
+              identifier: 'addressLine1',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your street address.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The address can be only max. 60 characters!'
+                }
+              ]
+            },
+            addressLine2: {
+              identifier: 'addressLine2',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter information about your apartment.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The address can be only max. 60 characters!'
+                }
+              ]
+            },
+            city: {
+              identifier: 'city',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter the city you live in.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: 'The city can be only max. 60 characters!'
+                }
+              ]
+            },
+            zipCode: {
+              identifier: 'zipCode',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your ZIP Code.'
+                }
+              ]
+            },
+            homeCountry: {
+              identifier: 'homeCountry',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your home country.'
+                }
+              ]
+            },
           },
           onSuccess: function(event, fields){
             _updateUser();

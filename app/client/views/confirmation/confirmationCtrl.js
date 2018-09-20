@@ -170,13 +170,16 @@ angular.module('reg')
             $scope.classAmount = settings.reimbursementClass.Baltics;
             break;
           case("Nordic"):
-            $scope.classAmount = settings.reimbursementClass.Nordic;
+            $scope.classAmount = settings.reimbursementClass.Nordics;
             break;
           case("Europe"):
             $scope.classAmount = settings.reimbursementClass.Europe;
             break;
-          case("Outside Europe"):
-            $scope.classAmount = settings.reimbursementClass.Outside;
+          case("Rest of the World"):
+            $scope.classAmount = settings.reimbursementClass.RestOfTheWorld;
+            break;
+          case("Golden Ticket"):
+            $scope.classAmount = settings.reimbursementClass.GoldenTicket;
             break;
           case("Rejected"):
             $scope.classAmount = "Rejected";

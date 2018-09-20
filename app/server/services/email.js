@@ -236,7 +236,7 @@ controller.sendAdmittanceEmail = function(user, callback) {
  var travelText = "";
  if (user.profile.needsReimbursement) {
    if (user.profile.AcceptedreimbursementClass === 'Rejected' || !user.profile.AcceptedreimbursementClass) {
-     travelText = 'Unfortunately we have run out of travel reimbursements, so will not be able to grant you reimbursements this time.'
+     travelText = 'Unfortunately we have run out of travel grants, so will not be able to grant you reimbursements this time.'
    } else {
      travelText = 'For travelling from ' + user.profile.travelFromCountry + ' you will be granted ' + getAcceptedreimbAmount(user) +' €.'
    }
@@ -276,7 +276,7 @@ controller.sendAdmittanceTerminalEmail = function(user, callback) {
   var travelText = "";
   if (user.profile.needsReimbursement) {
     if (user.profile.AcceptedreimbursementClass === 'Rejected' || !user.profile.AcceptedreimbursementClass) {
-      travelText = 'Unfortunately we have run out of travel reimbursements, so will not be able to grant you reimbursements this time.'
+      travelText = 'Unfortunately we have run out of travel grants, so will not be able to grant you it this time.'
     } else {
       travelText = 'For travelling from ' + user.profile.travelFromCountry + ' you will be granted ' + getAcceptedreimbAmount(user) +' €.'
     }
@@ -317,7 +317,7 @@ controller.sendConfirmationEmail = function(user, token, callback) {
  };
  var travelText;
  if (user.profile.needsReimbursement && user.profile.AcceptedreimbursementClass !== 'Rejected') {
-   travelText = 'A reminder about your travel reimbursement: ' +
+   travelText = 'A reminder about your travel grants: ' +
     'For travelling from ' + user.profile.travelFromCountry + ', you will be granted ' + getAcceptedreimbAmount(user) + ' €.';
  }
 
