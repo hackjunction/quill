@@ -137,8 +137,7 @@
           Send Acceptance Emails
         </button>
       </div>
-      <p ng-if="lookingAtATeam">Team Average rating: {{teamAverage}}</p>
-      <div class="ui long user modal">
+      <div class="ui long user coupled modal">
         <i class="close icon"></i>
         <div class="header">
           {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
@@ -213,14 +212,275 @@
         </div>
       </div>
 
-      <div class="mini ui modal">
+      <div class="ui longer team coupled modal">
+        <i class="close icon"></i>
+        <div class="header">
+          Team {{selectedTeam}}
+        </div>
+        <div class="content" style="overflow: scroll">
+          <p>Team Average rating: {{teamAverage}}</p>
+          <table
+                  class="ui celled selectable compact users table">
+            <thead>
+            <tr>
+              <th class="sortable" ng-click="sortByRating()">Rating <i ng-class="{angle: true, icon: true, down: sortRating, up: !sortRating}"></i></th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Secret</th>
+              <th>Application Type</th>
+              <th>Team Locked</th>
+              <th class="sortable" ng-click='sortByDate()'>Application date <i ng-class="{angle: true, icon: true, down: sortDate, up: !sortDate}"></i></th>
+              <th>V/S/A1/A2/C</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>Check Out/In</th>
+              <th>Terminal</th>
+              <th></th>
+              <th>Country</th>
+              <th>Travel</th>
+              <th>Acc.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+                    ng-click="selectUser(user)"
+                    ng-repeat="user in selectedUsers"
+                    ng-class="rowClass(user)">
+              <td class="rating" ng-click="rateUser($event, user, $index)">
+                <span ng-if="user.status.rating === 0">Not rated</span>
+                <i ng-if="user.status.rating > 0" class="star icon"></i>
+                <i ng-if="user.status.rating > 1" class="star icon"></i>
+                <i ng-if="user.status.rating > 2" class="star icon"></i>
+                <i ng-if="user.status.rating > 3" class="star icon"></i>
+                <i ng-if="user.status.rating > 4" class="star icon"></i>
+              </td>
+              <td>
+                <strong>
+                  {{user.id}}
+                  &nbsp;
+                </strong>
+              <td>
+                {{user.profile.name}}
+              </td>
+              <td>{{user.profile.secret}}</td>
+              <td>
+                <div class="adminTeamSelection">
+                  <i class="user icon" ng-if="user.profile.teamSelection === 'alone' || user.profile.teamSelection === 'teamOrAlone'"></i>
+                  <i class="users icon" ng-if="user.profile.teamSelection === 'onlyTeam' || user.profile.teamSelection === 'teamOrAlone'"></i>
+                </div>
+              </td>
+              <td class="collapsing">
+                <!-- Verified -->
+                <i
+                        ng-if="user.teamLocked"
+                        class="green check circle icon centered">
+                </i>
+                <i
+                        ng-if="!user.teamLocked && user.team"
+                        class="red remove circle icon centered">
+                </i>
+              </td>
+              <td>{{user.timestamp | date: 'mediumDate'}}</td>
+              <td
+                      class="collapsing">
+
+                <!-- Verified -->
+                <i
+                        ng-if="user.verified"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="!user.verified"
+                        class="red remove circle icon">
+                </i>
+
+                <!-- Submitted -->
+                <i
+                        ng-if="user.status.completedProfile"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="!user.status.completedProfile"
+                        class="red remove circle icon">
+                </i>
+
+                <!-- Soft Admitted -->
+
+                <i
+                        ng-if="user.status.softAdmitted"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="!user.status.rejected && !user.status.softAdmitted"
+                        class="thin circle icon">
+                </i>
+                <i
+                        ng-if="user.status.rejected"
+                        class="red remove circle icon">
+                </i>
+
+                <!-- Admitted -->
+                <i
+                        ng-if="user.status.admitted"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="!user.status.rejected && !user.status.admitted"
+                        class="thin circle icon">
+                </i>
+                <i
+                        ng-if="user.status.rejected"
+                        class="red remove circle icon">
+                </i>
+                <!-- Confirmed -->
+                <i
+                        ng-if="!user.status.admitted"
+                        class="circle thin icon">
+                </i>
+                <i
+                        ng-if="user.status.admitted && user.status.confirmed"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="user.status.admitted && !user.status.confirmed && !user.status.declined"
+                        class="thin circle icon">
+                </i>
+                <i
+                        ng-if="user.status.admitted && user.status.declined"
+                        class="red remove circle icon">
+                </i>
+              </td>
+              <td
+                      class="collapsing">
+                <button
+                        ng-click="softAcceptUser($event, user, $index)"
+                        class="ui circular mini basic icon button">
+                  <i class="thumbs up outline icon"></i>
+                </button>
+              </td>
+              <td
+                      class="collapsing">
+                <button
+                        ng-click="openTravelModal($event, user)"
+                        class="ui circular mini basic icon button">
+                  <i class="plane icon"></i>
+                </button>
+              </td>
+              <td
+                      class="collapsing">
+                <button
+                        ng-click="acceptUserAndSendMail($event, user)"
+                        class="ui circular mini basic icon button">
+                  <i class="envelope outline icon"></i>
+                </button>
+              </td>
+
+              <!--
+              <td
+                class="collapsing">
+                <button
+                  ng-click="goUser($event, user)"
+                  class="ui circular mini basic icon button">
+                  <i class="linkify icon"></i>
+                </button>
+              </td>
+              -->
+              <td
+                      class="right aligned collapsing">
+
+                <button
+                        ng-click="toggleReject($event, user, $index)"
+                        class="ui circular mini basic red icon button">
+                  <i
+                          ng-if="!user.status.rejected"
+                          class="flag outline icon"></i>
+                  <i
+                          ng-if="user.status.rejected"
+                          class="red flag icon"></i>
+                </button>
+
+                <button
+                        ng-click="toggleCheckIn($event, user, $index)"
+                        class="ui circular mini basic green icon button">
+
+                  <i
+                          ng-if="!user.status.checkedIn"
+                          class="flag outline icon"></i>
+
+                  <i
+                          ng-if="user.status.checkedIn"
+                          class="green flag icon"></i>
+
+                </button>
+
+              </td>
+              <td>
+                <i
+                        ng-if="user.status.terminalAccepted"
+                        class="green check circle icon centered">
+                </i>
+                <i
+                        ng-if="!user.status.terminalAccepted"
+                        class="red remove circle icon centered">
+                </i>
+              </td>
+              <td
+                      class="collapsing">
+                <button
+                        ng-click="acceptTerminal($event, user)"
+                        class="ui circular mini basic icon button">
+                  <i class="sign in icon"></i>
+                </button>
+              </td>
+              <td>{{user.profile.travelFromCountry}}</td>
+              <td
+                      class="collapsing">
+
+                <!-- Required travel reimportsement -->
+                <i
+                        ng-if="user.profile.needsReimbursement"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="!user.profile.needsReimbursement"
+                        class="red remove circle icon">
+                </i>
+              </td>
+
+              <td
+                      class="collapsing">
+
+                <!-- Applies for accomodation -->
+                <i
+                        ng-if="user.profile.applyAccommodation"
+                        class="green check circle icon">
+                </i>
+                <i
+                        ng-if="!user.profile.applyAccommodation"
+                        class="red remove circle icon">
+                </i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="actions">
+          <div class="ui negative right labeled icon button">
+            Close
+            <i class="checkmark icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini ui coupled modal">
           <div class="header">Rate {{selectedUser.email}}</div>
           <div class="content">
               <div class="ui massive rating"></div>
           </div>
       </div>
 
-      <div class="travel ui modal">
+      <div class="travel ui coupled modal">
         <div class="header">Accept Travel Grant class for {{selectedUser.email}}</div>
         <div class="content">
             <div class="field">
