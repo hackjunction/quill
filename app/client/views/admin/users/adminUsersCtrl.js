@@ -301,7 +301,11 @@ angular.module('reg')
                   .admitUser(user._id)
                   .success(function(user) {
                     if(user) {
-                      
+                      for(var i = 0; i < $scope.users.length; i++){
+                        if($scope.users[i]._id === user._id){
+                          $scope.users[i] = user;
+                        }
+                      }
                     } else {
                       swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
                     }
@@ -314,7 +318,7 @@ angular.module('reg')
           })
       }
 
-      $scope.acceptUserAndSendMail = function($event, user) {
+      $scope.acceptUserAndSendMail = function($event, user, index) {
         $event.stopPropagation();
         swal({
           title: 'Whoa, wait a minute!',
@@ -329,7 +333,16 @@ angular.module('reg')
               .admitUser(user._id)
               .success(function(user) {
                 if(user) {
-                  swal("Accepted", user.profile.name + ' has been accepted and an email has been sent! Now the user will see their status updated.', "success");
+                  if(index == null){ //we don't have index because toggleReject has been called in pop-up
+                    for(var i = 0; i < $scope.users.length; i++){
+                      if($scope.users[i]._id === user._id){
+                        $scope.users[i] = user;
+                      }
+                    }
+                  }
+                  else
+                    $scope.users[index] = user;
+                    swal("Accepted", user.profile.name + ' has been accepted and an email has been sent! Now the user will see their status updated.', "success");
                 } else {
                   swal("Could not be accepted", 'User cannot be accepted if the user is not soft accepted / rejected. Please soft accept first or remove rejection', "error");
                 }
