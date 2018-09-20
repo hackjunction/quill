@@ -142,7 +142,7 @@ angular.module('reg')
         const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
         UserService
           .getPage(
-            $stateParams.page,
+            0,
             $stateParams.size,
             $scope.filter,
             $scope.sortBy,
