@@ -136,6 +136,7 @@ angular.module('reg')
 
       $scope.getTeam = function($event, user) {
         $event.stopPropagation();
+        if(user.team !== '' && user.team){
         $scope.lookingAtATeam = true;
         $scope.filter.text = user.team;
         $scope.selectedTeam = user.team;
@@ -159,6 +160,7 @@ angular.module('reg')
                   })
                   .modal('show');
           });
+        }
       };
 
       $scope.toggleCheckIn = function($event, user, index) {
