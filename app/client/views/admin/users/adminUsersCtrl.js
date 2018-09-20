@@ -33,15 +33,12 @@ angular.module('reg')
             dateOfBirth: [],
       }
       });
+      $scope.selectedUsers = [];
+
       function updatePage(data){
         $scope.users = data.users;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
-
-        if($scope.lookingAtATeam) {
-          $scope.teamAverage = $scope.users.reduce((sum, user) => sum + user.status.rating, 0) / $scope.users.length
-          $scope.currentPage = 0;
-        }
 
         var p = [];
         for (var i = 0; i < data.totalPages; i++){
@@ -122,7 +119,8 @@ angular.module('reg')
       $scope.getTeam = function($event, user) {
         $event.stopPropagation();
         $scope.lookingAtATeam = true;
-        $scope.filter.text = user.team
+        $scope.filter.text = user.team;
+        $scope.selectedTeam = user.team;
         const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
         UserService
           .getPage(
@@ -133,9 +131,17 @@ angular.module('reg')
             sortDirection
           )
           .success(function(data){
-            updatePage(data);
+            $scope.selectedUsers = data.users;
+            $scope.teamAverage = $scope.selectedUsers.reduce((sum, user) => sum + user.status.rating, 0) / $scope.selectedUsers.length
+              $('.longer.team.modal')
+                  .modal({
+                      onHide: function(){
+                        $scope.lookingAtATeam = false;
+                    }
+                  })
+                  .modal('show');
           });
-      }
+      };
 
       $scope.toggleCheckIn = function($event, user, index) {
         $event.stopPropagation();
@@ -459,7 +465,11 @@ angular.module('reg')
                 .rateUser(user._id, rating)
                 .success(function(u){
                   if(u) {
-                    $scope.users[index] = u;
+                    if($scope.lookingAtATeam) {
+                      $scope.selectedUsers[index] = u;
+                    } else {
+                      $scope.users[index] = u;
+                    }
                     swal(`Rated ${u.profile.name} with ${rating} stars.`, "success");
                   }
                   else {
@@ -967,5 +977,13 @@ angular.module('reg')
 
       $scope.selectUser = selectUser;
       $scope.rateUser = rateUser;
+
+        $scope.$on('$viewContentLoaded', function () {
+            $('.coupled.modal')
+                .modal({
+                    allowMultiple: true
+                })
+            ;
+        });
 
     }]);
