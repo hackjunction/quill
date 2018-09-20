@@ -52,8 +52,8 @@ function getAcceptedreimbAmount(user) {
         return settings.reimbursementClass.Finland;
       case("Baltics"):
         return settings.reimbursementClass.Baltics;
-      case("Nordic"):
-        return settings.reimbursementClass.Nordic;
+      case("Nordics"):
+        return settings.reimbursementClass.Nordics;
       case("Europe"):
         return settings.reimbursementClass.Europe;
       case("Rest of the World"):

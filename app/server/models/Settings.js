@@ -18,7 +18,7 @@ var reimbursementClass = {
     type: Number,
     default: 40
   },
-  Nordic: {
+  Nordics: {
     type: Number,
     default: 60
   },
