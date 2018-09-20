@@ -81,7 +81,7 @@ angular.module('reg')
           .success(function(data){
             sweetAlert({
               title: "Awesome!",
-              text: "Your travel reimbursement has been saved.",
+              text: "Your travel grant application has been saved.",
               type: "success",
               confirmButtonColor: "#5ABECF"
             }, function(){

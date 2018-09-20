@@ -118,10 +118,8 @@
           <br>
           <br>
 
-          <div
-            ng-show="user.profile.needsReimbursement">
           <div class="divided title">Travel</div>
-          <div class="field">
+          <div class="field" ng-if="user.profile.needsReimbursement">
             <span ng-show="classAmount !=='None'">
             <p>
               As a reminder, the maximum travel grants are as follows:
@@ -130,7 +128,9 @@
               <p>To receive this grant, please go the Travel Grants tab and fill in the necessary information. The grant will be granted after the event.</p>
             </span>
           </div>
-          </div>
+          <p ng-show="user.profile.needsVisa">If you need a <b>Visa</b> to come to Finland and require assistance with your Visa invitation letter, we are more than happy help: Please, fill in this <a href="https://hackjunction.typeform.com/to/XokH8X" target="_blank">here!</a></p>
+
+          <br>
 
           <div ng-if="user.team" class="divided title">Team Interests</div>
 
