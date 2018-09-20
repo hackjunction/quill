@@ -461,7 +461,7 @@ var reimbursement = {
      default: '',
      maxlength: 70,
    },
-   passport: {
+   socialSecurityNumber: {
      type: String,
      maxlength: 50,
    },

@@ -162,16 +162,16 @@ angular.module('reg')
                 }
               ]
             },
-            passport: {
-              identifier: 'passport',
+            ssn: {
+              identifier: 'socialsn',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your passport number.'
+                  prompt: 'Please enter your social security number.'
                 },
                 {
                   type: 'maxLength[60]',
-                  prompt: 'The passport number or SSN can be only max. 60 characters!'
+                  prompt: 'The SSN can be only max. 60 characters!'
                 }
               ]
             },
@@ -244,6 +244,7 @@ angular.module('reg')
       }
 
       $scope.submitForm = function(){
+        _setupForm();
         $scope.fieldErrors = null;
         $scope.error = null;
         $('.ui.form').form('validate form');
