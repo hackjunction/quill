@@ -56,8 +56,10 @@ function getAcceptedreimbAmount(user) {
         return settings.reimbursementClass.Nordic;
       case("Europe"):
         return settings.reimbursementClass.Europe;
-      case("Outside Europe"):
-        return settings.reimbursementClass.Outside;
+      case("Rest of the World"):
+        return settings.reimbursementClass.RestOfTheWorld;
+      case("Golden Ticket"):
+        return settings.reimbursementClass.GoldenTicket;
       case("Rejected"):
         return "0";
       default:
