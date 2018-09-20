@@ -87,8 +87,10 @@ angular.module('reg')
       }
 
       $scope.filterUsers = function() {
-        const sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
+        var sortDirection = $scope.sortBy === 'date' ? $scope.sortDate : $scope.sortRating
         $scope.lookingAtATeam = false;
+        
+        if($scope.filter )
         UserService
           .getPage(
             $stateParams.page,
