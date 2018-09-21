@@ -432,29 +432,27 @@ angular.module('reg')
               confirmButtonText: "Yes, accept this user.",
               closeOnConfirm: false
               }, function(){
-                if(user.status.softAdmitted) {
-                  swal("Could not be accepted", 'User already soft accepted!', "error");
-                } else {
-                  UserService
-                    .softAdmitUser(user._id)
-                    .success(function(user){
-                      if(user != ""){// User cannot be found if user is rejected
-                        if(index == null){ //we don't have index because acceptUser has been called in pop-up
-                          for(var i = 0; i < $scope.users.length; i++){
-                            if($scope.users[i]._id === user._id){
-                              $scope.users[i] = user;
-                              selectUser(user);
-                              }
+                UserService
+                  .softAdmitUser(user._id, user.status.softAdmitted)
+                  .success(function(user){
+                    if(user != ""){// User cannot be found if user is rejected
+                      if(index == null){ //we don't have index because acceptUser has been called in pop-up
+                        for(var i = 0; i < $scope.users.length; i++){
+                          if($scope.users[i]._id === user._id){
+                            $scope.users[i] = user;
+                            selectUser(user);
                             }
                           }
-                          else
-                            $scope.users[index] = user;
-                            swal("Soft Accepted", user.profile.name + ' has been soft accepted', "success");
-                      }
-                      else
-                        swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
-                    });
-                }
+                        }
+                        else
+                          $scope.users[index] = user;
+                          if(user.status.softAdmitted) swal("Soft Accepted", user.profile.name + ' has been soft accepted', "success");
+                          else swal("Removed Soft Acceptance", user.profile.name + ' has been removed from soft admitted status', "success");
+                    }
+                    else
+                      swal("Could not be accepted", 'User cannot be accepted if the user is rejected. Please remove rejection', "error");
+                  });
+                
               });
 
           });

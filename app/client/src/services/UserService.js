@@ -128,8 +128,8 @@ angular.module('reg')
         return $http.post(base + id + '/admit')
       },
 
-      softAdmitUser: function(id) {
-        return $http.post(base + id + '/softAdmit');
+      softAdmitUser: function(id, alreadyAdmitted) {
+        return $http.post(base + id + '/softAdmit', {alreadyAdmitted});
       },
 
       acceptTerminal: function(id) {

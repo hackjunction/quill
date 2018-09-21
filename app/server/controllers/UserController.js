@@ -1381,11 +1381,8 @@ UserController.resetPassword = function(token, password, callback){
  * @param  {String}   user        User doing the admitting
  * @param  {Function} callback args(err, user)
  */
-UserController.softAdmitUser = function(id, user, reimbClass, callback){
+UserController.softAdmitUser = function(id, user, alreadyAdmitted, callback){
   // ReimbClass was not set
-  if(reimbClass == null) {
-    reimbClass = "None";
-  }
   User
     .findOneAndUpdate({
       '_id': id,
@@ -1393,7 +1390,7 @@ UserController.softAdmitUser = function(id, user, reimbClass, callback){
       'status.rejected': false,
     },{
       $set: {
-        'status.softAdmitted': true,
+        'status.softAdmitted': !alreadyAdmitted,
         'status.admittedBy': user.email,
       }
     }, {
@@ -1404,7 +1401,13 @@ UserController.softAdmitUser = function(id, user, reimbClass, callback){
         return callback(err);
       }
       console.log(`User ${user._id} soft admitted successfully!`)
-      return callback(err, user);
+      Team.findById(user.team).exec(function(e, team) {
+        if(e) return callback(e)
+        if(team && team.teamLocked) {
+          return callback(err, {...user._doc, teamLocked: true})
+        }
+        return callback(err, user)
+      })
     });
   };
 
@@ -1437,7 +1440,13 @@ UserController.acceptTravelClass = function(id, reimbClass, callback){
         return callback(err);
       }
       console.log(`User ${user._id} Travel grant class set to ${reimbClass} successfully!`)
-      return callback(err, user);
+      Team.findById(user.team).exec(function(e, team) {
+        if(e) return callback(e)
+        if(team && team.teamLocked) {
+          return callback(err, {...user._doc, teamLocked: true})
+        }
+        return callback(err, user)
+      })
     });
   };
 
@@ -1473,7 +1482,13 @@ UserController.admitUser = function(id, user, callback){
         }
         if(user.status.terminalAccepted) Mailer.sendAdmittanceTerminalEmail(user);
         else Mailer.sendAdmittanceEmail(user);
-        return callback(err, user);
+        Team.findById(user.team).exec(function(e, team) {
+          if(e) return callback(e)
+          if(team && team.teamLocked) {
+            return callback(err, {...user._doc, teamLocked: true})
+          }
+          return callback(err, user)
+        })
       });
     });
   };

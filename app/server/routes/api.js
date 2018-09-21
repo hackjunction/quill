@@ -605,9 +605,10 @@ module.exports = function(router) {
   router.post('/users/:id/softAdmit', isAdmin, function(req, res){
     // Accept the hacker. Admin only
     var id = req.params.id;
-    var reimbClass = req.body.reimbClass;
+    console.log(req.body.alreadyAdmitted)
+    var alreadyAdmitted = req.body.alreadyAdmitted;
     var user = req.user;
-    UserController.softAdmitUser(id, user, reimbClass, defaultResponse(req, res));
+    UserController.softAdmitUser(id, user, alreadyAdmitted, defaultResponse(req, res));
   });
 
   router.post('/users/:id/acceptTravelClass', isAdmin, function(req, res){
