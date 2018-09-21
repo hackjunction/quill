@@ -370,6 +370,7 @@ angular.module('reg')
                 else
                   $scope.users[index] = user;
                   swal("Travel Grant Class set!", `${user.profile.name} has TG Class set to ${user.profile.AcceptedreimbursementClass}`, "success");
+                  $('.travel.modal').modal('hide');
             }
             else
               swal("Could not be accepted", 'User must be Soft Accepted to set their Travel Grant Class. Please Soft Accept them first', "error");

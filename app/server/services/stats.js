@@ -246,7 +246,7 @@ function calculateStats(settings){
         // Count the number of requested travel reimbursement clasess
         newStats.RfinlandTotal += user.profile.AppliedreimbursementClass == "Finland" ? 1 : 0;
         newStats.RbalticsTotal += user.profile.AppliedreimbursementClass == "Baltics" ? 1 : 0;
-        newStats.RnordicTotal += user.profile.AppliedreimbursementClass == "Nord" ? 1 : 0;
+        newStats.RnordicTotal += user.profile.AppliedreimbursementClass == "Nordics" ? 1 : 0;
         newStats.ReuropeTotal += user.profile.AppliedreimbursementClass == "Europe" ? 1 : 0;
         newStats.RoutsideTotal += user.profile.AppliedreimbursementClass == "Rest of the World" ? 1 : 0;
 
@@ -266,13 +266,13 @@ function calculateStats(settings){
             }
             newStats.AbalticsTotal += 1;
             newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.Baltics;
-          } else if (user.profile.AcceptedreimbursementClass == "Nordic") {
+          } else if (user.profile.AcceptedreimbursementClass == "Nordics") {
             if (user.status.confirmed) {
               newStats.CnordicTotal += 1;
-              newStats.TotalAmountofReimbursementsConfirmed += settings.reimbursementClass.Nordic;
+              newStats.TotalAmountofReimbursementsConfirmed += settings.reimbursementClass.Nordics;
             }
             newStats.AnordicTotal += 1;
-            newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.Nordic;
+            newStats.TotalAmountofReimbursementsAccepted += settings.reimbursementClass.Nordics;
           } else if (user.profile.AcceptedreimbursementClass == "Europe") {
             if (user.status.confirmed) {
               newStats.CeuropeTotal += 1;
