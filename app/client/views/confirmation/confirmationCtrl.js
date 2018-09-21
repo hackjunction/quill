@@ -185,7 +185,7 @@ angular.module('reg')
             $scope.classAmount = "Rejected";
             break;
           default:
-            $scope.classAmount = $scope.user.profile.AcceptedreimbursementClass;
+            $scope.classAmount = "None";
         }
       }
 

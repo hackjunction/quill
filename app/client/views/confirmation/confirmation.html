@@ -119,13 +119,13 @@
           <br>
 
           <div class="divided title">Travel</div>
-          <div class="field" ng-if="user.profile.needsReimbursement">
+          <div class="field" ng-if="user.profile.needsReimbursement && classAmount !== 'None' && classAmount">
             <span ng-show="classAmount !=='None'">
             <p>
               As a reminder, the maximum travel grants are as follows:
             </p>
-              <p>You will be granted <strong>{{classAmount}}€</strong> for travelling to Junction 2018!</p>
-              <p>To receive this grant, please go the Travel Grants tab and fill in the necessary information. The grant will be granted after the event.</p>
+              <p >You will be granted <strong>{{classAmount}}€</strong> for travelling to Junction 2018!</p>
+              <p ng-show="classAmount !== 'None' && classAmount">To receive this grant, please go the Travel Grants tab and fill in the necessary information. The grant will be granted after the event.</p>
             </span>
           </div>
           <p ng-show="user.profile.needsVisa">If you need a <b>Visa</b> to come to Finland and require assistance with your Visa invitation letter, we are more than happy help: Please, fill in this <a href="https://hackjunction.typeform.com/to/XokH8X" target="_blank">here!</a></p>
