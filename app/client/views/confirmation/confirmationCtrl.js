@@ -181,9 +181,6 @@ angular.module('reg')
           case("Golden Ticket"):
             $scope.classAmount = settings.reimbursementClass.GoldenTicket;
             break;
-          case("Rejected"):
-            $scope.classAmount = "Rejected";
-            break;
           default:
             $scope.classAmount = "None";
         }

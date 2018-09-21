@@ -32,7 +32,7 @@ angular.module('reg')
               return settings.reimbursementClass.Europe;
             case("Outside Europe"):
               return settings.reimbursementClass.Outside;
-            case("Rejected"):
+            case("None"):
               return "0";
             default:
               return user.profile.AcceptedreimbursementClass;

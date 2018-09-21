@@ -198,7 +198,7 @@ module.exports = function(router) {
 
        if (user){
 
-        if(!user.status.confirmed || !user.profile.needsReimbursement || (user.profile.AcceptedReimbursementClass === 'Rejected')){
+        if(!user.status.confirmed || !user.profile.needsReimbursement || (user.profile.AcceptedReimbursementClass === 'None')){
           return res.sendStatus(403);
         }
         var upload = multer({

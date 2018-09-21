@@ -309,7 +309,7 @@ angular.module('reg')
           event.preventDefault();
           $state.go('app.dashboard');
         }
-        if((requireConfirmed && !(Session.getUser().status.confirmed)) || (requireTravelReimbursementNeeded && !Session.getUser().profile.needsReimbursement) || (requireTravelReimbursementClassIsNotRejected && (Session.getUser().profile.AcceptedreimbursementClass === 'Rejected'))){
+        if((requireConfirmed && !(Session.getUser().status.confirmed)) || (requireTravelReimbursementNeeded && !Session.getUser().profile.needsReimbursement) || (requireTravelReimbursementClassIsNotRejected && (Session.getUser().profile.AcceptedreimbursementClass === 'None'))){
           event.preventDefault();
           $state.go('app.dashboard');
         }

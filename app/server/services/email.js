@@ -237,7 +237,7 @@ controller.sendAdmittanceEmail = function(user, callback) {
  };
  var travelText = "";
  if (user.profile.needsReimbursement) {
-   if (user.profile.AcceptedreimbursementClass === 'Rejected' || !user.profile.AcceptedreimbursementClass) {
+   if (user.profile.AcceptedreimbursementClass === 'Rejected' || user.profile.AcceptedreimbursementClass === 'None' || !user.profile.AcceptedreimbursementClass) {
      travelText = 'Unfortunately we have run out of travel grants, so will not be able to grant you reimbursements this time.'
    } else {
      if(getAcceptedreimbAmount(user)) {
