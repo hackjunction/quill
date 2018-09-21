@@ -118,7 +118,7 @@
           <br>
           <br>
 
-          <div class="divided title">Travel</div>
+          <div ng-show="(user.profile.needsReimbursement && classAmount !== 'None' && classAmount) || user.profile.needsVisa" class="divided title">Travel</div>
           <div class="field" ng-if="user.profile.needsReimbursement && classAmount !== 'None' && classAmount">
             <span ng-show="classAmount !=='None'">
             <p>
