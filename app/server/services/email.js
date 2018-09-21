@@ -240,7 +240,10 @@ controller.sendAdmittanceEmail = function(user, callback) {
    if (user.profile.AcceptedreimbursementClass === 'Rejected' || !user.profile.AcceptedreimbursementClass) {
      travelText = 'Unfortunately we have run out of travel grants, so will not be able to grant you reimbursements this time.'
    } else {
-     travelText = 'For travelling from ' + user.profile.travelFromCountry + ' you will be granted ' + getAcceptedreimbAmount(user) +' €.'
+     if(getAcceptedreimbAmount(user)) {
+       travelText = 'For travelling from ' + user.profile.travelFromCountry + ' you will be granted ' + getAcceptedreimbAmount(user) +' €.'
+     }
+     else travelText = 'Unfortunately we have run out of travel grants, so will not be able to grant you reimbursements this time.'
    }
  }
  var locals = {
@@ -318,7 +321,7 @@ controller.sendConfirmationEmail = function(user, token, callback) {
    subject: "[Junction 2018] - You are confirmed!"
  };
  var travelText;
- if (user.profile.needsReimbursement && user.profile.AcceptedreimbursementClass !== 'Rejected') {
+ if (user.profile.needsReimbursement && user.profile.AcceptedreimbursementClass !== 'Rejected' && user) {
    travelText = 'A reminder about your travel grants: ' +
     'For travelling from ' + user.profile.travelFromCountry + ', you will be granted ' + getAcceptedreimbAmount(user) + ' €.';
  }
