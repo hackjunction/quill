@@ -634,17 +634,25 @@ UserController.updateProfileById = function (id, profile, callback){
 
 UserController.updateUserEmail = function(id, email, callback) {
   console.log('updating user email')
-  User.findOneAndUpdate({
-    _id: id
-  }, {
-    $set: {
-      'email': email
+  User.findOneByEmail(email).exec(function(err, user){
+    if(err) return callback(err, user)
+    if(!user) {
+      User.findOneAndUpdate({
+        _id: id
+      }, {
+        $set: {
+          'email': email
+        }
+      },
+      {
+        new: true
+      },
+      callback);
     }
-  },
-  {
-    new: true
-  },
-  callback);
+    else {
+      return callback({message: 'User with this email already exists!'})
+    }
+  })
 }
 
 UserController.updateMatchmakingProfileById = function (id, profile, callback){

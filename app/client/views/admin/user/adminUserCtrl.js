@@ -49,8 +49,8 @@ angular.module('reg')
             $selectedUser = data;
             swal("Updated", "Email updated", "success");
           })
-          .error(function(){
-            swal("Oops, something went wrong.");
+          .error(function(err){
+            swal("Oops, something went wrong.", err.message);
           });
       }
 
