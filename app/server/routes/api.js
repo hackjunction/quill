@@ -407,6 +407,20 @@ module.exports = function(router) {
   /**
    * [OWNER/ADMIN]
    *
+   * PUT - Update a specific user's email.
+   */
+
+  router.put('/users/:id/email', isAdmin, function(req, res){
+    var email = sanitize(req.body.email);
+    console.log(email)
+    var id = req.params.id;
+
+    UserController.updateUserEmail(id, email, defaultResponse(req, res));
+  });
+
+  /**
+   * [OWNER/ADMIN]
+   *
    * PUT - Update a specific user's matchmaking profile.
    */
   router.put('/users/:id/matchmaking', isOwnerOrAdmin, function(req, res){

@@ -61,6 +61,12 @@ angular.module('reg')
         });
       },
 
+      updateEmail: function(id, email) {
+        return $http.put(base + id + '/email', {
+          email: email
+        })
+      },
+
       updateMatchmakingProfile: function(id, profile){
         return $http.put(base + id + '/matchmaking', {
           profile: profile

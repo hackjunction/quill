@@ -551,6 +551,7 @@
             <th>Country</th>
             <th>Travel</th>
             <th>Acc.</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -697,17 +698,7 @@
                 class="red remove circle icon centered">
               </i>
             </td>
-
-            <!--
-            <td
-              class="collapsing">
-              <button
-                ng-click="goUser($event, user)"
-                class="ui circular mini basic icon button">
-                <i class="linkify icon"></i>
-              </button>
-            </td>
-            -->
+            
             <td
               class="right aligned collapsing">
 
@@ -782,6 +773,15 @@
                 ng-if="!user.profile.applyAccommodation"
                 class="red remove circle icon">
               </i>
+            </td>
+                        
+            <td
+              class="collapsing">
+              <button
+                ng-click="goUser($event, user)"
+                class="ui circular mini basic icon button">
+                <i class="linkify icon"></i>
+              </button>
             </td>
           </tr>
         </tbody>

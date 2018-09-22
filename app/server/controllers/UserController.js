@@ -632,6 +632,21 @@ UserController.updateProfileById = function (id, profile, callback){
   });
 };
 
+UserController.updateUserEmail = function(id, email, callback) {
+  console.log('updating user email')
+  User.findOneAndUpdate({
+    _id: id
+  }, {
+    $set: {
+      'email': email
+    }
+  },
+  {
+    new: true
+  },
+  callback);
+}
+
 UserController.updateMatchmakingProfileById = function (id, profile, callback){
 
     // Validate the user profile, and mark the user as profile completed

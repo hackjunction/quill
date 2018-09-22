@@ -42,4 +42,16 @@ angular.module('reg')
           });
       };
 
+      $scope.updateEmail = function() {
+        UserService
+          .updateEmail($scope.selectedUser._id, $scope.selectedUser.email)
+          .success(function(data) {
+            $selectedUser = data;
+            swal("Updated", "Email updated", "success");
+          })
+          .error(function(){
+            swal("Oops, something went wrong.");
+          });
+      }
+
     }]);
