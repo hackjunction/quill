@@ -886,9 +886,6 @@ angular.module('reg')
                 name: 'Date of birth',
                 value: formatTime(user.reimbursement.dateOfBirth)
               },{
-                name: 'Nationality',
-                value: user.reimbursement.nationality
-              },{
                 name: 'AddressLine 1',
                 value: user.reimbursement.addressLine1
               },{
@@ -898,62 +895,11 @@ angular.module('reg')
                 name: 'City',
                 value: user.reimbursement.city
               },{
-                name: 'State/Province/Region',
-                value: user.reimbursement.stateProvinceRegion
-              },{
-                name: 'A country Of Bank',
-                value: user.reimbursement.countryOfBank
-              },{
-                name: 'Type of Country',
-                value: user.reimbursement.countryType
-              },{
-                name: 'Name Of the Bank',
-                value: user.reimbursement.nameOfBank
-              },{
-                name: 'Address Of the Bank',
-                value: user.reimbursement.addressOfBank
-              },{
                 name: 'Zip Code',
                 value: user.reimbursement.zipCode
               },{
-                name: 'Iban',
-                value: user.reimbursement.iban
-              },{
-                name: 'Account Number',
-                value: user.reimbursement.accountNumber
-              },{
-                name: 'BBAN',
-                value: user.reimbursement.bban
-              },{
-                name: 'Swift / BIC',
-                value: user.reimbursement.swiftOrBic
-              },{
-                name: 'Clearing Code',
-                value: user.reimbursement.clearingCode
-              },{
-                name: 'Brokerage Info',
-                value: user.reimbursement.brokerageInfo
-              },{
-                name: 'Name, Account owner',
-                value: user.reimbursement.accountOwnerName
-              },{
-                name: 'Birthdate, Account owner',
-                value: formatTime(user.reimbursement.accountOwnerBirthdate)
-              },{
-                name: 'Address 1, Account owner',
-                value: user.reimbursement.accountOwnerA1
-              },{
-                name: 'Address 2, Account owner',
-                value: user.reimbursement.accountOwnerA2
-              },{
-                name: 'ZIP, Account owner',
-                value: user.reimbursement.accountOwnerZIP
-              },{
-                name: 'City, Account owner',
-                value: user.reimbursement.accountOwnerCity
-              },{
-                name: 'Country, Account owner',
-                value: user.reimbursement.accountOwnerCountry
+                name: 'PayPal Email',
+                value: user.reimbursement.paypalEmail
               },{
                 name: 'Additional',
                 value: user.reimbursement.additional
@@ -972,35 +918,38 @@ angular.module('reg')
           })
           var output = "";
           var titles = generateTRSections(data[0]);
-           for(var i = 0; i < titles.length; i++){
+          for(var i = 0; i < titles.length; i++){
             for(var j = 0; j < titles[i].fields.length; j++){
-              output += titles[i].fields[j].name + ";";
+              output += titles[i].fields[j].name + ",";
             }
-           }
-           output += "\n";
+          }
+          output += "\r\n";
 
           for (var rows = 0; rows < data.length; rows++){
             row = generateTRSections(data[rows]);
             for (var i = 0; i < row.length; i++){
               for(var j = 0; j < row[i].fields.length;j++){
                 if(!row[i].fields[j].value){
-                  output += ";";
+                  output += ",";
                   continue;
                 }
                 var field = row[i].fields[j].value;
                 try {
-                  output += field.replace(/(\r\n|\n|\r)/gm," ") + ";";
+                  output += field.replace(/(\r\n|\n|\r|,)/gm," ") + ",";
                 } catch (err){
-                  output += field + ";";
+                  output += field + ",";
                 }
               }
             }
-            output += "\n";
+            output += "\r\n";
           }
 
+          var csvData = new Blob([output], { type: 'text/csv' }); 
+          var csvUrl = URL.createObjectURL(csvData);
+
           var element = document.createElement('a');
-          element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
-          element.setAttribute('download', "base " + new Date().toDateString() + ".csv");
+          element.setAttribute('href', csvUrl);
+          element.setAttribute('download', "Travel Grants " + new Date().toDateString() + ".csv");
           element.style.display = 'none';
           document.body.appendChild(element);
           element.click();
