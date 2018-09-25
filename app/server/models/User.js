@@ -456,6 +456,9 @@ var status = {
   }
 };
 var reimbursement = {
+   totalSum: {
+     type: Number,
+   },
    paypalEmail: {
      type: String,
      default: '',

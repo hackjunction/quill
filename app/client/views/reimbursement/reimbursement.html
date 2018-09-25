@@ -417,6 +417,18 @@
         </div>
 
         <div class="field">
+          <label>
+            Total Sum of Receipts
+          </label>
+          <p>Put here the total sum of your receipts, the total must be in *Euros* (€).</p>
+          <p>If your receipts don't use Euros, use for example Google to get the sum in Euros. You don't have to put in the € sign.</p>
+          <input type="text"
+                 name="totalSum"
+                 ng-model="user.reimbursement.totalSum"
+                 placeholder="143.50">
+        </div>
+
+        <div class="field">
           <label>Additional information</label>
           <textarea ng-model="user.reimbursement.additional"/>
         </div>

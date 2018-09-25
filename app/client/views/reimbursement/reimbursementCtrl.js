@@ -175,6 +175,19 @@ angular.module('reg')
                 }
               ]
             },
+            totalSum: {
+              identifier: 'totalSum',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter the total sum of receipts.'
+                },
+                {
+                  type: 'maxLength[60]',
+                  prompt: "The total sum can be max 60 characters!"
+                }
+              ]
+            },
             addressLine1: {
               identifier: 'addressLine1',
               rules: [
