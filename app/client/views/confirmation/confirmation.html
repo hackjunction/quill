@@ -151,6 +151,12 @@
               >
                 <option value="">Select a track</option>
                 <option
+                  ng-show="user.confirmation.secondPriorityTrack != 'Blockchain' && user.confirmation.thirdPriorityTrack != 'Blockchain'"
+                  value="Blockchain"
+                >
+                  Blockchain
+                </option>
+                <option
                   ng-show="user.confirmation.secondPriorityTrack != 'Intelligent Infrastructure' && user.confirmation.thirdPriorityTrack != 'Intelligent Infrastructure'"
                   value="Intelligent Infrastructure"
                 >
@@ -229,6 +235,12 @@
               >
                 <option value="">Select a track</option>
                 <option
+                  ng-show="user.confirmation.firstPriorityTrack != 'Blockchain' && user.confirmation.thirdPriorityTrack != 'Blockchain'"
+                  value="Blockchain"
+                >
+                  Blockchain
+                </option>
+                <option
                   ng-show="user.confirmation.firstPriorityTrack != 'Intelligent Infrastructure' && user.confirmation.thirdPriorityTrack != 'Intelligent Infrastructure'"
                   value="Intelligent Infrastructure"
                 >
@@ -306,6 +318,12 @@
                 ng-model="user.confirmation.thirdPriorityTrack"
               >
                 <option value="">Select a track</option>
+                <option
+                  ng-show="user.confirmation.secondPriorityTrack != 'Blockchain' && user.confirmation.firstPriorityTrack != 'Blockchain'"
+                  value="Blockchain"
+                >
+                  Blockchain
+                </option>
                 <option
                   ng-show="user.confirmation.secondPriorityTrack != 'Intelligent Infrastructure' && user.confirmation.firstPriorityTrack != 'Intelligent Infrastructure'"
                   value="Intelligent Infrastructure"
