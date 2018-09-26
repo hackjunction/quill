@@ -462,7 +462,7 @@ var reimbursement = {
    paypalEmail: {
      type: String,
      default: '',
-     maxlength: 70,
+     maxlength: 200,
    },
    socialSecurityNumber: {
      type: String,

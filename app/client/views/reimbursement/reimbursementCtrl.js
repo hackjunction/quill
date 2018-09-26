@@ -139,7 +139,7 @@ angular.module('reg')
                   prompt: 'Please enter your PayPal email address'
                 },
                 {
-                  type: 'maxLength[30]',
+                  type: 'maxLength[200]',
                   prompt: 'The email can be only max. 30 characters!'
                 }
               ]
