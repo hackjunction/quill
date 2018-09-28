@@ -617,6 +617,11 @@ angular.module('reg')
               {
                 name: 'Created On',
                 value: formatTime(user.timestamp)
+              },
+              {
+                name: 'wants on mail list',
+                type: 'boolean',
+                value: user.profile.emailNews
               },{
                 name: 'Last Updated',
                 value: formatTime(user.lastUpdated)
@@ -900,6 +905,9 @@ angular.module('reg')
               },{
                 name: 'PayPal Email',
                 value: user.reimbursement.paypalEmail
+              },{
+                name: 'Total Sum',
+                value: user.reimbursement.totalSum
               },{
                 name: 'Additional',
                 value: user.reimbursement.additional
