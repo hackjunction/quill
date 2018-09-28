@@ -909,6 +909,34 @@ angular.module('reg')
         ];
       }
 
+      $scope.exportMailList = function() {
+        UserService
+        .getAll()
+        .success(function(data){
+          data = data.filter(function(user){
+            return user.profile.emailNews;
+          }).map(user => user.email)
+          var output = "";
+          
+          data.forEach(function(row) {
+            output += row;
+            output += "\r\n";
+          })
+
+          var csvData = new Blob([output], { type: 'text/csv' }); 
+          var csvUrl = URL.createObjectURL(csvData);
+
+          var element = document.createElement('a');
+          element.setAttribute('href', csvUrl);
+          element.setAttribute('download', "Mailing list " + new Date().toDateString() + ".csv");
+          element.style.display = 'none';
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+
+          });
+      }
+
       $scope.exportTRCSV = function() {
         UserService
         .getAll()
