@@ -30,7 +30,7 @@
 
     <div ui-sref-active="active"
          ui-sref="app.reimbursement"
-         ng-show="currentUser.status.admitted && currentUser.profile.needsReimbursement && !currentUser.status.declined && currentUser.profile.AcceptedreimbursementClass !== 'None' && currentUser.profile.AcceptedreimbursementClass && currentUser.status.confirmed"
+         ng-show="currentUser.status.admitted && !currentUser.status.declined && currentUser.profile.AcceptedreimbursementClass !== 'None' && currentUser.profile.AcceptedreimbursementClass && currentUser.status.confirmed"
          class="item">
       Travel Grants
     </div>
