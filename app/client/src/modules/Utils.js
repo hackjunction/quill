@@ -27,11 +27,11 @@ angular.module('reg')
             case("Baltics"):
               return settings.reimbursementClass.Baltics;
             case("Nordic"):
-              return settings.reimbursementClass.Nordic;
+              return settings.reimbursementClass.Nordics;
             case("Europe"):
               return settings.reimbursementClass.Europe;
-            case("Outside Europe"):
-              return settings.reimbursementClass.Outside;
+            case("Rest of the World"):
+              return settings.reimbursementClass.RestOfTheWorld;
             case("None"):
               return "0";
             default:
