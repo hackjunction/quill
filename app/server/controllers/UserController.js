@@ -1014,33 +1014,37 @@ UserController.getTeammates = function(id, callback){
 };
 
 UserController.createTeam = function(id, callback) {
-  User.findById(id, function(err, user) {
-    if (err) return callback({message: "Error finding user"})
-    const t = new Team({
-      leader: user.id,
-      members: [user.id],
-    })
-    console.log(JSON.stringify(t))
-    t.save(function(err){
-      if (err){
-        return callback(err, t);
+  Settings.getRegistrationTimes(function(err, times) {
+    User.findById(id, function(err, user) {
+      if (err) return callback({message: "Error finding user"})
+      if(!user.status.admitted && times.timeClose) {
+        return callback({message: "You can not create new teams, because you haven't been accepted yet and application period is over."})
       }
-      console.log(`New team created with id ${t._id}!`)
-    });
-    // Update user
-    User.findOneAndUpdate({
-      _id: id,
-      verified: true
-    },{
-      $set: {
-        team: t._id,
-        'teamMatchmaking.enrolled': false,
-        'teamMatchmaking.enrollmentType': undefined
+      const t = new Team({
+        leader: user.id,
+        members: [user.id],
+      })
+      t.save(function(err){
+        if (err){
+          return callback(err, t);
         }
-      }, {
-        new: true
-      },
-      callback);
+        console.log(`New team created with id ${t._id}!`)
+      });
+      // Update user
+      User.findOneAndUpdate({
+        _id: id,
+        verified: true
+      },{
+        $set: {
+          team: t._id,
+          'teamMatchmaking.enrolled': false,
+          'teamMatchmaking.enrollmentType': undefined
+          }
+        }, {
+          new: true
+        },
+        callback);
+    })
   })
 }
 
@@ -1063,55 +1067,59 @@ UserController.joinTeam = function(id, code, callback){
         message: "Get outta here, punk!"
       });
     }
-
-    Team.findOne({
-      _id: code
-    })
-    .exec(function(err, team){
-      // Check to see if this team is joinable (< team max size)
-      if (err || !team) return callback({message: "Team not found"})
-
-      if (team.members.includes(id)) {
-        return callback({
-          message: 'User is already in this team!'
-        })
-      }
-      if (team.members && team.members.length >= maxTeamSize) {
-        return callback({
-          message: "Team is full."
-        });
-      }
-      if (team.teamLocked) {
-        return callback({
-          message: "This team is locked."
-        })
-      }
-      console.log('Valid team found, adding user to it')
-      User.findById(id, function(err, user) {
-        if (err) return callback({message: "User not found"})
-        const updatedMembers = team.members.concat([user.id])
-        team.members = updatedMembers
-        team.save(function(err){
-          if (err){
-            return callback(err, team);
-          }
-          console.log(`Team members updated!`)
-        });
-        User.findOneAndUpdate({
-          _id: id,
-          verified: true
-        }, {
-          $set: {
-            team: team._id,
-            'teamMatchmaking.enrolled': false,
-            'teamMatchmaking.enrollmentType': undefined
-            }
-          }, {
-            new: true
-          },
-          callback
-        );
+    Settings.getRegistrationTimes(function(err, times) {
+      Team.findOne({
+        _id: code
       })
+      .exec(function(err, team){
+        // Check to see if this team is joinable (< team max size)
+        if (err || !team) return callback({message: "Team not found"})
+
+        if (team.members.includes(id)) {
+          return callback({
+            message: 'User is already in this team!'
+          })
+        }
+        if (team.members && team.members.length >= maxTeamSize) {
+          return callback({
+            message: "Team is full."
+          });
+        }
+        if (team.teamLocked) {
+          return callback({
+            message: "This team is locked."
+          })
+        }
+        console.log('Valid team found, adding user to it')
+        User.findById(id, function(err, user) {
+          if (err) return callback({message: "User not found"})
+          if (times.timeClose && !user.status.admitted) {
+            return callback({message: "Application period has ended, you haven't been accepted yet so you can not join teams!"})
+          }
+          const updatedMembers = team.members.concat([user.id])
+          team.members = updatedMembers
+          team.save(function(err){
+            if (err){
+              return callback(err, team);
+            }
+            console.log(`Team members updated!`)
+          });
+          User.findOneAndUpdate({
+            _id: id,
+            verified: true
+          }, {
+            $set: {
+              team: team._id,
+              'teamMatchmaking.enrolled': false,
+              'teamMatchmaking.enrollmentType': undefined
+              }
+            }, {
+              new: true
+            },
+            callback
+          );
+        })
+      });
     });
   });
 };
