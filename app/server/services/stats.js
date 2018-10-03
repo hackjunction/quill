@@ -181,8 +181,6 @@ function calculateStats(settings){
 
       async.each(users, function(user, callback){
 
-        console.log(user.profile.teamSelection);
-
         // Grab the email extension
         var email = user.email.split('@')[1];
 
