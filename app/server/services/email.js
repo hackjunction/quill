@@ -294,7 +294,7 @@ controller.sendAdmittanceTerminalEmail = function(user, callback) {
     travelText: travelText
   };
  
-  sendOne('email-admittance-terminal', options, locals, function(err, info){
+  sendOne(`email-admittance-terminal${user.status.terminalAccepted ? '' : '-denied'}`, options, locals, function(err, info){
     if (err){
       console.log(err);
     }

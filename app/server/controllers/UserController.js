@@ -1513,7 +1513,7 @@ UserController.admitUser = function(id, user, callback){
           console.log(err)
           return callback(err, user);
         }
-        if(user.status.terminalAccepted) Mailer.sendAdmittanceTerminalEmail(user);
+        if(user.profile.terminal.essay) Mailer.sendAdmittanceTerminalEmail(user);
         else Mailer.sendAdmittanceEmail(user);
         Team.findById(user.team).exec(function(e, team) {
           if(e) return callback(e)
