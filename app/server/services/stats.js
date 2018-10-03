@@ -39,7 +39,11 @@ function calculateStats(settings){
       // }
     },
 
-    teams: {},
+    teams: {
+      alone: 0,
+      teamOrAlone:0,
+      onlyTeam: 0
+    },
     verified: 0,
     submitted: 0,
     rated: 0,
@@ -177,6 +181,8 @@ function calculateStats(settings){
 
       async.each(users, function(user, callback){
 
+        console.log(user.profile.teamSelection);
+
         // Grab the email extension
         var email = user.email.split('@')[1];
 
@@ -218,6 +224,15 @@ function calculateStats(settings){
 
         // Count rated 1 stars
         newStats.rated1Stars += user.status.rating == 1 ? 1 : 0;
+
+        // Count individuals
+        newStats.teams.alone += user.profile.teamSelection === 'alone' ? 1 : 0;
+
+        // Count applying as individuals or team
+        newStats.teams.teamOrAlone += user.profile.teamSelection === 'teamOrAlone' ? 1 : 0;
+
+        // Count teams
+        newStats.teams.onlyTeam += user.profile.teamSelection === 'onlyTeam' ? 1 : 0;
 
         // Count accepted
         newStats.softAdmitted += user.status.softAdmitted ? 1 : 0;

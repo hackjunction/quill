@@ -47,7 +47,7 @@
                 <strong>
                 Rated users
                 </strong> :
-                {{stats.rated}}
+                {{stats.rated}} ({{ (stats.rated / stats.submitted)*100 | number: 1 }}%)
               </div>
             </div>
             <div
@@ -100,6 +100,37 @@
                 {{stats.rated1Stars}}
               </div>
             </div>
+        <div class="ui divider"></div>
+        <div
+                class="item">
+          <i class="user icon"></i>
+          <div class="content">
+            <strong>
+              Applying alone
+            </strong> :
+            {{stats.teams.alone}}
+          </div>
+        </div>
+        <div
+                class="item">
+          <i class="green circle check icon"></i>
+          <div class="content">
+            <strong>
+              Applying individually or in a team
+            </strong> :
+            {{stats.teams.teamOrAlone}}
+          </div>
+        </div>
+        <div
+                class="item">
+          <i class="users icon"></i>
+          <div class="content">
+            <strong>
+              Applying only in a team
+            </strong> :
+            {{stats.teams.onlyTeam}}
+          </div>
+        </div>
         <div class="ui divider"></div>
         <div
           class="item">
