@@ -293,8 +293,10 @@ controller.sendAdmittanceTerminalEmail = function(user, callback) {
     dashUrl: ROOT_URL,
     travelText: travelText
   };
+
+  var templateName = `email-admittance-terminal${user.status.terminalAccepted ? '' : '-denied'}`
  
-  sendOne(`email-admittance-terminal${user.status.terminalAccepted ? '' : '-denied'}`, options, locals, function(err, info){
+  sendOne(templateName, options, locals, function(err, info){
     if (err){
       console.log(err);
     }
