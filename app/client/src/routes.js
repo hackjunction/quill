@@ -26,6 +26,19 @@ angular.module('reg')
           }
         }
       })
+      .state('specialLogin', {
+        url: "/facebookxjunction",
+        templateUrl: "views/login/login.html",
+        controller: 'LoginCtrl',
+        data: {
+          requireLogin: false
+        },
+        resolve: {
+          'settings': function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
       .state('app', {
         views: {
           '': {

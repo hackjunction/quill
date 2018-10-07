@@ -13,6 +13,9 @@ angular.module('reg')
       // Is registration open?
       var Settings = settings.data;
       $scope.regIsOpen = Utils.isRegOpen(Settings);
+      $scope.specialRegOpen = Utils.isSpecialRegOpen(Settings);
+
+      $scope.specialLogin = window.location.pathname === '/facebookxjunction'
 
       // Start state for login
       $scope.loginState = 'login';
@@ -54,8 +57,14 @@ angular.module('reg')
           } 
           else {
             if($scope.regIsOpen){
+              var special = false
               AuthService.register(
-                $scope.email, $scope.password, $scope.nickname, onSuccess, onError);
+                $scope.email, $scope.password, $scope.nickname, special, onSuccess, onError);
+            }
+            else if($scope.specialLogin && $scope.specialRegOpen) {
+              var special = true
+              AuthService.register(
+                $scope.email, $scope.password, $scope.nickname, special, onSuccess, onError);
             }
           }
         } else {

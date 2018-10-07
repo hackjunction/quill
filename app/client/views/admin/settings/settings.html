@@ -29,6 +29,17 @@
           <input type="datetime-local" ng-model="settings.timeClose">
         </div>
 
+        <div class="ui header">
+          Special (Facebook) closing
+        </div>
+
+        <div class="field">
+          <label>
+            Closes: {{ formatDate(settings.timeCloseSpecial) }}
+          </label>
+          <input type="datetime-local" ng-model="settings.timeCloseSpecial">
+        </div>
+
         <div class="ui field">
           <div
             class="ui green button"

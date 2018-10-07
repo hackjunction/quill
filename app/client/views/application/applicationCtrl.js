@@ -133,6 +133,11 @@ angular.module('reg')
       _setupForm();
 
       $scope.regIsClosed = Date.now() > Settings.data.timeClose || $scope.user.status.admitted;
+      $scope.specialRegClosed = Date.now() > Settings.data.timeCloseSpecial;
+
+      $scope.specialOpen = !$scope.specialRegClosed && $scope.user.specialRegistration
+
+      $scope.formClosed = $scope.regIsClosed && !$scope.specialOpen
 
       var reimbClasses;
       $.getJSON('../assets/reimbClasses.json').done(function(data){
@@ -142,7 +147,7 @@ angular.module('reg')
       function _updateUser(e){
         // Update user profile
         UserService
-          .updateProfile(Session.getUserId(), $scope.user.profile)
+          .updateProfile(Session.getUserId(), $scope.user.profile, $scope.user.specialRegistration)
           .success(function(data){
             sweetAlert({
               title: "Awesome!",
@@ -578,7 +583,7 @@ angular.module('reg')
           $("#goodLevelTools").dropdown('set selected', $scope.user.profile.goodLevelTools);
           $("#beginnerLevelTools").dropdown('set selected', $scope.user.profile.beginnerLevelTools);
 
-          if ($scope.regIsClosed) {
+          if ($scope.regIsClosed && !$scope.specialOpen) {
             $('.ui.dropdown').addClass("disabled");
           }
 
