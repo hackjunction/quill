@@ -630,6 +630,12 @@ var schema = new mongoose.Schema({
       ]
   },
 
+  specialRegistration: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+
   id: {
       type: String,
       required: true,

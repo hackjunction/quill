@@ -89,7 +89,7 @@ SettingsController.getWhitelistedEmails = function(callback){
  * @param  {Number}   close    Close time in ms
  * @param  {Function} callback args(err, settings)
  */
-SettingsController.updateRegistrationTimes = function(open, close, callback){
+SettingsController.updateRegistrationTimes = function(open, close, special, callback){
   var updatedTimes = {};
 
   if (close <= open){
@@ -104,6 +104,10 @@ SettingsController.updateRegistrationTimes = function(open, close, callback){
 
   if (close){
     updatedTimes.timeClose = close;
+  }
+
+  if (special) {
+    updatedTimes.timeCloseSpecial = special;
   }
 
   Settings

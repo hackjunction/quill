@@ -74,7 +74,7 @@
 
         <div class="divided title">Basic Information</div>
 
-        <fieldset ng-disabled="regIsClosed">
+        <fieldset ng-disabled="formClosed">
 
         <div class="field">
           <label> Email </label>
@@ -1437,7 +1437,7 @@
           </ul>
         </div>
 
-        <div class="field" style="margin-bottom:5px" ng-hide="regIsClosed">
+        <div class="field" style="margin-bottom:5px" ng-hide="regIsClosed && !specialOpen">
           <button type="submit"
                   class="fluid ui sea-serpent button"
                   ng-click="submitForm()">

@@ -76,6 +76,19 @@
               </button>
             </div>
           </div>
+
+          <div ng-show="specialLogin && specialRegOpen">
+            <div class="ui divider"/>
+
+            <div class="field">
+              <button id="register"
+                      type="submit"
+                      class="fluid ui register button"
+                      ng-click="setLoginState('register')">
+                      Register
+              </button>
+            </div>
+          </div>
         </div>
 
     <!-- REGISTER FORM -->

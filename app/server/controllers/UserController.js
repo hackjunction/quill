@@ -34,7 +34,7 @@ function escapeRegExp(str) {
  * @param  {Function} callback args(err, true, false)
  * @return {[type]}            [description]
  */
-function canRegister(email, password, callback){
+function canRegister(email, password, special, callback){
 
   if (!password || password.length < 6){
     return callback({ message: "Password must be 6 or more characters."}, false);
@@ -54,7 +54,7 @@ function canRegister(email, password, callback){
       });
     }
 
-    if (now > times.timeClose){
+    if (now > times.timeClose && !special){
       return callback({
         message: "Sorry, registration is closed."
       });
@@ -141,7 +141,7 @@ UserController.loginWithPassword = function(email, password, callback){
  * @param  {String}   password [description]
  * @param  {Function} callback args(err, user)
  */
-UserController.createUser = function(email, password, nickname, callback) {
+UserController.createUser = function(email, password, nickname, special, callback) {
   if (typeof email !== "string"){
     return callback({
       message: "Incorrect email format"
@@ -160,7 +160,7 @@ UserController.createUser = function(email, password, nickname, callback) {
       });
     }
 
-    if (now > times.timeClose){
+    if (now > times.timeClose && !special){
       return callback({
         message: "Sorry, registration is closed."
       });
@@ -175,7 +175,7 @@ UserController.createUser = function(email, password, nickname, callback) {
     var id = generateID(count);
     console.log(id);
 
-    canRegister(email, password, function(err, valid){
+    canRegister(email, password, special, function(err, valid){
 
       if (err || !valid){
         return callback(err);
@@ -200,6 +200,7 @@ UserController.createUser = function(email, password, nickname, callback) {
             u.email = email;
             u.nickname = nickname;
             u.password = User.generateHash(password);
+            u.specialRegistration = special;
             u.id = id;
 
             u.save(function(err){
@@ -346,6 +347,8 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'team': undefined})
   if(query.filter.terminal === 'true')
     statusFilter.push({'profile.terminal.essay': {$ne: undefined}})
+  if(query.filter.specialRegistration === 'true')
+    statusFilter.push({'specialRegistration': 'true'})
   else
    statusFilter.push({});
   
@@ -570,7 +573,7 @@ UserController.getById = function (id, callback){
  * @param  {Object}   profile  Profile object
  * @param  {Function} callback Callback with args (err, user)
  */
-UserController.updateProfileById = function (id, profile, callback){
+UserController.updateProfileById = function (id, profile, special, callback){
 
   // Validate the user profile, and mark the user as profile completed
   // when successful.
@@ -588,13 +591,15 @@ UserController.updateProfileById = function (id, profile, callback){
 
         var now = Date.now();
 
+        var specialOpen = special && now < times.timeCloseSpecial;
+
         if (now < times.timeOpen){
           return callback({
             message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
           });
         }
 
-        if (now > times.timeClose){
+        if (now > times.timeClose && !specialOpen){
           return callback({
             message: "Sorry, registration is closed."
           });
@@ -1017,8 +1022,9 @@ UserController.createTeam = function(id, callback) {
   Settings.getRegistrationTimes(function(err, times) {
     User.findById(id, function(err, user) {
       var now = new Date();
+      var specialOpen = now < times.timeCloseSpecial && user.specialRegistration
       if (err) return callback({message: "Error finding user"})
-      if(!user.status.admitted && now > times.timeClose) {
+      if(!user.status.admitted && now > times.timeClose && !specialOpen) {
         return callback({message: "You can not create new teams, because you haven't been accepted yet and application period is over."})
       }
       const t = new Team({
@@ -1094,8 +1100,9 @@ UserController.joinTeam = function(id, code, callback){
         console.log('Valid team found, adding user to it')
         User.findById(id, function(err, user) {
           var now = new Date();
+          var specialOpen = now < times.timeCloseSpecial && user.specialRegistration
           if (err) return callback({message: "User not found"})
-          if (now > times.timeClose && !user.status.admitted) {
+          if (now > times.timeClose && !user.status.admitted && !specialOpen) {
             return callback({message: "Application period has ended, you haven't been accepted yet so you can not join teams!"})
           }
           const updatedMembers = team.members.concat([user.id])

@@ -55,9 +55,10 @@ angular.module('reg')
         return $http.get('/api/matchmaking/teamInSearch')
       },
 
-      updateProfile: function(id, profile){
+      updateProfile: function(id, profile, special){
         return $http.put(base + id + '/profile', {
-          profile: profile
+          profile: profile,
+          special: special
         });
       },
 

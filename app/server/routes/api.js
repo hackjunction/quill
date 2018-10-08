@@ -397,9 +397,10 @@ module.exports = function(router) {
 
   router.put('/users/:id/profile', isOwnerOrAdmin, function(req, res){
     var profile = sanitize(req.body.profile);
+    var special = req.body.special;
     var id = req.params.id;
 
-    UserController.updateProfileById(id, profile , defaultResponse(req, res));
+    UserController.updateProfileById(id, profile, special, defaultResponse(req, res));
   });
 
   /**
@@ -843,7 +844,9 @@ module.exports = function(router) {
   router.put('/settings/times', isAdmin, function(req, res){
     var open = req.body.timeOpen;
     var close = req.body.timeClose;
-    SettingsController.updateRegistrationTimes(open, close, defaultResponse(req, res));
+    var special = req.body.timeCloseSpecial;
+    console.log(special)
+    SettingsController.updateRegistrationTimes(open, close, special, defaultResponse(req, res));
   });
 
   /**
