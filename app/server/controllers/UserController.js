@@ -1022,7 +1022,7 @@ UserController.createTeam = function(id, callback) {
       var now = new Date();
       var specialOpen = now < times.timeCloseSpecial && user.specialRegistration
       if (err) return callback({message: "Error finding user"})
-      if(!user.status.admitted && now > times.timeClose) {
+      if(!user.status.admitted && now > times.timeClose && !specialOpen) {
         return callback({message: "You can not create new teams, because you haven't been accepted yet and application period is over."})
       }
       const t = new Team({
@@ -1098,8 +1098,9 @@ UserController.joinTeam = function(id, code, callback){
         console.log('Valid team found, adding user to it')
         User.findById(id, function(err, user) {
           var now = new Date();
+          var specialOpen = now < times.timeCloseSpecial && user.specialRegistration
           if (err) return callback({message: "User not found"})
-          if (now > times.timeClose && !user.status.admitted) {
+          if (now > times.timeClose && !user.status.admitted && !specialOpen) {
             return callback({message: "Application period has ended, you haven't been accepted yet so you can not join teams!"})
           }
           const updatedMembers = team.members.concat([user.id])
