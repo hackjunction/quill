@@ -6,6 +6,7 @@ angular.module('reg')
     'UserService',
     function($scope, $http, User, UserService){
       $scope.selectedUser = User.data;
+      $scope.specialRegistered = $scope.selectedUser.specialRegistration ? 'Special registration' : 'Normal registration'
 
       // Populate the school dropdown
       populateSchools();
@@ -48,6 +49,18 @@ angular.module('reg')
           .success(function(data) {
             $selectedUser = data;
             swal("Updated", "Email updated", "success");
+          })
+          .error(function(err){
+            swal("Oops, something went wrong.", err.message);
+          });
+      }
+
+      $scope.toggleSpecialRegistration = function() {
+        UserService
+          .toggleSpecialRegistration($scope.selectedUser._id, $scope.selectedUser.specialRegistration)
+          .success(function(data) {
+            $scope.selectedUser = data;
+            swal("Updated", "Secret registration status updated", "success");
           })
           .error(function(err){
             swal("Oops, something went wrong.", err.message);

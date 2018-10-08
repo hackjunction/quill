@@ -127,6 +127,30 @@
     <fieldset ng-disabled="false">
 
       <div class="ui header">
+       Special Registration
+      </div>
+
+      <p>You can use this to set a person to be special registered, so they can still fill the application form (if the special DL hasn't passed).</p>
+
+      <p>Current status: <b>{{specialRegistered}}</b></p>
+
+      <div class="field">
+        <div
+          ng-click="toggleSpecialRegistration()"
+          class="ui positive right labeled icon button">
+          Toggle Special Registration
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+
+  <!--<div class="ui form">
+
+    <fieldset ng-disabled="false">
+
+      <div class="ui header">
         Confirmation
       </div>
 
@@ -326,4 +350,5 @@
     </fieldset>
 
   </div>
+-->
 </div>

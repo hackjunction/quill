@@ -411,10 +411,14 @@ module.exports = function(router) {
 
   router.put('/users/:id/email', isAdmin, function(req, res){
     var email = sanitize(req.body.email);
-    console.log(email)
     var id = req.params.id;
-
     UserController.updateUserEmail(id, email, defaultResponse(req, res));
+  });
+
+  router.put('/users/:id/toggleSpecial', isAdmin, function(req, res){
+    var id = req.params.id;
+    var current = req.body.current
+    UserController.toggleSpecial(id, current, defaultResponse(req, res));
   });
 
   /**
@@ -618,7 +622,6 @@ module.exports = function(router) {
   router.post('/users/:id/softAdmit', isAdmin, function(req, res){
     // Accept the hacker. Admin only
     var id = req.params.id;
-    console.log(req.body.alreadyAdmitted)
     var alreadyAdmitted = req.body.alreadyAdmitted;
     var user = req.user;
     UserController.softAdmitUser(id, user, alreadyAdmitted, defaultResponse(req, res));

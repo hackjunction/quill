@@ -1454,6 +1454,27 @@ UserController.softAdmitUser = function(id, user, alreadyAdmitted, callback){
 /**
  * [ADMIN ONLY]
  *
+ * Change users Secret registration status.
+ * @param  {String}   userId      User id of the admit
+ * @param  {Function} callback args(err, user)
+ */
+UserController.toggleSpecial = function(id, current, callback){
+  User
+    .findOneAndUpdate({
+      '_id': id,
+    },{
+      $set: {
+        'specialRegistration': !current
+      }
+    }, {
+      new: true
+    },
+    callback)
+  };
+
+/**
+ * [ADMIN ONLY]
+ *
  * Admit a user.
  * @param  {String}   userId      User id of the admit
  * @param  (String)   reimbClass  Users accepted reimbursement class/amount
