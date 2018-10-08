@@ -15,7 +15,7 @@ angular.module('reg')
       $scope.regIsOpen = Utils.isRegOpen(Settings);
       $scope.specialRegOpen = Utils.isSpecialRegOpen(Settings);
 
-      $scope.specialLogin = window.location.pathname === '/facebookxjunction'
+      $scope.specialLogin = window.location.pathname === '/secretapplication'
 
       // Start state for login
       $scope.loginState = 'login';

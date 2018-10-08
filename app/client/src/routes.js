@@ -27,7 +27,7 @@ angular.module('reg')
         }
       })
       .state('specialLogin', {
-        url: "/facebookxjunction",
+        url: "/secretapplication",
         templateUrl: "views/login/login.html",
         controller: 'LoginCtrl',
         data: {
