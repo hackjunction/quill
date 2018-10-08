@@ -589,10 +589,7 @@ UserController.updateProfileById = function (id, profile, special, callback){
 
         var now = Date.now();
 
-        var specialOpen = special && times.timeCloseSpecial;
-        
-        console.log(times)
-        console.log(specialOpen)
+        var specialOpen = special && now < times.timeCloseSpecial;
 
         if (now < times.timeOpen){
           return callback({
@@ -1023,6 +1020,7 @@ UserController.createTeam = function(id, callback) {
   Settings.getRegistrationTimes(function(err, times) {
     User.findById(id, function(err, user) {
       var now = new Date();
+      var specialOpen = now < times.timeCloseSpecial && user.specialRegistration
       if (err) return callback({message: "Error finding user"})
       if(!user.status.admitted && now > times.timeClose) {
         return callback({message: "You can not create new teams, because you haven't been accepted yet and application period is over."})
