@@ -347,6 +347,8 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'team': undefined})
   if(query.filter.terminal === 'true')
     statusFilter.push({'profile.terminal.essay': {$ne: undefined}})
+  if(query.filter.specialRegistration === 'true')
+    statusFilter.push({'specialRegistration': 'true'})
   else
    statusFilter.push({});
   
