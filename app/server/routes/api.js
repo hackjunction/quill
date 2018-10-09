@@ -380,6 +380,15 @@ module.exports = function(router) {
     UserController.getStats(defaultResponse(req, res));
   });
 
+  router.post('/users/massReject', isAdmin, function(req, res){
+    UserController.massReject(defaultResponse(req, res));
+  });
+
+  router.get('/users/rejectionCount', isAdmin, function(req, res){
+    UserController.getRejectionCount(defaultResponse(req, res));
+  });
+
+
   /**
    * [OWNER/ADMIN]
    *

@@ -156,6 +156,14 @@ angular.module('reg')
         });
       },
 
+      massReject: function() {
+        return $http.post(base + 'massReject')
+      },
+
+      getRejectionCount: function() {
+        return $http.get(base + 'rejectionCount')
+      },
+
       acceptTravelClassForUser: function(id, reimbClass) {
         return $http.post(base + id + '/acceptTravelClass', {
           reimbClass: reimbClass

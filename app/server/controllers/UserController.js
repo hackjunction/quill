@@ -1702,4 +1702,38 @@ UserController.getStats = function(callback){
   return callback(null, Stats.getUserStats());
 };
 
+UserController.massReject = function(callback){
+  User.update({
+    $and: [
+      {'status.admitted': {$ne: true}},
+      {'status.softAdmitted': {$ne: true}},
+      {'profile.travelFromCountry': {$ne: 'Finland'}},
+      {'status.rating': {$lt: 4}}
+    ]
+  }, {
+    $set: {
+      'status.rejected': true
+    }
+  }, {
+    multi: true
+  },
+  callback)
+};
+
+UserController.getRejectionCount = function(callback){
+  User.find({
+    $and: [
+      {'status.rejected': {$ne: true}},
+      {'status.admitted': {$ne: true}},
+      {'status.softAdmitted': {$ne: true}},
+      {'profile.travelFromCountry': {$ne: 'Finland'}},
+      {'status.rating': {$lt: 4}}
+    ]
+  }).exec(function(err, users){
+    if(err) return callback(err, users)
+    var amount = users.length
+    return callback(null, amount)
+  })
+};
+
 module.exports = UserController;
