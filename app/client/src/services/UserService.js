@@ -149,6 +149,13 @@ angular.module('reg')
         return $http.post(base + id + '/acceptTerminal');
       },
 
+      adminUpdateProfile: function(id, profile, special){
+        return $http.put('/api/admin/users/' + id + '/profile', {
+          profile: profile,
+          special: special
+        });
+      },
+
       acceptTravelClassForUser: function(id, reimbClass) {
         return $http.post(base + id + '/acceptTravelClass', {
           reimbClass: reimbClass

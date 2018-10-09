@@ -108,6 +108,11 @@
                ng-model="selectedUser.profile.school">
       </div>
 
+      <div class="field" ng-show="!autoFilledSchool">
+        <label> Needs Accommodation </label>
+        <input type="checkbox" id="applyAccommodation" ng-model="selectedUser.profile.applyAccommodation">
+      </div>
+
       <div class="field">
         <div
           ng-click="updateProfile()"

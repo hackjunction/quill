@@ -403,6 +403,14 @@ module.exports = function(router) {
     UserController.updateProfileById(id, profile, special, defaultResponse(req, res));
   });
 
+  router.put('/admin/users/:id/profile', isAdmin, function(req, res) {
+    var profile = sanitize(req.body.profile);
+    var special = req.body.special;
+    var id = req.params.id;
+
+    UserController.adminUpdateProfileById(id, profile, special, defaultResponse(req, res));
+  })
+
   /**
    * [OWNER/ADMIN]
    *

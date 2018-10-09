@@ -33,13 +33,14 @@ angular.module('reg')
 
       $scope.updateProfile = function(){
         UserService
-          .updateProfile($scope.selectedUser._id, $scope.selectedUser.profile)
+          .adminUpdateProfile($scope.selectedUser._id, $scope.selectedUser.profile)
           .success(function(data){
             $selectedUser = data;
             swal("Updated!", "Profile updated.", "success");
           })
-          .error(function(){
-            swal("Oops, you forgot something.");
+          .error(function(err){
+            console.log(err)
+            swal("Oops, something went wrong.");
           });
       };
 

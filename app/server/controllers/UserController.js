@@ -604,20 +604,52 @@ UserController.updateProfileById = function (id, profile, special, callback){
             message: "Sorry, registration is closed."
           });
         }
-      });
 
-      if (!profile.submittedApplication) {
-        // Send application success email after first application submission
-        profile.submittedApplication = true;
-        User.findById(id, function(err, user) {
-          if (err) {
-            console.log('Could not send email:');
-            console.log(err);
-          }
-          Mailer.sendApplicationEmail(user);
+        if (!profile.submittedApplication) {
+          // Send application success email after first application submission
+          profile.submittedApplication = true;
+          User.findById(id, function(err, user) {
+            if (err) {
+              console.log('Could not send email:');
+              console.log(err);
+            }
+            Mailer.sendApplicationEmail(user);
+          });
+        }
+  
+        console.log('yeet')
+  
+        User.findOneAndUpdate({
+          _id: id,
+          verified: true
+        },
+          {
+            $set: {
+              'lastUpdated': Date.now(),
+              'profile': profileValidated,
+              'status.completedProfile': true
+            }
+          },
+          {
+            new: true
+          },
+          function(err, user) {
+            return callback(err, user)
+          });
         });
-      }
+      });
+  });
+};
 
+UserController.adminUpdateProfileById = function (id, profile, special, callback){
+
+  // Validate the user profile, and mark the user as profile completed
+  // when successful.
+  csvValidation(profile, function(profileValidated){
+    User.validateProfile(profile, function(err){
+      if (err){
+        return callback({message: 'invalid profile'});
+      }
       User.findOneAndUpdate({
         _id: id,
         verified: true
@@ -632,10 +664,13 @@ UserController.updateProfileById = function (id, profile, special, callback){
         {
           new: true
         },
-        callback);
+        function(err, user) {
+          return callback(err, user)
+        });
       });
-  });
+    });
 };
+
 
 UserController.updateUserEmail = function(id, email, callback) {
   console.log('updating user email')
