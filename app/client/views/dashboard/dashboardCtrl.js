@@ -33,6 +33,35 @@ angular.module('reg')
         on: 'hover'
       });
 
+      if(window.location.pathname === '/talentpool') {
+        swal({
+          title: "Hiya!",
+          text: "Do you want to be added to the aTalent's talent pool? aTalent will reach out to you directly when positions matching your skills and interests arise!",
+          confirmButtonColor: "#41e648",
+          confirmButtonText: "Yes, add me!",
+          }, function(){
+            UserService
+              .updateATalentInterest()
+              .success(function(data){
+                sweetAlert({
+                  title: "Awesome!",
+                  text: "You've been added to the talent pool!",
+                  type: "success",
+                  confirmButtonColor: "#5ABECF"
+                }, function(){
+                  $state.go('app.dashboard');
+                })
+              })
+              .error(function(err) {
+                sweetAlert({
+                  title: "Uh oh!",
+                  text: "Something went wrong.",
+                  type: "error"
+                })
+              });
+        });
+      }
+
       // Is registration open?
       var regIsOpen = $scope.regIsOpen = Utils.isRegOpen(Settings);
 

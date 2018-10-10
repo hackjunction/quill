@@ -126,6 +126,10 @@ angular.module('reg')
         return $http.get(base + Session.getUserId() + '/team');
       },
 
+      updateATalentInterest: function() {
+        return $http.post(base + Session.getUserId() + '/talentpool')
+      },
+
       // -------------------------
       // Admin Only
       // -------------------------

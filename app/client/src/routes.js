@@ -72,6 +72,22 @@ angular.module('reg')
           }
         },
       })
+      .state('app.talentPool', {
+        url: "/talentpool",
+        templateUrl: "views/dashboard/dashboard.html",
+        controller: 'DashboardCtrl',
+        data: {
+          requireLogin: true
+        },
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
       .state('app.application', {
         url: "/application",
         templateUrl: "views/application/application.html",

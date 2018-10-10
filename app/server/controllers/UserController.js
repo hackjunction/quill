@@ -617,8 +617,6 @@ UserController.updateProfileById = function (id, profile, special, callback){
           });
         }
   
-        console.log('yeet')
-  
         User.findOneAndUpdate({
           _id: id,
           verified: true
@@ -899,6 +897,19 @@ UserController.declineById = function (id, callback){
       return callback(err, user);
     });
 };
+
+UserController.updateATalentInterest = function(id, callback) {
+  User.findOneAndUpdate({
+    _id: id
+  }, {
+    $set: {
+      'profile.aTalentContact': true
+    }
+  }, {
+    new: true
+  },
+  callback)
+}
 
 /**
  * Rate a participant, given an id.

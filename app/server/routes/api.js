@@ -412,6 +412,11 @@ module.exports = function(router) {
     UserController.updateProfileById(id, profile, special, defaultResponse(req, res));
   });
 
+  router.post('/users/:id/talentpool', isOwnerOrAdmin, function(req, res){
+    var id = req.params.id;
+    UserController.updateATalentInterest(id, defaultResponse(req, res));
+  });
+
   router.put('/admin/users/:id/profile', isAdmin, function(req, res) {
     var profile = sanitize(req.body.profile);
     var special = req.body.special;
