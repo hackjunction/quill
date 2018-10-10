@@ -1705,6 +1705,7 @@ UserController.getStats = function(callback){
 UserController.massReject = function(callback){
   User.update({
     $and: [
+      {'specialRegistration': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
       {'profile.travelFromCountry': {$ne: 'Finland'}},
@@ -1723,6 +1724,7 @@ UserController.massReject = function(callback){
 UserController.getRejectionCount = function(callback){
   User.find({
     $and: [
+      {'specialRegistration': {$ne: true}},
       {'status.rejected': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
