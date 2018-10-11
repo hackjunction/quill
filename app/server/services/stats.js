@@ -57,6 +57,7 @@ function calculateStats(settings){
     confirmed: 0,
     confirmedMit: 0,
     declined: 0,
+    specialReg: 0,
 
     confirmedFemale: 0,
     confirmedMale: 0,
@@ -251,6 +252,8 @@ function calculateStats(settings){
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
+
+        newStats.specialReg += user.specialRegistration ? 1 : 0;
 
         // Count the number of people who need reimbursements
         // newStats.reimbursementTotal += user.confirmation.needsReimbursement ? 1 : 0;
