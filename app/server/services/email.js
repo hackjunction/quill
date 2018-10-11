@@ -323,7 +323,7 @@ controller.sendConfirmationEmail = function(user, token, callback) {
    subject: "[Junction 2018] - You are confirmed!"
  };
  var travelText;
- if (user.profile.needsReimbursement && user.profile.AcceptedreimbursementClass !== 'Rejected' && user) {
+ if (user.profile.needsReimbursement && user.profile.AcceptedreimbursementClass !== 'Rejected' && user.profile.AcceptedreimbursementClass) {
    travelText = 'A reminder about your travel grants: ' +
     'For travelling from ' + user.profile.travelFromCountry + ', you will be granted ' + getAcceptedreimbAmount(user) + ' €.';
  }
