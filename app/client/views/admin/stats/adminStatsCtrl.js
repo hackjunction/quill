@@ -51,6 +51,29 @@ angular.module('reg')
           });
       };
 
+      $scope.massReject = function() {
+        UserService
+          .getRejectionCount()
+          .success(function(count) {
+            swal({
+              title: "Are you sure?",
+              text: `This will reject ${count} users.`,
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes, reject.",
+              closeOnConfirm: false
+              }, function(){
+    
+                UserService
+                  .massReject()
+                  .then(function(){
+                    sweetAlert('Mass Rejection successful.');
+                });
+            })
+          })
+      }
+
       /*$scope.sendQREmails = function(){
         swal({
           title: "Are you sure?",

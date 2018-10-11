@@ -617,8 +617,6 @@ UserController.updateProfileById = function (id, profile, special, callback){
           });
         }
   
-        console.log('yeet')
-  
         User.findOneAndUpdate({
           _id: id,
           verified: true
@@ -899,6 +897,19 @@ UserController.declineById = function (id, callback){
       return callback(err, user);
     });
 };
+
+UserController.updateATalentInterest = function(id, callback) {
+  User.findOneAndUpdate({
+    _id: id
+  }, {
+    $set: {
+      'profile.aTalentContact': true
+    }
+  }, {
+    new: true
+  },
+  callback)
+}
 
 /**
  * Rate a participant, given an id.
@@ -1700,6 +1711,42 @@ UserController.checkOutById = function(id, user, callback){
 
 UserController.getStats = function(callback){
   return callback(null, Stats.getUserStats());
+};
+
+UserController.massReject = function(callback){
+  User.update({
+    $and: [
+      {'specialRegistration': {$ne: true}},
+      {'status.admitted': {$ne: true}},
+      {'status.softAdmitted': {$ne: true}},
+      {'profile.travelFromCountry': {$ne: 'Finland'}},
+      {'status.rating': {$lt: 4}}
+    ]
+  }, {
+    $set: {
+      'status.rejected': true
+    }
+  }, {
+    multi: true
+  },
+  callback)
+};
+
+UserController.getRejectionCount = function(callback){
+  User.find({
+    $and: [
+      {'specialRegistration': {$ne: true}},
+      {'status.rejected': {$ne: true}},
+      {'status.admitted': {$ne: true}},
+      {'status.softAdmitted': {$ne: true}},
+      {'profile.travelFromCountry': {$ne: 'Finland'}},
+      {'status.rating': {$lt: 4}}
+    ]
+  }).exec(function(err, users){
+    if(err) return callback(err, users)
+    var amount = users.length
+    return callback(null, amount)
+  })
 };
 
 module.exports = UserController;

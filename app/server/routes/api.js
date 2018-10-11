@@ -380,6 +380,15 @@ module.exports = function(router) {
     UserController.getStats(defaultResponse(req, res));
   });
 
+  router.post('/users/massReject', isAdmin, function(req, res){
+    UserController.massReject(defaultResponse(req, res));
+  });
+
+  router.get('/users/rejectionCount', isAdmin, function(req, res){
+    UserController.getRejectionCount(defaultResponse(req, res));
+  });
+
+
   /**
    * [OWNER/ADMIN]
    *
@@ -401,6 +410,11 @@ module.exports = function(router) {
     var id = req.params.id;
 
     UserController.updateProfileById(id, profile, special, defaultResponse(req, res));
+  });
+
+  router.post('/users/:id/talentpool', isOwnerOrAdmin, function(req, res){
+    var id = req.params.id;
+    UserController.updateATalentInterest(id, defaultResponse(req, res));
   });
 
   router.put('/admin/users/:id/profile', isAdmin, function(req, res) {
