@@ -1708,8 +1708,17 @@ UserController.massReject = function(callback){
       {'specialRegistration': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
-      {'profile.travelFromCountry': {$ne: 'Finland'}},
-      {'status.rating': {$lt: 4}}
+      {
+        $or: [
+          {
+            $and: [
+              {'profile.travelFromCountry': 'Finland'},
+              {'status.rating': {$lt: 4}}
+            ]
+          },
+          {'profile.travelFromCountry': {$ne: 'Finland'}}
+        ]
+      }
     ]
   }, {
     $set: {
@@ -1724,12 +1733,20 @@ UserController.massReject = function(callback){
 UserController.getRejectionCount = function(callback){
   User.find({
     $and: [
-      {'specialRegistration': {$ne: true}},
       {'status.rejected': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
-      {'profile.travelFromCountry': {$ne: 'Finland'}},
-      {'status.rating': {$lt: 4}}
+      {
+        $or: [
+          {
+            $and: [
+              {'profile.travelFromCountry': 'Finland'},
+              {'status.rating': {$lt: 4}}
+            ]
+          },
+          {'profile.travelFromCountry': {$ne: 'Finland'}}
+        ]
+      }
     ]
   }).exec(function(err, users){
     if(err) return callback(err, users)
