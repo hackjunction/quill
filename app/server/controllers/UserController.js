@@ -293,7 +293,7 @@ UserController.getPage = function(query, callback){
   }
   if(query.filter.submitted === 'true') {
     statusFilter.push({'status.completedProfile': 'true'});
-    statusFilter.push({'status.softAdmitted': 'false'});
+    statusFilter.push({'status.softAdmitted': {$ne: true}});
     statusFilter.push({'status.rejected': 'false'});
   }
   if(query.filter.softAdmitted === 'true') {
