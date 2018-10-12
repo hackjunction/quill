@@ -1744,6 +1744,7 @@ UserController.massReject = function(callback){
 UserController.getRejectionCount = function(callback){
   User.find({
     $and: [
+      {'specialRegistration': {$ne: true}},
       {'status.rejected': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
