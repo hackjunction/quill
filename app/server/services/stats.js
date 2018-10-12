@@ -57,6 +57,7 @@ function calculateStats(settings){
     confirmed: 0,
     confirmedMit: 0,
     declined: 0,
+    rejected: 0,
     specialReg: 0,
 
     confirmedFemale: 0,
@@ -252,6 +253,8 @@ function calculateStats(settings){
 
         // Count declined
         newStats.declined += user.status.declined ? 1 : 0;
+
+        newStats.rejected += user.status.rejected ? 1 : 0;
 
         newStats.specialReg += user.specialRegistration ? 1 : 0;
 
