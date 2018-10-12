@@ -36,7 +36,7 @@
         <div
           ng-if="showWaitlist"
           class="waitlist state">
-          In review
+          On Waitlist
         </div>
 
         <div class="ui divider"></div>
@@ -52,6 +52,12 @@
         </p>
         <p>
         </p>
+
+        <div
+          ng-if="showWaitlist"
+          class="description">
+          You've been added to waitlist. This means that you can still receive a spot in Junction 2018 if there are cancellations!
+        </div>
 
         <div
           ng-if="dashState('unverified')"
