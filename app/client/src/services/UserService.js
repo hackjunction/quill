@@ -168,6 +168,18 @@ angular.module('reg')
         return $http.get(base + 'rejectionCount')
       },
 
+      getLaterRejectedCount: function() {
+        return $http.get(base + 'laterRejectCount')
+      },
+
+      massRejectRest: function() {
+        return $http.post(base + 'massRejectRest')
+      },
+
+      getRestRejectionCount: function() {
+        return $http.get(base + 'rejectionCountRest')
+      },
+
       acceptTravelClassForUser: function(id, reimbClass) {
         return $http.post(base + id + '/acceptTravelClass', {
           reimbClass: reimbClass
@@ -207,6 +219,14 @@ angular.module('reg')
       sendRejectEmails: function() {
         return $http.post(base + 'sendRejectEmails');
       },
+
+      sendRejectEmailsRest: function() {
+        return $http.post(base + 'sendRejectEmailsRest');
+      },
+
+      sendRejectEmail: function(id) {
+        return $http.post(base + id + '/rejectEmail')
+      }
       /*sendQREmails: function() {
         return $http.post(base + 'sendQREmails');
       },*/

@@ -388,6 +388,18 @@ module.exports = function(router) {
     UserController.getRejectionCount(defaultResponse(req, res));
   });
 
+  router.post('/users/massRejectRest', isAdmin, function(req, res){
+    UserController.massRejectRest(defaultResponse(req, res));
+  });
+
+  router.get('/users/rejectionCountRest', isAdmin, function(req, res){
+    UserController.getRejectionRestCount(defaultResponse(req, res));
+  });
+
+  router.get('/users/laterRejectCount', isAdmin, function(req, res) {
+    UserController.getLaterRejectionCount(defaultResponse(req, res));
+  })
+
 
   /**
    * [OWNER/ADMIN]
@@ -749,9 +761,18 @@ module.exports = function(router) {
   /**
   * Send emails to rejected applicants
   */
+  router.post('/users/:id/rejectEmail', isAdmin, function(req, res){
+    var id = req.params.id
+    UserController.sendRejectEmailByID(id, defaultResponse(req, res));
+  });
+
  router.post('/users/sendRejectEmails', isAdmin, function(req, res){
    UserController.sendRejectEmails(defaultResponse(req, res));
  });
+
+ router.post('/users/sendRejectEmailsRest', isAdmin, function(req, res){
+  UserController.sendRejectEmailsRest(defaultResponse(req, res));
+});
 
  /** 
   * Send QR emails to confirmed applicants

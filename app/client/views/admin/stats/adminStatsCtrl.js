@@ -36,7 +36,7 @@ angular.module('reg')
       $scope.sendRejectEmails = function(){
         swal({
           title: "Are you sure?",
-          text: "This will send an email to every user who has been rejected. Are you sure?.",
+          text: "This will send an email to every user who has been rejected. Are you sure?",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#DD6B55",
@@ -49,6 +49,29 @@ angular.module('reg')
                 sweetAlert('Your emails have been sent.');
             });
           });
+      };
+
+      $scope.sendRejectEmailsRest = function(){
+        UserService
+          .getLaterRejectedCount()
+          .success(function(count) {
+            swal({
+              title: "Are you sure?",
+              text: `This will send rejection email to ${count} users.`,
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes, reject.",
+              closeOnConfirm: false
+              }, function(){
+    
+                UserService
+                  .sendRejectEmailsRest()
+                  .then(function(){
+                    sweetAlert('Your emails have been sent.');
+                });
+            })
+          })
       };
 
       $scope.massReject = function() {
@@ -67,6 +90,29 @@ angular.module('reg')
     
                 UserService
                   .massReject()
+                  .then(function(){
+                    sweetAlert('Mass Rejection successful.');
+                });
+            })
+          })
+      }
+
+      $scope.massRejectRest = function() {
+        UserService
+          .getRestRejectionCount()
+          .success(function(count) {
+            swal({
+              title: "Are you sure?",
+              text: `This will reject ${count} users.`,
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes, reject.",
+              closeOnConfirm: false
+              }, function(){
+    
+                UserService
+                  .massRejectRest()
                   .then(function(){
                     sweetAlert('Mass Rejection successful.');
                 });

@@ -434,6 +434,10 @@ var status = {
     required: true,
     default: false,
   },
+  laterRejected: {
+    type: Boolean,
+    default: false
+  },
   checkedIn: {
     type: Boolean,
     required: true,

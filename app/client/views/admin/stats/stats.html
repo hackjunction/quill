@@ -360,18 +360,42 @@
         </div>
 
         <div class="item">
+
           <div class="content">
             <strong>
-              Send rejection email:
+              Send second batch rejection email:
             </strong>
             <div class="field" style="margin-bottom:5px">
               <button type="submit"
                       class="fluid ui sea-serpent button"
-                      ng-click="sendRejectEmails()">
+                      ng-click="sendRejectEmailsRest()">
                 Send!
               </button>
             </div>
           </div>
+        </div>
+
+        <div class="item">
+            <div class="content">
+              <p>Mass reject rest of the people (second batch - special registered and others)</p>
+              <div class="field" style="margin-bottom:5px">
+                <button type="submit"
+                        class="fluid ui red button"
+                        ng-click="massRejectRest()">
+                    Reject Rest
+                </button>
+              </div>
+              <strong>
+                Send rejection email:
+              </strong>
+              <div class="field" style="margin-bottom:5px">
+                <button type="submit"
+                        class="fluid ui sea-serpent button"
+                        ng-click="sendRejectEmails()">
+                  Send!
+                </button>
+              </div>
+            </div>
         </div>
 
         <!--<div class="item">

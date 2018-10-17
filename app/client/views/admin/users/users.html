@@ -207,6 +207,12 @@
             </i>
           </button>
           <button
+            class="ui negative button"
+            ng-if="selectedUser.status.rejected"
+            ng-click="sendRejectionMail($event, selectedUser, $index)">
+            Send Rejection Email
+          </button>
+          <button
             class="ui positive button"
             ng-click="softAcceptUser($event, selectedUser, $index)">
             Accept participant {{selectedUser.profile.name}} (Email isn't sent yet)

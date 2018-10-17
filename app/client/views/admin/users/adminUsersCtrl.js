@@ -350,6 +350,29 @@ angular.module('reg')
           })
       }
 
+      $scope.sendRejectionMail = function($event, user, index) {
+        $event.stopPropagation();
+        swal({
+          title: 'Are you sure?',
+          text: `You're about to send reject email to ${user.id}.`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, send it!",
+          closeOnConfirm: false
+          }, function(){
+            UserService
+              .sendRejectEmail(user._id)
+              .success(function(user) {
+                if(user) {
+                    swal("Email sent!", 'A rejection email has been sent to ' + user.profile.name, "success");
+                } else {
+                  swal("Something went wrong", '', "error");
+                }
+              })
+          })
+      }
+
       $scope.acceptTravelGrantClass = function($event, user, index) {
         $event.stopPropagation();
         if (user.Class == null && user.profile.needsReimbursement){

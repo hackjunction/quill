@@ -1334,11 +1334,32 @@ UserController.sendEmailsToNonCompleteProfiles = function(callback) {
   });
 }
 
+UserController.sendRejectEmailByID = function(id, callback) {
+  User.find({_id: id, "status.rejected": true}, 'email nickname', function (err, users) {
+    if (err) {
+      return callback(err);
+    }
+    Mailer.sendRejectEmails(users);
+    return callback(err);
+  });
+}
+
 UserController.sendRejectEmails = function(callback) {
   User.find({"status.rejected": true}, 'email nickname', function (err, users) {
     if (err) {
       return callback(err);
     }
+    Mailer.sendRejectEmails(users);
+    return callback(err);
+  });
+}
+
+UserController.sendRejectEmailsRest = function(callback) {
+  User.find({"status.rejected": true, 'status.laterRejected': true}, 'email nickname', function (err, users) {
+    if (err) {
+      return callback(err);
+    }
+    console.log(users.length)
     Mailer.sendRejectEmails(users);
     return callback(err);
   });
@@ -1761,6 +1782,47 @@ UserController.getRejectionCount = function(callback){
       }
     ]
   }).exec(function(err, users){
+    if(err) return callback(err, users)
+    var amount = users.length
+    return callback(null, amount)
+  })
+};
+
+UserController.massRejectRest = function(callback){
+  User.update({
+    $and: [
+      {'status.admitted': {$ne: true}},
+      {'status.softAdmitted': {$ne: true}},
+    ]
+  }, {
+    $set: {
+      'status.rejected': true,
+      'status.laterRejected': true
+    }
+  }, {
+    multi: true
+  },
+  callback)
+};
+
+UserController.getRejectionRestCount = function(callback){
+  User.find({
+    $and: [
+      {'status.rejected': {$ne: true}},
+      {'status.admitted': {$ne: true}},
+      {'status.softAdmitted': {$ne: true}},
+    ]
+  }).exec(function(err, users){
+    if(err) return callback(err, users)
+    var amount = users.length
+    return callback(null, amount)
+  })
+};
+
+UserController.getLaterRejectionCount = function(callback){
+  User.find(
+      {'status.laterRejected': true, "status.rejected": true}
+    ).exec(function(err, users){
     if(err) return callback(err, users)
     var amount = users.length
     return callback(null, amount)
