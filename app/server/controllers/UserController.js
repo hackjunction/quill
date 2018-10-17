@@ -1340,7 +1340,7 @@ UserController.sendRejectEmailByID = function(id, callback) {
       return callback(err);
     }
     Mailer.sendRejectEmails(users);
-    return callback(err, users[0]);
+    return callback(err);
   });
 }
 

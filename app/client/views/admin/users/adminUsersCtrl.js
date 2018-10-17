@@ -364,11 +364,7 @@ angular.module('reg')
             UserService
               .sendRejectEmail(user._id)
               .success(function(user) {
-                if(user) {
-                    swal("Email sent!", 'A rejection email has been sent to ' + user.profile.name, "success");
-                } else {
-                  swal("Something went wrong", '', "error");
-                }
+                swal("Email sent!", 'A rejection email has been sent.', "success");
               })
           })
       }
