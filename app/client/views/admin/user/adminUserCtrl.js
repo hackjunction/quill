@@ -56,6 +56,17 @@ angular.module('reg')
           });
       }
 
+      $scope.sendPasswordResetEmail = function() {
+        UserService
+          .sendPasswordResetEmail($scope.selectedUser._id)
+          .success(function(data) {
+            swal("Sent!", "Password reset email sent to user", "success");
+          })
+          .error(function(err){
+            swal("Oops, something went wrong.", err.message);
+          });
+      }
+
       $scope.toggleSpecialRegistration = function() {
         UserService
           .toggleSpecialRegistration($scope.selectedUser._id, $scope.selectedUser.specialRegistration)

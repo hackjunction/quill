@@ -226,6 +226,10 @@ angular.module('reg')
 
       sendRejectEmail: function(id) {
         return $http.post(base + id + '/rejectEmail')
+      },
+
+      sendPasswordResetEmail: function(email) {
+        return $http.post(base + 'sendResetEmail', {email: email})
       }
       /*sendQREmails: function() {
         return $http.post(base + 'sendQREmails');

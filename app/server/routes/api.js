@@ -400,6 +400,11 @@ module.exports = function(router) {
     UserController.getLaterRejectionCount(defaultResponse(req, res));
   })
 
+  router.post('/users/sendResetEmail', isAdmin, function(req, res) {
+    const email = req.body.email
+    UserController.sendPasswordResetEmail(email, defaultResponse(req, res));
+  })
+
 
   /**
    * [OWNER/ADMIN]
