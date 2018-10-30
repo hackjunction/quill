@@ -476,7 +476,7 @@ module.exports = function(router) {
 
   router.get('/matchmaking/data', function(req, res){
     var token = getToken(req);
-    var query = req.query;
+    var query = sanitize(req.query);
 
     UserController.getByToken(token, function(err, user){
 

@@ -13,11 +13,11 @@
     <div class="column">
 
       <div ng-show="showForms">
-        <!--<div ng-if="!user.teamCode"
+        <!--<div ng-if="!user.team"
              class="title">
           Search for a team
         </div>
-        <div ng-if="user.teamCode"
+        <div ng-if="user.team"
              class="title">
           Search for team members
         </div>-->
@@ -40,17 +40,17 @@
 
           button
             class="ui fluid sea-serpent button"
-            ng-if="!user.teamCode"
+            ng-if="!user.team"
             ng-click="setIndividual()">Searching for team</button>
           <button
             class="ui fluid sea-serpent button"
-            ng-if="user.teamCode"
+            ng-if="user.team"
             ng-click="setTeam()">Looking for teammates</button>
         </div>-->
         <br>
 
         <!-- Individual form -->
-        <div ng-show="!user.teamCode  && !user.teamMatchmaking.enrolled">
+        <div ng-show="!user.team  && !user.teamMatchmaking.enrolled">
           <div class="ui stackable page grid">
             <div class="column">
               <div class="ui form individual error"
@@ -222,21 +222,13 @@
         </div>
 
               <!-- Team form -->
-        <div ng-show="user.teamCode && !user.teamMatchmaking.enrolled && !teamSearching">
+        <div ng-show="user.team && !user.teamMatchmaking.enrolled && !teamSearching">
           <div class="ui stackable page grid">
             <div class="column">
               <div class="ui form team error"
                     ng-class="{'loading': loading}">
 
                 <div class="divided title">Information about your team</div>
-
-                <div class="field">
-                  <label> Team name </label>
-                  <input type="text"
-                         name="team-name"
-                         disabled="disabled"
-                         ng-model="user.teamCode">
-                </div>
                 
                 <div class="field">
                   <label>“Captain’s” Slack handle*</label>
