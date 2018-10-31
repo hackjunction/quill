@@ -1433,6 +1433,30 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
     });
 };
 
+UserController.adminChangeUserPassword = function(id, password, callback){
+  if (password.length < 6){
+    return callback({
+      message: 'Password must be 6 or more characters.'
+    });
+  }
+
+  User
+    .findById(id)
+    .select('password')
+    .exec(function(err, user){
+      User.findOneAndUpdate({
+        _id: id
+      },{
+        $set: {
+          password: User.generateHash(password)
+        }
+      }, {
+        new: true
+      },
+      callback);
+    });
+};
+
 /**
  * Reset a user's password to a given password, given a authentication token.
  * @param  {String}   token       Authentication token

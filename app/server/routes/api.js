@@ -460,6 +460,12 @@ module.exports = function(router) {
     UserController.toggleSpecial(id, current, defaultResponse(req, res));
   });
 
+  router.post('/users/:id/changePassword', isAdmin, function(req, res){
+    var id = req.params.id;
+    var password = req.body.password;
+    UserController.adminChangeUserPassword(id, password, defaultResponse(req, res));
+  });
+
   /**
    * [OWNER/ADMIN]
    *

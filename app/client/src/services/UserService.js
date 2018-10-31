@@ -200,6 +200,12 @@ angular.module('reg')
         return $http.post(base + id + '/unreject');
       },
 
+      changeUserPassword: function(id, password) {
+        return $http.post(base + id + '/changePassword', {
+          password: password
+        })
+      },
+
       checkIn: function(id){
         return $http.post(base + id + '/checkin');
       },

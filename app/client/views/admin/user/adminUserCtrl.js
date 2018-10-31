@@ -6,6 +6,7 @@ angular.module('reg')
     'UserService',
     function($scope, $http, User, UserService){
       $scope.selectedUser = User.data;
+      $scope.password = '';
       $scope.specialRegistered = $scope.selectedUser.specialRegistration ? 'Special registration' : 'Normal registration'
 
       // Populate the school dropdown
@@ -78,5 +79,24 @@ angular.module('reg')
             swal("Oops, something went wrong.", err.message);
           });
       }
+      
+      $scope.changeUserPassword = function(){
+        if($scope.password.length < 6) {
+          swal('Password too short')
+        }
+        else {
+          UserService
+            .changeUserPassword($scope.selectedUser._id, $scope.password)
+            .success(function(data){
+              $selectedUser = data;
+              swal("Updated!", "Password changed.", "success");
+            })
+            .error(function(err){
+              console.log(err)
+              swal("Oops, something went wrong.");
+            });
+        }
+      };
+      
 
     }]);
