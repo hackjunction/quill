@@ -688,8 +688,7 @@ module.exports = function(router) {
     // Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
-    var special = req.body.special;
-    UserController.admitUser(id, user, special, defaultResponse(req, res));
+    UserController.admitUser(id, user, defaultResponse(req, res));
   });
 
   router.post('/users/:id/acceptTerminal', isAdmin, function(req, res){
@@ -888,7 +887,6 @@ module.exports = function(router) {
    * }
    */
   router.put('/settings/special-confirm-by', isAdmin, function(req, res){
-    console.log('yoot')
     var time = req.body.time;
     SettingsController.updateField('timeConfirmSpecial', time, defaultResponse(req, res));
   });

@@ -1627,9 +1627,9 @@ UserController.acceptTravelClass = function(id, reimbClass, callback){
  * @param  (String)   reimbClass  Users accepted reimbursement class/amount
  * @param  {Function} callback args(err, user)
  */
-UserController.admitUser = function(id, user, special, callback){
+UserController.admitUser = function(id, user, callback){
   Settings.getRegistrationTimes(function(err, times){
-    var confirmBy = special ? times.timeConfirmSpecial : times.timeConfirm
+    var confirmBy = new Date(times.timeConfirm).getTime() < new Date().getTime() ? times.timeConfirmSpecial : times.timeConfirm
     User
       .findOneAndUpdate({
         '_id': id,
