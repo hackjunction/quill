@@ -100,9 +100,17 @@ angular.module('reg')
           });
       };
 
-      $scope.updateConfirmationTimeForUsers = function(special){
+      $scope.updateConfirmationTimeForUsers = function(){
         SettingsService
-          .updateConfirmationTimeForUsers(special)
+          .updateConfirmationTimeForUsers(false)
+          .success(function(settings){
+            swal("Sounds good!", "Confirm By updated for accepted (not waitlisted) users", "success");
+          });
+      };
+
+      $scope.updateConfirmationTimeForUsersSpecial = function(){
+        SettingsService
+          .updateConfirmationTimeForUsers(true)
           .success(function(settings){
             swal("Sounds good!", "Confirm By updated for accepted waitlisted users", "success");
           });

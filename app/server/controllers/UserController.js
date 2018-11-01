@@ -1664,6 +1664,7 @@ UserController.admitUser = function(id, user, callback){
 
 UserController.updateConfirmByForAll = function(special, callback) {
   Settings.getRegistrationTimes(function(err, times){
+    console.log(special)
     if(special) {
       User
       .update({
@@ -1677,23 +1678,25 @@ UserController.updateConfirmByForAll = function(special, callback) {
           'status.confirmBy': times.timeConfirmSpecial,
         }
       }, {
-        new: true
+        multi: true
       }, callback)
     }
     else {
+      console.log(new Date(times.timeConfirm))
+      User.findById()
       User
         .update({
           'verified': true,
           'status.softAdmitted': true,
           'status.admitted': true,
           'status.rejected': false,
-          'status.waitlist': false
+          'status.waitlist': {$ne: true}
         },{
           $set: {
             'status.confirmBy': times.timeConfirm,
           }
         }, {
-          new: true
+          multi: true
         }, callback)
     }
   });
