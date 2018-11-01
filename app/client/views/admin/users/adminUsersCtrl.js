@@ -9,6 +9,7 @@ angular.module('reg')
       $scope.pages = [];
       $scope.users = [];
       // to know when to filter by date
+      $scope.specialAcceptance = false;
       $scope.sortDate = true;
       $scope.sortRating = true;
       $scope.sortTeam = true;
@@ -298,7 +299,7 @@ angular.module('reg')
             if(filterSoftAccepted.length){
               filterSoftAccepted.forEach(user => {
                 UserService
-                  .admitUser(user._id)
+                  .admitUser(user._id, $scope.specialAcceptance)
                   .success(function(user) {
                     if(user) {
                       for(var i = 0; i < $scope.users.length; i++){
@@ -330,7 +331,7 @@ angular.module('reg')
           closeOnConfirm: false
           }, function(){
             UserService
-              .admitUser(user._id)
+              .admitUser(user._id, $scope.specialAcceptance)
               .success(function(user) {
                 if(user) {
                   if(index == null){ //we don't have index because toggleReject has been called in pop-up

@@ -1563,6 +1563,22 @@ UserController.toggleSpecial = function(id, current, callback){
     callback)
   };
 
+UserController.setOnWailist = function(callback) {
+  User.update({
+    'status.rejected': false, 
+    'status.softAdmitted': false,
+    'status.admitted': false,
+  },{
+    $set: {
+      'status.waitlist': true
+    }
+  }, function(err, users) {
+    if(err) console.log(err)
+
+    return callback(err, users)
+  })
+}
+
 /**
  * [ADMIN ONLY]
  *
@@ -1611,8 +1627,9 @@ UserController.acceptTravelClass = function(id, reimbClass, callback){
  * @param  (String)   reimbClass  Users accepted reimbursement class/amount
  * @param  {Function} callback args(err, user)
  */
-UserController.admitUser = function(id, user, callback){
+UserController.admitUser = function(id, user, special, callback){
   Settings.getRegistrationTimes(function(err, times){
+    var confirmBy = special ? times.timeConfirmSpecial : times.timeConfirm
     User
       .findOneAndUpdate({
         '_id': id,
@@ -1622,7 +1639,7 @@ UserController.admitUser = function(id, user, callback){
       },{
         $set: {
           'status.admitted': true,
-          'status.confirmBy': times.timeConfirm,
+          'status.confirmBy': confirmBy,
         }
       }, {
         new: true

@@ -108,6 +108,7 @@ angular.module('reg')
         SettingsService
           .updateSpecialConfirmationTime(confirmBy)
           .success(function(settings){
+            console.log(settings)
             updateSettings(settings);
             swal("Sounds good!", "Special Confirmation Date Updated", "success");
           });
@@ -180,6 +181,15 @@ angular.module('reg')
           .success(function(data){
             swal("Looks good!", "Rejection will be shown to the participants", "success");
             updateSettings(data);
+          });
+      };
+
+      $scope.setOnWaitlist = function() {
+        SettingsService
+          .setOnWaitlist()
+          .success(function(data){
+            console.log(data)
+            swal("Looks good!", data.nModified + " users we're set on waitlist.\nTotal amount of waitlisted people is " + data.n, "success");
           });
       };
 

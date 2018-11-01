@@ -129,19 +129,26 @@
         {{page}}
       </button>
 
+      <div class="ui divider"></div>
+
+      <a class="ui basic button" ng-click="exportCSV()">Export to CSV</a>
+      <a class="ui basic button" ng-click="exportMailList()">Export <i class="newspaper outline icon"></i></a>
+      <a class="ui basic button" ng-click="exportTRCSV()">Export <i class="euro icon"></i><i class="plane icon"></i></a>
+
     </div>
     <div id="table-container" class="thirteen wide column">
       <div class="ui header">
         Users
-        <a class="btn" ng-click="exportCSV()">Export to CSV</a>
-        <a class="btn" ng-click="exportMailList()">Export <i class="newspaper outline icon"></i></a>
-        <a class="btn" ng-click="exportTRCSV()">Export<i class="euro icon"></i><i class="plane icon"></i></a>
         <button
           ng-click="sendAcceptanceEmails()"
           class="ui negative basic button"
-          style="margin-left: 10px">
+          style="margin-left: 60px">
           Send Acceptance Emails
         </button>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="specialAcceptance">
+          <label> Special acceptance </label>
+        </div>
       </div>
       <div class="ui long user coupled modal">
         <i class="close icon"></i>

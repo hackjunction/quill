@@ -73,6 +73,9 @@ angular.module('reg')
         return $http.put(base + 'showRejection', {
           showRejection: showRejection
         });
+      },
+      setOnWaitlist: function(){
+        return $http.put(base + 'setOnWaitlist');
       }
     };
 

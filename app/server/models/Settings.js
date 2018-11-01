@@ -128,7 +128,7 @@ schema.statics.getSkills = function(callback){
 schema.statics.getRegistrationTimes = function(callback){
   this
     .findOne({})
-    .select('timeOpen timeClose timeCloseSpecial timeConfirm timeTR')
+    .select('timeOpen timeClose timeCloseSpecial timeConfirm timeConfirmSpecial timeTR')
     .exec(function(err, settings){
       callback(err, {
         timeOpen: settings.timeOpen,

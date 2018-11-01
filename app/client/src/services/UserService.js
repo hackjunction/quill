@@ -141,8 +141,10 @@ angular.module('reg')
         return $http.delete(base + id + '/team');
       },
 
-      admitUser: function(id){
-        return $http.post(base + id + '/admit')
+      admitUser: function(id, special){
+        return $http.post(base + id + '/admit', {
+          special: special
+        })
       },
 
       softAdmitUser: function(id, alreadyAdmitted) {

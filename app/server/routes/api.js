@@ -688,7 +688,8 @@ module.exports = function(router) {
     // Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
-    UserController.admitUser(id, user, defaultResponse(req, res));
+    var special = req.body.special;
+    UserController.admitUser(id, user, special, defaultResponse(req, res));
   });
 
   router.post('/users/:id/acceptTerminal', isAdmin, function(req, res){
@@ -887,6 +888,7 @@ module.exports = function(router) {
    * }
    */
   router.put('/settings/special-confirm-by', isAdmin, function(req, res){
+    console.log('yoot')
     var time = req.body.time;
     SettingsController.updateField('timeConfirmSpecial', time, defaultResponse(req, res));
   });
@@ -901,6 +903,17 @@ module.exports = function(router) {
     var time = req.body.time;
     SettingsController.updateField('timeTR', time, defaultResponse(req, res));
   });
+
+      /**
+   * Set not accepted and not rejected people on waitlist.
+   * body: {
+   *   time: Number
+   * }
+   */
+  router.put('/settings/setOnWaitlist', isAdmin, function(req, res){
+    UserController.setOnWailist(defaultResponse(req, res));
+  });
+
 
   /**
    * Set the registration open and close times.
