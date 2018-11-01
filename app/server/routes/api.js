@@ -881,6 +881,17 @@ module.exports = function(router) {
   });
 
     /**
+   * Update the special confirmation date.
+   * body: {
+   *   time: Number
+   * }
+   */
+  router.put('/settings/special-confirm-by', isAdmin, function(req, res){
+    var time = req.body.time;
+    SettingsController.updateField('timeConfirmSpecial', time, defaultResponse(req, res));
+  });
+
+    /**
    * Update the TR date.
    * body: {
    *   time: Number

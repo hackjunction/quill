@@ -84,6 +84,36 @@
       </div>
     </div>
 
+    <div
+      ng-class="{'loading': loading}"
+      class="ui orange segment">
+      <div class="ui form">
+
+        <div class="ui header">
+          Confirmation Date (Special)
+        </div>
+
+        <p>
+          Special Registered and waitlisted people will have to confirm before this date.
+        </p>
+
+        <div class="field">
+          <label>
+            Confirm By: {{ formatDate(settings.timeConfirmSpecial) }}
+          </label>
+          <input type="datetime-local" ng-model="settings.timeConfirmSpecial">
+        </div>
+
+        <div class="ui field">
+          <div
+            class="ui green button"
+            ng-click="updateSpecialConfirmationTime()">
+            Update
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 <div class="ui stackable two column grid">

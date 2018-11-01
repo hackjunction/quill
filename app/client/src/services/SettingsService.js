@@ -21,6 +21,11 @@ angular.module('reg')
           time: time
         });
       },
+      updateSpecialConfirmationTime: function(time){
+        return $http.put(base + 'special-confirm-by', {
+          time: time
+        });
+      },
       updateTRTime: function(time){
         return $http.put(base + 'tr-by', {
           time: time

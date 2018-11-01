@@ -18,6 +18,7 @@ angular.module('reg')
         settings.timeOpen = new Date(settings.timeOpen);
         settings.timeClose = new Date(settings.timeClose);
         settings.timeConfirm = new Date(settings.timeConfirm);
+        settings.timeConfirmSpecial = new Date(settings.timeConfirmSpecial);
         settings.timeCloseSpecial = new Date(settings.timeCloseSpecial);
         settings.timeTR = new Date(settings.timeTR);
 
@@ -96,6 +97,19 @@ angular.module('reg')
           .success(function(settings){
             updateSettings(settings);
             swal("Sounds good!", "Confirmation Date Updated", "success");
+          });
+      };
+
+      // Confirmation Time -----------------------------
+
+      $scope.updateSpecialConfirmationTime = function(){
+        var confirmBy = cleanDate($scope.settings.timeConfirmSpecial).getTime();
+
+        SettingsService
+          .updateSpecialConfirmationTime(confirmBy)
+          .success(function(settings){
+            updateSettings(settings);
+            swal("Sounds good!", "Special Confirmation Date Updated", "success");
           });
       };
 
