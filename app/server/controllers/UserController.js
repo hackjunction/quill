@@ -1572,6 +1572,8 @@ UserController.setOnWailist = function(callback) {
     $set: {
       'status.waitlist': true
     }
+  },{
+    multi: true
   }, function(err, users) {
     if(err) console.log(err)
 
