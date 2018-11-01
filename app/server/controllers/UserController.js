@@ -1662,6 +1662,44 @@ UserController.admitUser = function(id, user, callback){
     });
   };
 
+UserController.updateConfirmByForAll = function(special, callback) {
+  Settings.getRegistrationTimes(function(err, times){
+    if(special) {
+      User
+      .update({
+        'verified': true,
+        'status.softAdmitted': true,
+        'status.admitted': true,
+        'status.rejected': false,
+        'status.waitlist': true
+      },{
+        $set: {
+          'status.confirmBy': times.timeConfirmSpecial,
+        }
+      }, {
+        new: true
+      }, callback)
+    }
+    else {
+      User
+        .update({
+          'verified': true,
+          'status.softAdmitted': true,
+          'status.admitted': true,
+          'status.rejected': false,
+          'status.waitlist': false
+        },{
+          $set: {
+            'status.confirmBy': times.timeConfirm,
+          }
+        }, {
+          new: true
+        }, callback)
+    }
+  });
+};
+
+
 UserController.acceptTerminal = function(id, callback){
   Settings.getRegistrationTimes(function(err, times){
     User

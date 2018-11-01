@@ -880,6 +880,11 @@ module.exports = function(router) {
     SettingsController.updateField('timeConfirm', time, defaultResponse(req, res));
   });
 
+  router.put('/settings/update-confirm-by', isAdmin, function(req, res) {
+    var special = req.body.special;
+    UserController.updateConfirmByForAll(special, defaultResponse(req,res))
+  })
+
     /**
    * Update the special confirmation date.
    * body: {
