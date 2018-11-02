@@ -1355,7 +1355,7 @@ UserController.sendRejectEmails = function(callback) {
 }
 
 UserController.sendRejectEmailsRest = function(callback) {
-  User.find({"status.rejected": true, 'status.laterRejected': true}, 'email nickname', function (err, users) {
+  User.find({"status.rejected": true, 'status.laterRejected': true, 'status.waitlist': true}, 'email nickname', function (err, users) {
     if (err) {
       return callback(err);
     }
@@ -1895,6 +1895,7 @@ UserController.getRejectionRestCount = function(callback){
       {'status.rejected': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
+      {'status.waitlist': true}
     ]
   }).exec(function(err, users){
     if(err) return callback(err, users)
