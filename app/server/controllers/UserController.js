@@ -1895,7 +1895,6 @@ UserController.getRejectionRestCount = function(callback){
       {'status.rejected': {$ne: true}},
       {'status.admitted': {$ne: true}},
       {'status.softAdmitted': {$ne: true}},
-      {'status.waitlist': true}
     ]
   }).exec(function(err, users){
     if(err) return callback(err, users)
@@ -1906,7 +1905,7 @@ UserController.getRejectionRestCount = function(callback){
 
 UserController.getLaterRejectionCount = function(callback){
   User.find(
-      {'status.laterRejected': true, "status.rejected": true}
+      {'status.laterRejected': true, "status.rejected": true, 'status.waitlist': true}
     ).exec(function(err, users){
     if(err) return callback(err, users)
     var amount = users.length
