@@ -83,8 +83,10 @@
             <i ng-if="teamLeader === u.id" class="eye icon"></i>
             {{u.profile.name || 'Somebody (has not filled out their profile!)'}}
           </p>
+          <br/>
+          <a ng-show="user.team" ui-sref="app.matchmaking" class="matchmaking"><button class="ui fluid sea-serpent button">Search for more team members!</button></a>
 
-          <div ng-show="regIsOpen">
+          <div ng-show="!pastReg">
             <div class="ui divider"></div>
               <div class="ui form" id="lockingForm">
                 <div class="title">Locking in your team</div>
@@ -153,9 +155,284 @@
             </div>
           </div>
 
+          <div ng-show="pastReg" id="priorityForm" class="ui form priorities">
+            <div class="ui divider"></div>
+            <div class="title">Team Interests</div>
+            <br/>
+            <div class="field" ng-if="user.team">
+                <label style="text-align:center;"> What are the three tracks you are most interested in?</label>
+                <p style="margin-bottom: 10px;text-align:left;">
+                Your <b>team leader</b> must fill in your top three tracks. You will be assigned to a track already before the event. We are trying our best to get you to your first option.
+                </p>
+            </div>
+            <div class="fields">
+              <div class="ten wide field">
+                <select
+                  class="ui fluid dropdown"
+                  name="firstPrioTrack"
+                  id="firstPrioTrack"
+                  ng-disabled="teamLeader != user.id"
+                  ng-model="firstPriorityTrack"
+                >
+                  <option value="">Select a track</option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Blockchain' && thirdPriorityTrack != 'Blockchain'"
+                    value="Blockchain"
+                  >
+                    Blockchain
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Intelligent Infrastructure' && thirdPriorityTrack != 'Intelligent Infrastructure'"
+                    value="Intelligent Infrastructure"
+                  >
+                    Intelligent Infrastructure
+                  </option>
+                  <option 
+                    ng-show="secondPriorityTrack != 'Future Cities' && thirdPriorityTrack != 'Future Cities'"
+                    value="Future Cities"
+                  >
+                    Future Cities
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Digital Retail' && thirdPriorityTrack != 'Digital Retail'"
+                    value="Digital Retail"
+                  >
+                    Digital Retail
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Smart Cloud' && thirdPriorityTrack != 'Smart Cloud'"
+                    value="Smart Cloud"
+                  >
+                    Smart Cloud
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Mobility' && thirdPriorityTrack != 'Mobility'"
+                    value="Mobility"
+                  >
+                    Mobility
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Data Economics' && thirdPriorityTrack != 'Data Economics'"
+                    value="Data Economics"
+                  >
+                    Data Economics
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Game Jam' && thirdPriorityTrack != 'Game Jam'"
+                    value="Game Jam"
+                  >
+                    Game Jam
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Internet of Things' && thirdPriorityTrack != 'Internet of Things'"
+                    value="Internet of Things"
+                  >
+                    Internet of Things
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'HealthTech' && thirdPriorityTrack != 'HealthTech'"
+                    value="HealthTech"
+                  >
+                    HealthTech
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'AI and Big Data' && thirdPriorityTrack != 'AI and Big Data'"
+                    value="AI and Big Data"
+                  >
+                    AI and Big Data
+                  </option>
+                </select>
+              </div>
+              <div class="six wide field">
+                <h5 class="ui block teal header">
+                  First Priority
+                </h5>
+              </div>
+            </div>
+            <div ng-if="user.team" class="fields">
+              <div class="ten wide field">
+                <select
+                  class="ui fluid dropdown"
+                  name="secondPrioTrack"
+                  id="secondPrioTrack"
+                  ng-disabled="teamLeader != user.id"
+                  ng-model="secondPriorityTrack"
+                >
+                  <option value="">Select a track</option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Blockchain' && thirdPriorityTrack != 'Blockchain'"
+                    value="Blockchain"
+                  >
+                    Blockchain
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Intelligent Infrastructure' && thirdPriorityTrack != 'Intelligent Infrastructure'"
+                    value="Intelligent Infrastructure"
+                  >
+                    Intelligent Infrastructure
+                  </option>
+                  <option 
+                    ng-show="firstPriorityTrack != 'Future Cities' && thirdPriorityTrack != 'Future Cities'"
+                    value="Future Cities"
+                  >
+                    Future Cities
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Digital Retail' && thirdPriorityTrack != 'Digital Retail'"
+                    value="Digital Retail"
+                  >
+                    Digital Retail
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Smart Cloud' && thirdPriorityTrack != 'Smart Cloud'"
+                    value="Smart Cloud"
+                  >
+                    Smart Cloud
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Mobility' && thirdPriorityTrack != 'Mobility'"
+                    value="Mobility"
+                  >
+                    Mobility
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Data Economics' && thirdPriorityTrack != 'Data Economics'"
+                    value="Data Economics"
+                  >
+                    Data Economics
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Game Jam' && thirdPriorityTrack != 'Game Jam'"
+                    value="Game Jam"
+                  >
+                    Game Jam
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'Internet of Things' && thirdPriorityTrack != 'Internet of Things'"
+                    value="Internet of Things"
+                  >
+                    Internet of Things
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'HealthTech' && thirdPriorityTrack != 'HealthTech'"
+                    value="HealthTech"
+                  >
+                    HealthTech
+                  </option>
+                  <option
+                    ng-show="firstPriorityTrack != 'AI and Big Data' && thirdPriorityTrack != 'AI and Big Data'"
+                    value="AI and Big Data"
+                  >
+                    AI and Big Data
+                  </option>
+                </select>
+              </div>
+              <div class="six wide field">
+                <h5 class="ui block teal header">
+                  Second Priority
+                </h5>
+              </div>
+            </div>
+            <div class="fields">
+              <div class="ten wide field">
+                  <select
+                    class="ui fluid dropdown"
+                    name="thirdPrioTrack"
+                    id="thirdPrioTrack"
+                    ng-disabled="teamLeader != user.id"
+                    ng-model="thirdPriorityTrack"
+                  >
+                  <option value="">Select a track</option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Blockchain' && firstPriorityTrack != 'Blockchain'"
+                    value="Blockchain"
+                  >
+                    Blockchain
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Intelligent Infrastructure' && firstPriorityTrack != 'Intelligent Infrastructure'"
+                    value="Intelligent Infrastructure"
+                  >
+                    Intelligent Infrastructure
+                  </option>
+                  <option 
+                    ng-show="secondPriorityTrack != 'Future Cities' && firstPriorityTrack != 'Future Cities'"
+                    value="Future Cities"
+                  >
+                    Future Cities
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Digital Retail' && firstPriorityTrack != 'Digital Retail'"
+                    value="Digital Retail"
+                  >
+                    Digital Retail
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Smart Cloud' && firstPriorityTrack != 'Smart Cloud'"
+                    value="Smart Cloud"
+                  >
+                    Smart Cloud
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Mobility' && firstPriorityTrack != 'Mobility'"
+                    value="Mobility"
+                  >
+                    Mobility
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Data Economics' && firstPriorityTrack != 'Data Economics'"
+                    value="Data Economics"
+                  >
+                    Data Economics
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Game Jam' && firstPriorityTrack != 'Game Jam'"
+                    value="Game Jam"
+                  >
+                    Game Jam
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'Internet of Things' && firstPriorityTrack != 'Internet of Things'"
+                    value="Internet of Things"
+                  >
+                    Internet of Things
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'HealthTech' && firstPriorityTrack != 'HealthTech'"
+                    value="HealthTech"
+                  >
+                    HealthTech
+                  </option>
+                  <option
+                    ng-show="secondPriorityTrack != 'AI and Big Data' && firstPriorityTrack != 'AI and Big Data'"
+                    value="AI and Big Data"
+                  >
+                    AI and Big Data
+                  </option>
+                </select>
+              </div>
+              <div class="six wide field">
+                <h5 class="ui block teal header">
+                  Third Priority
+                </h5>
+              </div>
+
+              <br>
+              <br>
+            </div>
+
+            <p ng-if="!assignedTrack">Your team has not been assigned to a track yet.</p>
+            <p ng-if="assignedTrack">Your team have been assigned to track <b>{{assignedTrack}}</b></p>
+            
+            <button class="ui labeled icon fluid positive button" ng-disabled="assignedTrack || (teamLeader !== user.id)" ng-click="updatePriorities()">
+              Update Priorities
+            </button>
+            
+            <div class="ui divider"></div>
+          </div>
+
           <div
             ng-show="regIsOpen">
-            <div class="ui divider"></div>
             <button
               class="ui labeled icon fluid vermilion button"
               ng-click="leaveTeam()">
@@ -166,7 +443,7 @@
 
         </div>
 
-        <a ui-sref="app.matchmaking" class="matchmaking">
+        <a ui-sref="app.matchmaking" ng-show="!user.team && user.status.confirmed" class="matchmaking">
           <button
           ui-sref="app.matchmaking"
           class="ui labeled icon fluid sea-serpent button">
@@ -176,10 +453,6 @@
         </a>
 
       </div>
-
-      
-        <a ng-show="user.team" ui-sref="app.matchmaking" class="matchmaking"><button class="ui fluid sea-serpent button">Search for more team members!</button></a>
-
     </div>
   </div>
 

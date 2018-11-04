@@ -28,6 +28,9 @@ var schema = new mongoose.Schema({
   },
   thirdPriorityTrack: {
     type: String
+  },
+  assignedTrack: {
+    type: String
   }
 });
 

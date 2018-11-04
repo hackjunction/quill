@@ -102,6 +102,9 @@ angular.module('reg')
       getTeamInfo: function() {
         return $http.get(base + Session.getUserId() + '/team/info')
       },
+      updatePriorities: function(priorities) {
+        return $http.put(base + Session.getUserId() + '/team/priorities', {priorities: priorities})
+      },
       joinTeam: function(code){
         return $http.put(base + Session.getUserId() + '/team/join', {
           code: code

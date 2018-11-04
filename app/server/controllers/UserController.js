@@ -1202,6 +1202,28 @@ UserController.lockTeam = function(id, teamInterests, callback){
 }
 
 /**
+ * Given a team id, lock the team
+ * @param {String} id Id of the team
+ * @param {Function}  callback args(err, team)
+ */
+UserController.updateTeamPriorities = function(id, priorities, callback){
+  User.findById(id, function(err, user) {
+    if (err | !user) return callback({message: 'Something went wrong'})
+    Team.findById(user.team, function(err, team) {
+      if(team.leader !== user.id) return callback({message: 'Only team leader can update the priorities!'})
+      team.firstPriorityTrack = priorities.firstPriorityTrack;
+      team.secondPriorityTrack = priorities.secondPriorityTrack;
+      team.thirdPriorityTrack = priorities.thirdPriorityTrack;
+      team.save(function(err) {
+        if(err) return callback(err, team)
+        console.log('Team locked!')
+        return callback(null, team)
+      })
+    })
+  })
+}
+
+/**
  * Given an user ID, kick them from team if the one making request is the team leader
  * @param {String}  id  _id of the one making request
  * @param {String}  userID  ID of the user being kicked

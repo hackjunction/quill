@@ -611,7 +611,6 @@ module.exports = function(router) {
    * Lock a team
   */
   router.put('/users/:id/team/lock', isOwnerOrAdmin, function(req, res){
-    console.log(req.body.teamInterests)
     const {teamInterests} = req.body
     const {id} = req.params
     UserController.lockTeam(id, teamInterests, defaultResponse(req, res))
@@ -631,6 +630,14 @@ module.exports = function(router) {
 
     UserController.leaveTeam(id, defaultResponse(req, res));
   });
+    /** 
+   * Update team priorities
+  */
+  router.put('/users/:id/team/priorities', isOwnerOrAdmin, function(req, res){
+    const {priorities} = req.body
+    const {id} = req.params
+    UserController.updateTeamPriorities(id, priorities, defaultResponse(req, res))
+  })
 
   /**
    * Update a user's password.

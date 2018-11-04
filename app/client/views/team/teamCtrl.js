@@ -16,8 +16,8 @@ angular.module('reg')
 
       // Get the current user's most recent data.
       var Settings = settings.data;
-
       $scope.regIsOpen = true; // Don't change, at least yet.
+      $scope.pastReg = Settings.timeClose < new Date().getTime()
       $scope.user = currentUser.data;
       $scope.fieldErrors = undefined
       $scope.error = undefined
@@ -41,6 +41,11 @@ angular.module('reg')
             $scope.teamLeader = team.leader;
             $scope.teamLocked = team.teamLocked;
             $scope.teamInterests = team.trackInterests;
+            $scope.firstPriorityTrack = team.firstPriorityTrack;
+            $scope.secondPriorityTrack = team.secondPriorityTrack;
+            $scope.thirdPriorityTrack = team.thirdPriorityTrack;
+            $scope.assignedTrack = team.assignedTrack;
+            _setupForm();
           })
           .error(function(res){
             $scope.error = res.message;
@@ -120,6 +125,32 @@ angular.module('reg')
         }
       }
 
+      $scope.updatePriorities = function(){
+        if($('#priorityForm').form('is valid')){
+          $scope.error = null
+          $scope.fieldErrors = null
+          const priorities = {
+            firstPriorityTrack: $scope.firstPriorityTrack,
+            secondPriorityTrack: $scope.secondPriorityTrack,
+            thirdPriorityTrack: $scope.thirdPriorityTrack
+          }
+          console.log('hm')
+          UserService
+            .updatePriorities(priorities)
+            .success(function(team) {
+              $scope.firstPriorityTrack = team.firstPriorityTrack;
+              $scope.secondPriorityTrack = team.secondPriorityTrack;
+              $scope.thirdPriorityTrack = team.thirdPriorityTrack;
+              swal("Success!", "Your team's track priorities have been updated.")
+            })
+            .error(function(res){
+              $scope.error = res.data.message;
+            });
+        } else {
+          $('#priorityForm').form('validate form')
+        }
+      }
+
       $scope.kickFromTeam = function(user){
         swal({
           title: "Are you sure?",
@@ -142,29 +173,66 @@ angular.module('reg')
       }
 
       function _setupForm() {
-        $('#lockingForm')
-        .form({
-          fields: {
-            teamInterests:  {
-              identifier: 'teamInterests',
-              rules: [
-                {
-                  type: 'maxCount[3]',
-                  prompt: 'You can select max 3 tracks!'
-                },
-                {
-                  type: 'empty',
-                  prompt: 'Please select at least one track'
-                }
-              ]
+        /*
+          $('#lockingForm')
+          .form({
+            fields: {
+              teamInterests:  {
+                identifier: 'teamInterests',
+                rules: [
+                  {
+                    type: 'maxCount[3]',
+                    prompt: 'You can select max 3 tracks!'
+                  },
+                  {
+                    type: 'empty',
+                    prompt: 'Please select at least one track'
+                  }
+                ]
+              }
+            },
+            onFailure: function(formErrors, fields){
+              $scope.fieldErrors = formErrors;
+              $scope.error = 'There is error in the field above!';
             }
-          },
+          })
+          $("#teamInterests").dropdown('set selected', $scope.teamInterests); */
+        var priorityRules = []
+        if ($scope.teamLeader == $scope.user.id) {
+          priorityRules = [{
+            type: 'empty',
+            prompt: 'As a team leader you have to pick a track for this priority!'
+          }]
+        }
+        $('#priorityForm').form({
+          inline:true,
+          fields: {
+            firstPrio: {
+              identifier: 'firstPrioTrack',
+              rules: priorityRules
+            },
+            secondPrio: {
+              identifier: 'secondPrioTrack',
+              rules: priorityRules
+            },
+            thirdPrio: {
+              identifier: 'thirdPrioTrack',
+              rules: priorityRules
+            }
+            },
+            onSuccess: function(event, fields){
+              console.log('gaff')
+              $("#firstPrioTrack").dropdown('set selected', $scope.firstPriorityTrack);
+              $("#secondPrioTrack").dropdown('set selected', $scope.secondPriorityTrack);
+              $("#thirdPrioTrack").dropdown('set selected', $scope.thirdPriorityTrack);
+            },
           onFailure: function(formErrors, fields){
+            console.log('guff')
             $scope.fieldErrors = formErrors;
-            $scope.error = 'There is error in the field above!';
-          }
-        })
-        $("#teamInterests").dropdown('set selected', $scope.teamInterests);
+            $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
+        }
+        
+        });
       }
 
       _setupForm()
