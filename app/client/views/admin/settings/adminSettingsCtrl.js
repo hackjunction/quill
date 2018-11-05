@@ -18,6 +18,7 @@ angular.module('reg')
         settings.timeOpen = new Date(settings.timeOpen);
         settings.timeClose = new Date(settings.timeClose);
         settings.timeConfirm = new Date(settings.timeConfirm);
+        settings.timeConfirmSpecial = new Date(settings.timeConfirmSpecial);
         settings.timeCloseSpecial = new Date(settings.timeCloseSpecial);
         settings.timeTR = new Date(settings.timeTR);
 
@@ -99,6 +100,36 @@ angular.module('reg')
           });
       };
 
+      $scope.updateConfirmationTimeForUsers = function(){
+        SettingsService
+          .updateConfirmationTimeForUsers(false)
+          .success(function(settings){
+            swal("Sounds good!", "Confirm By updated for accepted (not waitlisted) users", "success");
+          });
+      };
+
+      $scope.updateConfirmationTimeForUsersSpecial = function(){
+        SettingsService
+          .updateConfirmationTimeForUsers(true)
+          .success(function(settings){
+            swal("Sounds good!", "Confirm By updated for accepted waitlisted users", "success");
+          });
+      };
+
+      // Confirmation Time -----------------------------
+
+      $scope.updateSpecialConfirmationTime = function(){
+        var confirmBy = cleanDate($scope.settings.timeConfirmSpecial).getTime();
+
+        SettingsService
+          .updateSpecialConfirmationTime(confirmBy)
+          .success(function(settings){
+            console.log(settings)
+            updateSettings(settings);
+            swal("Sounds good!", "Special Confirmation Date Updated", "success");
+          });
+      };
+
       // TR Closing Time -----------------------
 
       $scope.updateTRTime = function(){
@@ -166,6 +197,15 @@ angular.module('reg')
           .success(function(data){
             swal("Looks good!", "Rejection will be shown to the participants", "success");
             updateSettings(data);
+          });
+      };
+
+      $scope.setOnWaitlist = function() {
+        SettingsService
+          .setOnWaitlist()
+          .success(function(data){
+            console.log(data)
+            swal("Looks good!", data.nModified + " users we're set on waitlist.\nTotal amount of waitlisted people is " + data.n, "success");
           });
       };
 

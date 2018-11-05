@@ -162,6 +162,35 @@
     </fieldset>
   </div>
 
+  <div class="ui divider"></div>
+
+  <div class="ui form">
+
+    <fieldset ng-disabled="false">
+
+      <div class="ui header">
+       Change Password
+      </div>
+
+      <div class="field">
+        <label> Password (min 6 characters)</label>
+        <input type="text"
+               name="name"
+               ng-model="password">
+      </div>
+
+      <div class="field">
+        <div
+          ng-click="changeUserPassword()"
+          class="ui positive right labeled icon button">
+          Change Password
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+
   <!--<div class="ui form">
 
     <fieldset ng-disabled="false">

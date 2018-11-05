@@ -204,7 +204,8 @@
 
           <div
             class="markdown">
-            <p ng-show="user.status.admitted && !user.status.confirmed && !user.status.declined">Now all you have to do is to confirm your spot! <b>Deadline for confirmation is 1st of November 23:59 (UTC+2)</b>. If you can not attend the event, please decline your admission!</p>
+            <p ng-show="user.status.admitted && !user.status.confirmed && !user.status.declined && !user.status.waitlist">Now all you have to do is to confirm your spot! <b>Deadline for confirmation is 1st of November 23:59 (UTC+2)</b>. If you can not attend the event, please decline your admission!</p>
+            <p ng-show="user.status.admitted && !user.status.confirmed && !user.status.declined && user.status.waitlist">Now all you have to do is to confirm your spot! <b>Deadline for confirmation is 7th of November 23:59 (UTC+2)</b>. If you can not attend the event, please decline your admission!</p>
             <p ng-show="user.status.admitted && !user.status.confirmed && !user.status.declined">If you don't confirm your spot before the deadline, <b>you will lose your spot</b>.</p>
           </div>
 

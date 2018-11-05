@@ -443,6 +443,11 @@ var status = {
     required: true,
     default: false,
   },
+  waitlist: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   checkInTime: {
     type: Number,
   },

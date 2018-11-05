@@ -81,6 +81,52 @@
             Update
           </div>
         </div>
+
+        <div class="ui field">
+          <div
+            class="ui green button"
+            ng-click="updateConfirmationTimeForUsers()">
+            Update Users Confirm By
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      ng-class="{'loading': loading}"
+      class="ui orange segment">
+      <div class="ui form">
+
+        <div class="ui header">
+          Confirmation Date (Special)
+        </div>
+
+        <p>
+          Special Registered and waitlisted people will have to confirm before this date.
+        </p>
+
+        <div class="field">
+          <label>
+            Confirm By: {{ formatDate(settings.timeConfirmSpecial) }}
+          </label>
+          <input type="datetime-local" ng-model="settings.timeConfirmSpecial">
+        </div>
+
+        <div class="ui field">
+          <div
+            class="ui green button"
+            ng-click="updateSpecialConfirmationTime()">
+            Update
+          </div>
+        </div>
+
+        <div class="ui field">
+          <div
+            class="ui green button"
+            ng-click="updateConfirmationTimeForUsersSpecial()">
+            Update Users Confirm By
+          </div>
+        </div>
       </div>
     </div>
 
@@ -124,25 +170,47 @@
   <div class="column">
     
   <!-- Show rejection to the participants-->
-  <div
+    <div
+      ng-class="{'loading': loading}"
+      class="ui red segment">
+      <div class="ui form">
+
+        <div class="ui header">
+          Show rejection to the participants.
+        </div>
+
+        <p>
+          Showing rejection to the participants will be shown in the dasbboard and sidebar will hidden for them.
+          Current status: <strong>{{settings.showRejection}}</strong>
+        </p>
+
+        <div class="ui field">
+          <div
+            class="ui green button"
+            ng-click="showRejection()">
+            Show rejection
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
     ng-class="{'loading': loading}"
-    class="ui red segment">
+    class="ui blue segment">
     <div class="ui form">
 
       <div class="ui header">
-        Show rejection to the participants.
+        Set people on wailist.
       </div>
 
       <p>
-        Showing rejection to the participants will be shown in the dasbboard and sidebar will hidden for them.
-        Current status: <strong>{{settings.showRejection}}</strong>
+        Put people who haven't been rejected yet or are special registered on waitlist.
       </p>
 
       <div class="ui field">
         <div
           class="ui green button"
-          ng-click="showRejection()">
-          Show rejection
+          ng-click="setOnWaitlist()">
+          Set people waitlisted
         </div>
       </div>
     </div>

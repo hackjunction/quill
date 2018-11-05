@@ -1377,7 +1377,7 @@ UserController.sendRejectEmails = function(callback) {
 }
 
 UserController.sendRejectEmailsRest = function(callback) {
-  User.find({"status.rejected": true, 'status.laterRejected': true}, 'email nickname', function (err, users) {
+  User.find({"status.rejected": true, 'status.laterRejected': true, 'status.waitlist': true}, 'email nickname', function (err, users) {
     if (err) {
       return callback(err);
     }
@@ -1452,6 +1452,30 @@ UserController.changePassword = function(id, oldPassword, newPassword, callback)
           message: 'Incorrect password'
         });
       }
+    });
+};
+
+UserController.adminChangeUserPassword = function(id, password, callback){
+  if (password.length < 6){
+    return callback({
+      message: 'Password must be 6 or more characters.'
+    });
+  }
+
+  User
+    .findById(id)
+    .select('password')
+    .exec(function(err, user){
+      User.findOneAndUpdate({
+        _id: id
+      },{
+        $set: {
+          password: User.generateHash(password)
+        }
+      }, {
+        new: true
+      },
+      callback);
     });
 };
 
@@ -1561,6 +1585,24 @@ UserController.toggleSpecial = function(id, current, callback){
     callback)
   };
 
+UserController.setOnWailist = function(callback) {
+  User.update({
+    'status.rejected': false, 
+    'status.softAdmitted': false,
+    'status.admitted': false,
+  },{
+    $set: {
+      'status.waitlist': true
+    }
+  },{
+    multi: true
+  }, function(err, users) {
+    if(err) console.log(err)
+
+    return callback(err, users)
+  })
+}
+
 /**
  * [ADMIN ONLY]
  *
@@ -1611,6 +1653,7 @@ UserController.acceptTravelClass = function(id, reimbClass, callback){
  */
 UserController.admitUser = function(id, user, callback){
   Settings.getRegistrationTimes(function(err, times){
+    var confirmBy = new Date(times.timeConfirm).getTime() < new Date().getTime() ? times.timeConfirmSpecial : times.timeConfirm
     User
       .findOneAndUpdate({
         '_id': id,
@@ -1620,7 +1663,7 @@ UserController.admitUser = function(id, user, callback){
       },{
         $set: {
           'status.admitted': true,
-          'status.confirmBy': times.timeConfirm,
+          'status.confirmBy': confirmBy,
         }
       }, {
         new: true
@@ -1642,6 +1685,47 @@ UserController.admitUser = function(id, user, callback){
       });
     });
   };
+
+UserController.updateConfirmByForAll = function(special, callback) {
+  Settings.getRegistrationTimes(function(err, times){
+    console.log(special)
+    if(special) {
+      User
+      .update({
+        'verified': true,
+        'status.softAdmitted': true,
+        'status.admitted': true,
+        'status.rejected': false,
+        'status.waitlist': true
+      },{
+        $set: {
+          'status.confirmBy': times.timeConfirmSpecial,
+        }
+      }, {
+        multi: true
+      }, callback)
+    }
+    else {
+      console.log(new Date(times.timeConfirm))
+      User.findById()
+      User
+        .update({
+          'verified': true,
+          'status.softAdmitted': true,
+          'status.admitted': true,
+          'status.rejected': false,
+          'status.waitlist': {$ne: true}
+        },{
+          $set: {
+            'status.confirmBy': times.timeConfirm,
+          }
+        }, {
+          multi: true
+        }, callback)
+    }
+  });
+};
+
 
 UserController.acceptTerminal = function(id, callback){
   Settings.getRegistrationTimes(function(err, times){
@@ -1843,7 +1927,7 @@ UserController.getRejectionRestCount = function(callback){
 
 UserController.getLaterRejectionCount = function(callback){
   User.find(
-      {'status.laterRejected': true, "status.rejected": true}
+      {'status.laterRejected': true, "status.rejected": true, 'status.waitlist': true}
     ).exec(function(err, users){
     if(err) return callback(err, users)
     var amount = users.length

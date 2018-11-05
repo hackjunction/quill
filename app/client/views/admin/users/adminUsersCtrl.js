@@ -969,7 +969,7 @@ angular.module('reg')
         .getAll()
         .success(function(data){
           data = data.filter(function(user){
-            return user.status.reimbursementApplied;
+            return user.profile.AcceptedreimbursementClass && user.profile.AcceptedreimbursementClass !== "None" && !user.status.declined;
           })
           var output = "";
           var titles = generateTRSections(data[0]);

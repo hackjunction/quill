@@ -460,6 +460,12 @@ module.exports = function(router) {
     UserController.toggleSpecial(id, current, defaultResponse(req, res));
   });
 
+  router.post('/users/:id/changePassword', isAdmin, function(req, res){
+    var id = req.params.id;
+    var password = req.body.password;
+    UserController.adminChangeUserPassword(id, password, defaultResponse(req, res));
+  });
+
   /**
    * [OWNER/ADMIN]
    *
@@ -881,6 +887,22 @@ module.exports = function(router) {
     SettingsController.updateField('timeConfirm', time, defaultResponse(req, res));
   });
 
+  router.put('/settings/update-confirm-by', isAdmin, function(req, res) {
+    var special = req.body.special;
+    UserController.updateConfirmByForAll(special, defaultResponse(req,res))
+  })
+
+    /**
+   * Update the special confirmation date.
+   * body: {
+   *   time: Number
+   * }
+   */
+  router.put('/settings/special-confirm-by', isAdmin, function(req, res){
+    var time = req.body.time;
+    SettingsController.updateField('timeConfirmSpecial', time, defaultResponse(req, res));
+  });
+
     /**
    * Update the TR date.
    * body: {
@@ -891,6 +913,17 @@ module.exports = function(router) {
     var time = req.body.time;
     SettingsController.updateField('timeTR', time, defaultResponse(req, res));
   });
+
+      /**
+   * Set not accepted and not rejected people on waitlist.
+   * body: {
+   *   time: Number
+   * }
+   */
+  router.put('/settings/setOnWaitlist', isAdmin, function(req, res){
+    UserController.setOnWailist(defaultResponse(req, res));
+  });
+
 
   /**
    * Set the registration open and close times.

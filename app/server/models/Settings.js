@@ -54,6 +54,10 @@ var schema = new mongoose.Schema({
     type: Number,
     default: 604800000 // Date of confirmation
   },
+  timeConfirmSpecial: {
+    type: Number,
+    default: 604800000 // Date of confirmation (special)
+  },
   timeTR: {
     type: Number,
     default: Date.now() + 31104000000 // Add a year from now.
@@ -124,13 +128,14 @@ schema.statics.getSkills = function(callback){
 schema.statics.getRegistrationTimes = function(callback){
   this
     .findOne({})
-    .select('timeOpen timeClose timeCloseSpecial timeConfirm timeTR')
+    .select('timeOpen timeClose timeCloseSpecial timeConfirm timeConfirmSpecial timeTR')
     .exec(function(err, settings){
       callback(err, {
         timeOpen: settings.timeOpen,
         timeClose: settings.timeClose,
         timeCloseSpecial: settings.timeCloseSpecial,
         timeConfirm: settings.timeConfirm,
+        timeConfirmSpecial: settings.timeConfirmSpecial,
         timeTR: settings.timeTR
       });
     });
