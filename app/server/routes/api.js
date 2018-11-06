@@ -636,6 +636,15 @@ module.exports = function(router) {
 
     UserController.leaveTeam(id, defaultResponse(req, res));
   });
+
+      /**
+   * Get IDs of rejected people in teams
+   */
+
+  router.get('/users/rejected/teams', isAdmin, function(req, res){
+    console.log('pleb')
+    UserController.rejectedInTeamIDs(defaultResponse(req, res))
+  })
     /** 
    * Update team priorities
   */

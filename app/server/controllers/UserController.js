@@ -1935,4 +1935,15 @@ UserController.getLaterRejectionCount = function(callback){
   })
 };
 
+UserController.rejectedInTeamIDs = function(callback) {
+  console.log('hom')
+  User.find(
+    {'status.rejected': true, team: {$exists: true}}, {"_id": 1}
+  ).exec(function(err, userIds) {
+    if(err) return callback(err)
+    console.log('hm')
+    return callback(err, userIds.map(user => user._id))
+  })
+}
+
 module.exports = UserController;

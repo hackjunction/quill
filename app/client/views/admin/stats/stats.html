@@ -399,6 +399,36 @@
           </div>
         </div>
 
+        <div
+        ng-class="{'loading': loading}"
+        class="ui blue segment">
+          <div class="ui form">
+
+            <div class="ui header">
+              Reset teams of rejected
+            </div>
+
+            <p>
+              Kick rejected people out of their teams.
+            </p>
+
+            <div class="ui field">
+              <div
+                class="ui green button"
+                ng-click="resetTeamsOfRejected()">
+                Reset
+              </div>
+            </div>
+
+            <div class="ui indicating progress" data-value="1" data-total="200" id="example5">
+              <div class="bar">
+                <div class="progress"></div>
+              </div>
+              <div class="label">Waiting for you to press button</div>
+            </div>              
+          </div>
+        </div>
+
         <!--<div class="item">
           <div class="content">
             <strong>
