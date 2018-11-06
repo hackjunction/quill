@@ -265,7 +265,7 @@ var profile = {
 
   freeComment: {
     type: String,
-    maxlength: 500,
+    maxlength: 2000,
   },
 
   operatingSystem: {
