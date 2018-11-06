@@ -1,5 +1,6 @@
 angular.module('reg')
   .controller('MatchmakingCtrl', [
+    '$state',
     '$scope',
     '$stateParams',
     'currentUser',
@@ -8,7 +9,7 @@ angular.module('reg')
     'UserService',
     'TEAM',
     'Session',
-    function($scope, $stateParams, currentUser, settings, Utils, UserService, TEAM, Session){
+    function($state, $scope, $stateParams, currentUser, settings, Utils, UserService, TEAM, Session){
 
       //icon tooltip popup
       $('.icon')
@@ -100,8 +101,7 @@ angular.module('reg')
             type: "success",
             confirmButtonColor: "#5ABECF"
             }, function(){
-              //$state.go('app.dashboard');
-              console.log('success');
+              $state.go('app.dashboard');
             });
             })
             .error(function(res){

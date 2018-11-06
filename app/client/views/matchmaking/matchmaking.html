@@ -29,7 +29,7 @@
             <li><b>Individuals</b> that are looking for a team</li>
           </ul><br/>
           <div style="text-align:center">
-            <p>Contact the team/individual with their <b>Slack Handle</b> on the Junction 2018 Slack! You can join the workspace <a href="https://join.slack.com/t/junction2017/shared_invite/enQtMjY5MDU4NzEzODYyLTM0NWNhNTZlZTU1MjMyZWViZjlkZWY0MTdhMDhkNDRmZWZkZWU5ZDc3N2ZhYmNiYjEwYTZjZDE2MzdlZDQ3NmQ" target="_blank"><strong>HERE</strong></a></p>
+            <p>Contact the team/individual with their <b>Slack Handle</b> on the Junction 2018 Slack! You can join the workspace <a href="http://slack.hackjunction.com/" target="_blank"><strong>HERE</strong></a></p>
             <p>When you're done with matchmaking, please press the <b>End matchmaking</b>-button below!</p>
           </div>
         </div>
@@ -62,7 +62,7 @@
                   <label> Slack handle* </label>
                   <p style="margin-bottom: 10px;">
                     Slack handle is your own display name on the official Junction 2018 workspace at 
-                    <a href="https://https://junction2017.slack.com">junction2017.slack.com</a>.
+                    <a href="https://junction2018attendees.slack.com">junction2018attendees.slack.com</a>.
                     The Slack handle will be used by other participants to contact you.
                     If you haven’t joined the Slack workspace, please do so at 
                     <a href="https://junction-slack-invitation.herokuapp.com" target="_blank">junction-slack-invitation.herokuapp.com</a>. 
@@ -110,26 +110,24 @@
                     id="individual_mostInterestingTrack"
                     ng-model="user.teamMatchmaking.individual.mostInterestingTrack">
                     <option value="">Choose a track</option>
-                    <option value="Artificial Intelligence">Artificial Intelligence</option>
-                    <option value="Big Data">Big Data</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="FinTech">FinTech</option>
-                    <option value="Game Jam">Game Jam</option>
-                    <option value="HealthTech">HealthTech</option>
-                    <option value="Industrial Internet">Industrial Internet</option>
-                    <option value="Intelligent Buildings">Intelligent Buildings</option>
-                    <option value="Legal Tech">Legal Tech</option>
-                    <option value="Logistics">Logistics</option>
+                    <option value="Blockchain">Blockchain</option>
+                    <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+                    <option value="Future Cities">Future Cities</option>
+                    <option value="Digital Retail">Digital Retail</option>
+                    <option value="Smart Cloud">Smart Cloud</option>
                     <option value="Mobility">Mobility</option>
-                    <option value="Productivity">Productivity</option>
-                    <option value="Space">Space</option>
+                    <option value="Data Economics">Data Economics</option>
+                    <option value="Game Jam">Game Jam</option>
+                    <option value="Internet of Things">Internet of Things</option>
+                    <option value="HealthTech">HealthTech</option>
+                    <option value="AI and Big Data">AI and Big Data</option>
                   </select>
                 </div>
 
                 <div class="field">
                   <label> Top 3 challenges you are most interested in currently* </label>
                   <p style="margin-bottom: 10px;">
-                    You can find information about tracks and challenges <a href="https://hackjunction.com/all-tracks" target="_blank">here</a>.
+                    You can find information about tracks and challenges <a href="https://2018.hackjunction.com" target="_blank">here</a>.
                   </p>
                   <select multiple="multiple"
                     class="ui multiple normal selection dropdown"
@@ -137,41 +135,49 @@
                     id="individual_topChallenges"
                     ng-model="user.teamMatchmaking.individual.topChallenges">
                     <option value="">Choose a challenge</option>
-                    <option value="Advertise Smartly With AI">Advertise Smartly With AI (Smartly.io)</option>
-                    <option value="Facial Recognition For Everyone (TrueFace.AI)">Facial Recognition For Everyone (TrueFace.AI)</option>
-                    <option value="Robots, Learning Machines (Bitville & Eficode)">Robots, Learning Machines (Bitville & Eficode)</option>
-                    <option value="Summarising News (Nordcloud)">Summarising News (Nordcloud)</option>
-                    <option value="Streetreboot 2 (STARA)">Streetreboot 2 (STARA)</option>
-                    <option value="Microsoft WebVR Challenge (Microsoft)">Microsoft WebVR Challenge (Microsoft)</option>
-                    <option value="Most Creative Use Of the Spotify Platform (Spotify)">Most Creative Use Of the Spotify Platform (Spotify)</option>
-                    <option value="My Perfect Personal Movie Experience (Elisa)">My Perfect Personal Movie Experience (Elisa)</option>
-                    <option value="Play Beautiful (Kamu)">Play Beautiful (Kamu)</option>
-                    <option value="Banking Re-Imagined (Nordea)">Re-Imagined (Nordea)</option>
-                    <option value="Changing The Financial Management Landscape (Procountor)">Changing The Financial Management Landscape (Procountor)</option>
-                    <option value="Hack the Fintech Environment (Holvi)">Hack the Fintech Environment (Holvi)</option>
-                    <option value="Make Finance Fun. Once And For All. (Bankify)">Make Finance Fun. Once And For All. (Bankify)</option>
-                    <option value="Intelligent Air Travel (Finnair)">Intelligent Air Travel (Finnair)</option>
-                    <option value="Brilliant Bus Display (Aalto University)">Brilliant Bus Display (Aalto University)</option>
-                    <option value="Future of Mobility in Cities (Waltti, Föli, Nysse)">Future of Mobility in Cities (Waltti, Föli, Nysse)</option>
-                    <option value="Hit The Jackpot! (Veikkaus)">Hit The Jackpot! (Veikkaus)</option>
-                    <option value="Handle With Care (Sitra)">Handle With Care (Sitra)</option>
-                    <option value="Reshaping The Future Of Dental Care (Planmeca)">Reshaping The Future Of Dental Care (Planmeca)</option>
-                    <option value="Track Anything That Moves (Suunto)">Track Anything That Moves (Suunto)</option>
-                    <option value="Cross Platform For Desktop And Embedded (The Qt Company)">Cross Platform For Desktop And Embedded (The Qt Company)</option>
-                    <option value="Smart Services, Sustainable Choices (Outotec)">Smart Services, Sustainable Choices (Outotec)</option>
-                    <option value="Smart Electricity (Fortum)">Smart Electricity (Fortum)</option>
-                    <option value="Store Smarter (Stora Enso & Siili Solutions)">Store Smarter (Stora Enso & Siili Solutions)</option>
-                    <option value="Transform The Way The World Builds! (Trimble)">Transform The Way The World Builds! (Trimble)></option>
-                    <option value="Unleashing IoT In Commercial Buildings (Kone)">Unleashing IoT In Commercial Buildings (Kone)</option>
-                    <option value="Who Needs A Light Switch (Helvar)">Who Needs A Light Switch (Helvar)</option>
-                    <option value="Accessing The Law (Castrén & Snellman)">Accessing The Law (Castrén & Snellman)</option>
-                    <option value="Connected Logistics (Daimler Fleetboard)">Connected Logistics (Daimler Fleetboard)</option>
-                    <option value="Where The #?! Is It? – RFID Helps (Finn-ID)">Where The #?! Is It? – RFID Helps (Finn-ID)</option>
-                    <option value="Brilliant Bus Display (Aalto University)">Brilliant Bus Display (Aalto University)</option>
-                    <option value="Making Transportation Easy (Kyyti)">Making Transportation Easy (Kyyti)</option>
-                    <option value="Revolutionising The Rural Transport (The Ministry of Transport and Communications)">Revolutionising The Rural Transport (The Ministry of Transport and Communications)</option>
-                    <option value="Hack The Job-Abolish The Unemployment (KEHA-keskus)">Hack The Job-Abolish The Unemployment (KEHA-keskus)</option>
-                    <option value="Space Data Enriched Applications (The European Space Agency)">Space Data Enriched Applications (The European Space Agency)</option>
+                    <option value="Dao Voting">Dao Voting</option>
+                    <option value="Distributed identity registration system">Distributed identity registration system</option>
+                    <option value="Mint a stable coin for a digital nation">Mint a stable coin for a digital nation</option>
+                    <option value="Gamification of people flow">Gamification of people flow</option>
+                    <option value="In hear voices in my factory">I hear voices in my Factory</option>
+                    <option value="Smooth operator">Smooth Operator</option>
+                    <option value="The brain of the building">The brain of the building</option>
+                    <option value="A never stopping traffic system">A never stopping traffic system</option>
+                    <option value="Business at your fingertips">Business at your fingertips</option>
+                    <option value="Innovation platform business model">Innovation platform business model</option>
+                    <option value="Smart traffic - from predictions to real time">Smart Traffic - from predictions to real time</option>
+                    <option value="Towards the new generation of guidance">Towards the new generation of guidance</option>
+                    <option value="Campus services under hack">Campus services under hack</option>
+                    <option value="Health, sustainability and convenience through data">Health, sustainability and convenience through data</option>
+                    <option value="Munchies robot hack">Munchies Robot Hack</option>
+                    <option value="The Zero waste shop">The Zero waste shop</option>
+                    <option value="Saved by IOT">Saved by IOT</option>
+                    <option value="Signaling Heroes">Signaling Heroes</option>
+                    <option value="Threat Intelligence FTW">Threat Intelligence FTW</option>
+                    <option value="Connected car UX Challenge">Connected car UX Challenge</option>
+                    <option value="Digitalize air cargo operations">Digitalize air cargo operations</option>
+                    <option value="Fleetboard - Trucks x Code">Fleetboard - Trucks x Code</option>
+                    <option value="Teach EV chargers new tricks">Teach EV chargers new tricks</option>
+                    <option value="The best electric vehicle charging experience">The best electric vehicle charging experience</option>
+                    <option value="Frictionless urban payments">Frictionless urban payments</option>
+                    <option value="Innovate beyond MobilePay">Innovate beyond MobilePay</option>
+                    <option value="Mastering my data">Mastering my data</option>
+                    <option value="Augmented reality challenge">Augmented Reality challenge</option>
+                    <option value="Game Coach">Game Coach</option>
+                    <option value="Game Jam Main Challenge">Game Jam Main Challenge</option>
+                    <option value="Adaptive smart electric heating">Adaptive smart electric heating</option>
+                    <option value="Do captains dream of electric ships?">Do captains dream of electric ships?</option>
+                    <option value="Innovative applications with Bluetooth Mesh">Innovative applications with Bluetooth Mesh</option>
+                    <option value="Living on the Edge">Living on the Edge</option>
+                    <option value="Wisdom of Crowds">Wisdom of Crowds</option>
+                    <option value="Healthcare beyond physical reality">Healthcare beyond physical reality</option>
+                    <option value="Track anything that moves">Track anything that moves</option>
+                    <option value="Actually useful weather">Actually useful weather</option>
+                    <option value="AI-Driven customer interactions">AI-Driven customer interactions</option>
+                    <option value="DNA Center - One app to visualize them all">DNA Center - ONe app to visualize them all</option>
+                    <option value="Hack Human interaction">Hack Human interaction</option>
+                    <option value="Hack the Sauna">Hack the Sauna</option>
+                    <option value="Meraki - Capture the Creature">Meraki - Capture the Creature</option>
                     <option value="None">None</option>             
                   </select>
                 </div>
@@ -234,10 +240,10 @@
                   <label>“Captain’s” Slack handle*</label>
                   <p style="margin-bottom: 10px;">
                     Slack handle is your own display name on the official Junction 2018 workspace at 
-                    <a href="https://https://junction2018.slack.com">junction2018.slack.com</a>.
+                    <a href="https://junction2018attendees.slack.com">junction2018attendees.slack.com</a>.
                     The Slack handle will be used by other participants to contact you.
                     If you haven’t joined the Slack workspace, please do so at 
-                    <a href="https://junction-slack-invitation.herokuapp.com" target="_blank">junction-slack-invitation.herokuapp.com</a>. 
+                    <a href="http://slack.hackjunction.com/" target="_blank">http://slack.hackjunction.com/</a>. 
                   </p>
                   <div class="ui left icon input">
                     <input 
@@ -257,26 +263,24 @@
                     id="team_mostInterestingTrack"
                     ng-model="user.teamMatchmaking.team.mostInterestingTrack">
                     <option value="">Choose a track</option>
-                    <option value="Artificial Intelligence">Artificial Intelligence</option>
-                    <option value="Big Data">Big Data</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="FinTech">FinTech</option>
-                    <option value="Game Jam">Game Jam</option>
-                    <option value="HealthTech">HealthTech</option>
-                    <option value="Industrial Internet">Industrial Internet</option>
-                    <option value="Intelligent Buildings">Intelligent Buildings</option>
-                    <option value="Legal Tech">Legal Tech</option>
-                    <option value="Logistics">Logistics</option>
+                    <option value="Blockchain">Blockchain</option>
+                    <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+                    <option value="Future Cities">Future Cities</option>
+                    <option value="Digital Retail">Digital Retail</option>
+                    <option value="Smart Cloud">Smart Cloud</option>
                     <option value="Mobility">Mobility</option>
-                    <option value="Productivity">Productivity</option>
-                    <option value="Space">Space</option>
+                    <option value="Data Economics">Data Economics</option>
+                    <option value="Game Jam">Game Jam</option>
+                    <option value="Internet of Things">Internet of Things</option>
+                    <option value="HealthTech">HealthTech</option>
+                    <option value="AI and Big Data">AI and Big Data</option>
                   </select>
                 </div>
 
                 <div class="field">
                   <label>Top 3 challenges your team is most interested in currently*</label>
                   <p style="margin-bottom: 10px;">
-                      You can find information about tracks and challenges <a href="https://hackjunction.com/all-tracks" target="_blank">here</a>.
+                      You can find information about tracks and challenges <a href="https://2018.hackjunction.com" target="_blank">here</a>.
                   </p>
                   <select multiple="multiple"
                     class="ui multiple normal selection dropdown"
@@ -284,42 +288,50 @@
                     id="team_topChallenges"
                     ng-model="user.teamMatchmaking.team.topChallenges">
                     <option value="">Choose up to 3 challenges</option>
-                    <option value="Advertise Smartly With AI">Advertise Smartly With AI (Smartly.io)</option>
-                    <option value="Facial Recognition For Everyone (TrueFace.AI)">Facial Recognition For Everyone (TrueFace.AI)</option>
-                    <option value="Robots, Learning Machines (Bitville & Eficode)">Robots, Learning Machines (Bitville & Eficode)</option>
-                    <option value="Summarising News (Nordcloud)">Summarising News (Nordcloud)</option>
-                    <option value="Streetreboot 2 (STARA)">Streetreboot 2 (STARA)</option>
-                    <option value="Microsoft WebVR Challenge (Microsoft)">Microsoft WebVR Challenge (Microsoft)</option>
-                    <option value="Most Creative Use Of the Spotify Platform (Spotify)">Most Creative Use Of the Spotify Platform (Spotify)</option>
-                    <option value="My Perfect Personal Movie Experience (Elisa)">My Perfect Personal Movie Experience (Elisa)</option>
-                    <option value="Play Beautiful (Kamu)">Play Beautiful (Kamu)</option>
-                    <option value="Banking Re-Imagined (Nordea)">Re-Imagined (Nordea)</option>
-                    <option value="Changing The Financial Management Landscape (Procountor)">Changing The Financial Management Landscape (Procountor)</option>
-                    <option value="Hack the Fintech Environment (Holvi)">Hack the Fintech Environment (Holvi)</option>
-                    <option value="Make Finance Fun. Once And For All. (Bankify)">Make Finance Fun. Once And For All. (Bankify)</option>
-                    <option value="Hit The Jackpot! (Veikkaus)">Hit The Jackpot! (Veikkaus)</option>
-                    <option value="Handle With Care (Sitra)">Handle With Care (Sitra)</option>
-                    <option value="Reshaping The Future Of Dental Care (Planmeca)">Reshaping The Future Of Dental Care (Planmeca)</option>
-                    <option value="Track Anything That Moves (Suunto)">Track Anything That Moves (Suunto)</option>
-                    <option value="Intelligent Air Travel (Finnair)">Intelligent Air Travel (Finnair)</option>
-                    <option value="Brilliant Bus Display (Aalto University)">Brilliant Bus Display (Aalto University)</option>
-                    <option value="Future of Mobility in Cities (Waltti, Föli, Nysse)">Future of Mobility in Cities (Waltti, Föli, Nysse)</option>
-                    <option value="Cross Platform For Desktop And Embedded (The Qt Company)">Cross Platform For Desktop And Embedded (The Qt Company)</option>
-                    <option value="Smart Services, Sustainable Choices (Outotec)">Smart Services, Sustainable Choices (Outotec)</option>
-                    <option value="Smart Electricity (Fortum)">Smart Electricity (Fortum)</option>
-                    <option value="Store Smarter (Stora Enso & Siili Solutions)">Store Smarter (Stora Enso & Siili Solutions)</option>
-                    <option value="Transform The Way The World Builds! (Trimble)">Transform The Way The World Builds! (Trimble)></option>
-                    <option value="Unleashing IoT In Commercial Buildings (Kone)">Unleashing IoT In Commercial Buildings (Kone)</option>
-                    <option value="Who Needs A Light Switch (Helvar)">Who Needs A Light Switch (Helvar)</option>
-                    <option value="Accessing The Law (Castrén & Snellman)">Accessing The Law (Castrén & Snellman)</option>
-                    <option value="Connected Logistics (Daimler Fleetboard)">Connected Logistics (Daimler Fleetboard)</option>
-                    <option value="Where The #?! Is It? – RFID Helps (Finn-ID)">Where The #?! Is It? – RFID Helps (Finn-ID)</option>
-                    <option value="Brilliant Bus Display (Aalto University)">Brilliant Bus Display (Aalto University)</option>
-                    <option value="Making Transportation Easy (Kyyti)">Making Transportation Easy (Kyyti)</option>
-                    <option value="Revolutionising The Rural Transport (The Ministry of Transport and Communications)">Revolutionising The Rural Transport (The Ministry of Transport and Communications)</option>
-                    <option value="Hack The Job-Abolish The Unemployment (KEHA-keskus)">Hack The Job-Abolish The Unemployment (KEHA-keskus)</option>
-                    <option value="Space Data Enriched Applications (The European Space Agency)">Space Data Enriched Applications (The European Space Agency)</option>
-                    <option value="None">None</option>  
+                    <option value="Dao Voting">Dao Voting</option>
+                    <option value="Distributed identity registration system">Distributed identity registration system</option>
+                    <option value="Mint a stable coin for a digital nation">Mint a stable coin for a digital nation</option>
+                    <option value="Gamification of people flow">Gamification of people flow</option>
+                    <option value="In hear voices in my factory">I hear voices in my Factory</option>
+                    <option value="Smooth operator">Smooth Operator</option>
+                    <option value="The brain of the building">The brain of the building</option>
+                    <option value="A never stopping traffic system">A never stopping traffic system</option>
+                    <option value="Business at your fingertips">Business at your fingertips</option>
+                    <option value="Innovation platform business model">Innovation platform business model</option>
+                    <option value="Smart traffic - from predictions to real time">Smart Traffic - from predictions to real time</option>
+                    <option value="Towards the new generation of guidance">Towards the new generation of guidance</option>
+                    <option value="Campus services under hack">Campus services under hack</option>
+                    <option value="Health, sustainability and convenience through data">Health, sustainability and convenience through data</option>
+                    <option value="Munchies robot hack">Munchies Robot Hack</option>
+                    <option value="The Zero waste shop">The Zero waste shop</option>
+                    <option value="Saved by IOT">Saved by IOT</option>
+                    <option value="Signaling Heroes">Signaling Heroes</option>
+                    <option value="Threat Intelligence FTW">Threat Intelligence FTW</option>
+                    <option value="Connected car UX Challenge">Connected car UX Challenge</option>
+                    <option value="Digitalize air cargo operations">Digitalize air cargo operations</option>
+                    <option value="Fleetboard - Trucks x Code">Fleetboard - Trucks x Code</option>
+                    <option value="Teach EV chargers new tricks">Teach EV chargers new tricks</option>
+                    <option value="The best electric vehicle charging experience">The best electric vehicle charging experience</option>
+                    <option value="Frictionless urban payments">Frictionless urban payments</option>
+                    <option value="Innovate beyond MobilePay">Innovate beyond MobilePay</option>
+                    <option value="Mastering my data">Mastering my data</option>
+                    <option value="Augmented reality challenge">Augmented Reality challenge</option>
+                    <option value="Game Coach">Game Coach</option>
+                    <option value="Game Jam Main Challenge">Game Jam Main Challenge</option>
+                    <option value="Adaptive smart electric heating">Adaptive smart electric heating</option>
+                    <option value="Do captains dream of electric ships?">Do captains dream of electric ships?</option>
+                    <option value="Innovative applications with Bluetooth Mesh">Innovative applications with Bluetooth Mesh</option>
+                    <option value="Living on the Edge">Living on the Edge</option>
+                    <option value="Wisdom of Crowds">Wisdom of Crowds</option>
+                    <option value="Healthcare beyond physical reality">Healthcare beyond physical reality</option>
+                    <option value="Track anything that moves">Track anything that moves</option>
+                    <option value="Actually useful weather">Actually useful weather</option>
+                    <option value="AI-Driven customer interactions">AI-Driven customer interactions</option>
+                    <option value="DNA Center - One app to visualize them all">DNA Center - ONe app to visualize them all</option>
+                    <option value="Hack Human interaction">Hack Human interaction</option>
+                    <option value="Hack the Sauna">Hack the Sauna</option>
+                    <option value="Meraki - Capture the Creature">Meraki - Capture the Creature</option>
+                    <option value="None">None</option>    
                   </select>
                 </div>
 
