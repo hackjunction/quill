@@ -167,17 +167,17 @@ var profile = {
   portfolio: {
     type: String,
     min: 5,
-    maxlength: 240,
+    maxlength: 1000,
   },
   linkedin: {
     type: String,
     min: 5,
-    maxlength: 240,
+    maxlength: 1000,
   },
   github: {
     type: String,
     min: 5,
-    maxlength: 240,
+    maxlength: 1000,
   },
 
   // Multiple choice
