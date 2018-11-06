@@ -206,10 +206,7 @@ var profile = {
   },
 
   yearsOfExperience: {
-    type: String,
-    enum : {
-      values: 'Less than 1 year,1-2 years,2-3 years,3-5 years,+5 years,\t+5 years'.split(',')
-    }
+    type: String
   },
 
   terminal: {
