@@ -126,17 +126,19 @@ angular.module('reg')
           .success(function(data) {
             var idCount = data.length
             var successCount = 0
-            data.forEach(function(id) {
-              UserService.resetTeam(id)
-                .success(function(res) {
-                  successCount += 1
-                  console.log('Cleaned successfully...')
-                  if(successCount == idCount) {
-                    sweetAlert('Teams cleaned')
-                  }
-                })
-            })
-            swal("Done!", "Yeet", "success")
+            if(idCount == 0) {sweetAlert('No rejected people in teams')}
+            else {
+              data.forEach(function(id) {
+                UserService.resetTeam(id)
+                  .success(function(res) {
+                    successCount += 1
+                    console.log('Cleaned successfully...')
+                    if(successCount == idCount) {
+                      sweetAlert('Teams cleaned')
+                    }
+                  })
+              })
+            }
           })
       }
 
