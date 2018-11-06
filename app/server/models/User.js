@@ -88,11 +88,11 @@ var profile = {
     },
     degree: {
       type: String,
-      maxlength: 150
+      maxlength: 500
     },
     major: {
       type: String,
-      maxlength: 100
+      maxlength: 500
     }
   },
 
