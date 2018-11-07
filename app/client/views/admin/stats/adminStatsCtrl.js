@@ -120,25 +120,11 @@ angular.module('reg')
           })
       }
 
-      $scope.resetTeamsOfRejected = function() {
+      $scope.unlockTeams = function() {
         UserService
-          .rejectedInTeamsIDs()
+          .unlockTeams()
           .success(function(data) {
-            var idCount = data.length
-            var successCount = 0
-            if(idCount == 0) {sweetAlert('No rejected people in teams')}
-            else {
-              data.forEach(function(id) {
-                UserService.resetTeam(id)
-                  .success(function(res) {
-                    successCount += 1
-                    console.log('Cleaned successfully...')
-                    if(successCount == idCount) {
-                      sweetAlert('Teams cleaned')
-                    }
-                  })
-              })
-            }
+            swal('Done!', 'All teams have been unlocked', 'success')
           })
       }
 

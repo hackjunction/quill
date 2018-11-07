@@ -144,8 +144,8 @@ angular.module('reg')
         return $http.delete(base + id + '/team');
       },
 
-      rejectedInTeamsIDs: function() {
-        return $http.get(base + 'rejected/teams')
+      unlockTeams: function() {
+        return $http.put(base + 'teams/unlock')
       },
 
       admitUser: function(id){

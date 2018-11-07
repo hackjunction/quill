@@ -638,12 +638,11 @@ module.exports = function(router) {
   });
 
       /**
-   * Get IDs of rejected people in teams
+   * Unlock all teams
    */
 
-  router.get('/users/rejected/teams', isAdmin, function(req, res){
-    console.log('pleb')
-    UserController.rejectedInTeamIDs(defaultResponse(req, res))
+  router.put('/users/teams/unlock', isAdmin, function(req, res){
+    UserController.unlockTeams(defaultResponse(req, res))
   })
     /** 
    * Update team priorities
