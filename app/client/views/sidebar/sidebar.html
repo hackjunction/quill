@@ -23,7 +23,7 @@
     <div
       ui-sref-active="active"
       ui-sref="app.confirmation"
-      ng-show="!pastConfirmation && currentUser.status.admitted && !currentUser.status.declined"
+      ng-show="currentUser.status.admitted && !currentUser.status.declined"
       class="item">
       Confirmation
     </div>
