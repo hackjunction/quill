@@ -134,6 +134,12 @@ angular.module('reg')
         });
       };
 
+      $scope.assignTeam = function($event, team) {
+        $event.stopPropagation();
+
+        $('.assignment.modal').modal('show');
+      }
+
       $scope.getTeam = function($event, user) {
         $event.stopPropagation();
         if(user.team !== '' && user.team){
@@ -149,19 +155,35 @@ angular.module('reg')
             $scope.sortBy,
             sortDirection
           )
-          .success(function(data){
-            $scope.selectedUsers = data.users;
-            $scope.teamAverage = $scope.selectedUsers.reduce((sum, user) => sum + user.status.rating, 0) / $scope.selectedUsers.length
-              $('.longer.team.modal')
-                  .modal({
-                      onHide: function(){
-                        $scope.lookingAtATeam = false;
-                    }
+          .success(function(dataUsers){
+            UserService.getTeamInfoByID(user._id)
+              .success(function(team) {
+                $scope.assignedTrack = team.assignedTrack;
+                $scope.firstPriority = team.firstPriorityTrack;
+                $scope.secondPriority = team.secondPriorityTrack;
+                $scope.thirdPriority = team.thirdPriorityTrack;
+                $scope.selectedUsers = dataUsers.users;
+                $scope.teamAverage = $scope.selectedUsers.reduce((sum, user) => sum + user.status.rating, 0) / $scope.selectedUsers.length
+                  $('.longer.team.modal')
+                      .modal({
+                          onHide: function(){
+                            $scope.lookingAtATeam = false;
+                        }
+                      })
+                      .modal('show');
                   })
-                  .modal('show');
           });
         }
       };
+
+      $scope.assignTeamToTrack = function($event, team) {
+        $event.stopPropagation();
+        UserService.assignTeam(team, $scope.assignedTrackSelect)
+          .success(function(team) {
+            $scope.assignedTrack = $scope.assignedTrackSelect;
+            swal("Track assigned!", "", "success")
+          })
+      }
 
       $scope.toggleCheckIn = function($event, user, index) {
         $event.stopPropagation();

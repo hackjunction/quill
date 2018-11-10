@@ -56,6 +56,10 @@ angular.module('reg')
         _getTeamInfo();
       }
 
+      $scope.logthis = function(x) {
+        $scope.secondPriorityTrack = x
+      }
+
       $scope.joinTeam = function(){
         UserService
           .joinTeam($scope.code)
@@ -134,7 +138,6 @@ angular.module('reg')
             secondPriorityTrack: $scope.secondPriorityTrack,
             thirdPriorityTrack: $scope.thirdPriorityTrack
           }
-          console.log('hm')
           UserService
             .updatePriorities(priorities)
             .success(function(team) {
@@ -221,13 +224,11 @@ angular.module('reg')
             }
             },
             onSuccess: function(event, fields){
-              console.log('gaff')
               $("#firstPrioTrack").dropdown('set selected', $scope.firstPriorityTrack);
               $("#secondPrioTrack").dropdown('set selected', $scope.secondPriorityTrack);
               $("#thirdPrioTrack").dropdown('set selected', $scope.thirdPriorityTrack);
             },
           onFailure: function(formErrors, fields){
-            console.log('guff')
             $scope.fieldErrors = formErrors;
             $scope.error = 'There were errors in your application. Please check that you filled all required fields.';
         }

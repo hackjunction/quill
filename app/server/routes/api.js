@@ -997,4 +997,16 @@ module.exports = function(router) {
     var showRejection = req.body.showRejection;
     SettingsController.showRejection(showRejection, defaultResponse(req, res));
   });
+
+
+  /**
+   * [ADMIN ONLY]
+   * Assign team to track
+   */
+
+   router.put('/teams/:id/assign', isAdmin, function(req, res) {
+     var track = req.body.track;
+     var id = req.params.id;
+     UserController.assignTeamToTrack(id, track, defaultResponse(req, res))
+   })
 };

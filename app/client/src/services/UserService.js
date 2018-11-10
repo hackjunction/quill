@@ -5,7 +5,9 @@ angular.module('reg')
   function($http, Session){
 
     var users = '/api/users';
+    var teams = '/api/teams';
     var base = users + '/';
+
 
     return {
 
@@ -102,6 +104,11 @@ angular.module('reg')
       getTeamInfo: function() {
         return $http.get(base + Session.getUserId() + '/team/info')
       },
+
+      getTeamInfoByID: function(id) {
+        return $http.get(base + id + '/team/info')
+      },
+
       updatePriorities: function(priorities) {
         return $http.put(base + Session.getUserId() + '/team/priorities', {priorities: priorities})
       },
@@ -243,6 +250,10 @@ angular.module('reg')
 
       sendPasswordResetEmail: function(email) {
         return $http.post(base + 'sendResetEmail', {email: email})
+      },
+
+      assignTeam: function(team, track) {
+        return $http.put(teams + '/' + team + '/assign', {track})
       }
       /*sendQREmails: function() {
         return $http.post(base + 'sendQREmails');

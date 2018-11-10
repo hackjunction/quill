@@ -1923,4 +1923,12 @@ UserController.unlockTeams = function(callback) {
   }, callback)
 }
 
+UserController.assignTeamToTrack = function(id, track, callback) {
+  Team.update(
+    {_id: id},
+    {$set: {assignedTrack: track}},
+    callback
+  )
+} 
+
 module.exports = UserController;

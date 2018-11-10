@@ -234,6 +234,17 @@
         </div>
         <div class="content" style="overflow: scroll">
           <p>Team Average rating: {{teamAverage}}</p>
+          <div class="ui labeled button" ng-click="assignTeam($event, selectedTeam)" tabindex="0">
+            <div class="ui basic blue button">
+              <i class="sign in icon"></i> Assign to Track
+            </div>
+            <a ng-if="!assignedTrack" class="ui basic left pointing blue label">
+              No track assigned
+            </a>
+            <a ng-if="assignedTrack" class="ui basic left pointing blue label">
+              Assigned to {{assignedTrack}}
+            </a>
+          </div>
           <table
                   class="ui celled selectable compact users table">
             <thead>
@@ -506,6 +517,48 @@
           <div class="content">
               <div class="ui massive rating"></div>
           </div>
+      </div>
+
+      <div class="ui coupled modal assignment">
+        <div class="header">Assign {{selectedTeam}} to Track</div>
+        <div class="content">
+            <p>First priority: <b>{{firstPriority}}</b></p>
+            <p>Second priority: <b>{{secondPriority}}</b></p>
+            <p>Third priority: <b>{{thirdPriority}}</b></p>
+
+            <div class="field">
+              <select
+                class="ui fluid dropdown"
+                name="team_assignedTrack"
+                id="team_assignedTrack"
+                ng-model="assignedTrackSelect">
+                <option value="">Choose a track</option>
+                <option value="Blockchain">Blockchain</option>
+                <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+                <option value="Future Cities">Future Cities</option>
+                <option value="Digital Retail">Digital Retail</option>
+                <option value="Smart Cloud">Smart Cloud</option>
+                <option value="Mobility">Mobility</option>
+                <option value="Data Economics">Data Economics</option>
+                <option value="Game Jam">Game Jam</option>
+                <option value="Internet of Things">Internet of Things</option>
+                <option value="HealthTech">HealthTech</option>
+                <option value="AI and Big Data">AI and Big Data</option>
+              </select>
+            </div>
+        </div>
+
+        <div class="actions" style="margin-top: 20px;">
+          <button
+            class="ui positive button"
+            ng-click="assignTeamToTrack($event, selectedTeam)">
+              Assign track
+          </button>
+          <button
+            class="ui negative button">
+            Cancel
+          </button>
+        </div>
       </div>
 
       <div class="travel ui coupled modal">

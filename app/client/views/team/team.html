@@ -249,15 +249,16 @@
                 </h5>
               </div>
             </div>
-            <div ng-if="user.team" class="fields">
+            
+            <div class="fields">
               <div class="ten wide field">
-                <select
-                  class="ui fluid dropdown"
-                  name="secondPrioTrack"
-                  id="secondPrioTrack"
-                  ng-disabled="teamLeader != user.id"
-                  ng-model="secondPriorityTrack"
-                >
+                  <select
+                    class="ui fluid dropdown"
+                    name="secondPrioTrack"
+                    id="secondPrioTrack"
+                    ng-disabled="teamLeader != user.id"
+                    ng-model="secondPriorityTrack"
+                  >
                   <option value="">Select a track</option>
                   <option
                     ng-show="firstPriorityTrack != 'Blockchain' && thirdPriorityTrack != 'Blockchain'"
@@ -332,7 +333,11 @@
                   Second Priority
                 </h5>
               </div>
+
+              <br>
+              <br>
             </div>
+
             <div class="fields">
               <div class="ten wide field">
                   <select
