@@ -318,18 +318,18 @@ var teamMatchmaking = {
     description: {
       type: String,
       min: 0,
-      maxlength: 500,
+      maxlength: 2000,
       required: false
     },
     mostInterestingTrack: {
       type: String,
-      maxlength: 120,
+      maxlength: 1000,
       required: false
     },
     role: {
       type: String,
       min: 0,
-      maxlength: 100,
+      maxlength: 1000,
       required: false
     },
     topChallenges: {
@@ -338,12 +338,12 @@ var teamMatchmaking = {
     },
     slackHandle: {
       type: String,
-      maxlength: 120,
+      maxlength: 500,
       required: false
     },
     freeText: {
       type: String,
-      maxlength: 120,
+      maxlength: 2000,
       required: false
     },
     skills: {
@@ -354,7 +354,7 @@ var teamMatchmaking = {
   team: {
     mostInterestingTrack: {
       type: String,
-      maxlength: 120,
+      maxlength: 1000,
       required: false
     },
     topChallenges: {
@@ -367,12 +367,12 @@ var teamMatchmaking = {
     },
     slackHandle: {
       type: String,
-      maxlength: 120,
+      maxlength: 500,
       required: false
     },
     freeText: {
       type: String,
-      maxlength: 120,
+      maxlength: 2000,
       required: false
     },
   }
