@@ -84,7 +84,7 @@
             {{u.profile.name || 'Somebody (has not filled out their profile!)'}}
           </p>
           <br/>
-          <a ng-show="user.team" ui-sref="app.matchmaking" class="matchmaking"><button class="ui fluid sea-serpent button">Search for more team members!</button></a>
+          <a ng-show="user.team && user.status.confirmed" ui-sref="app.matchmaking" class="matchmaking"><button class="ui fluid sea-serpent button">Search for more team members!</button></a>
 
           <div ng-show="!pastReg">
             <div class="ui divider"></div>
@@ -155,7 +155,7 @@
             </div>
           </div>
 
-          <div ng-show="pastReg" id="priorityForm" class="ui form priorities">
+          <div ng-show="pastReg && user.status.confirmed" id="priorityForm" class="ui form priorities">
             <div class="ui divider"></div>
             <div class="title">Team Interests</div>
             <br/>
