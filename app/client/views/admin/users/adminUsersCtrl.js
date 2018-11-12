@@ -4,7 +4,8 @@ angular.module('reg')
     '$state',
     '$stateParams',
     'UserService',
-    function($scope, $state, $stateParams, UserService){
+    'SettingsService',
+    function($scope, $state, $stateParams, UserService, SettingsService){
 
       $scope.pages = [];
       $scope.users = [];
@@ -34,6 +35,26 @@ angular.module('reg')
       }
       });
       $scope.selectedUsers = [];
+
+      $scope.settings = {};
+      SettingsService
+        .getPublicSettings()
+        .success(function(settings){
+          updateSettings(settings);
+        });
+
+      function updateSettings(settings){
+        $scope.loading = false;
+         // Format the dates in settings.
+        settings.timeOpen = new Date(settings.timeOpen);
+        settings.timeClose = new Date(settings.timeClose);
+        settings.timeConfirm = new Date(settings.timeConfirm);
+        settings.timeConfirmSpecial = new Date(settings.timeConfirmSpecial);
+        settings.timeCloseSpecial = new Date(settings.timeCloseSpecial);
+        settings.timeTR = new Date(settings.timeTR);
+
+        $scope.settings = settings;
+      }
 
       function updatePage(data){
         $scope.users = data.users;
@@ -1047,27 +1068,33 @@ angular.module('reg')
         });
 
       $scope.leaveTeamForNotConfirmed = function() {
-        var filterTeam = $scope.users.filter(function(user) {return user.team && !user.status.confirmed})
-        swal({
-          title: 'Whoa, wait a minute!',
-          text: `You're about to remove ${filterTeam.length} user(s) from their teams (empty teams will be deleted after).`,
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, reset their teams",
-          closeOnConfirm: false
-          }, function(){
-            var count = 0
-            filterTeam.forEach(function(user) {
-              UserService
-              .leaveTeamForNotConfirmed(user._id)
-              .success(function(data) {
-                console.log('Made user leave team')
-                count += 1
-                if(count == filterTeam.length) swal("Done!", `Removed ${count} people from their teams!`, "success")
+        var now = new Date().getTime()
+        var filterTeam = $scope.users.filter(function(user) {
+          return user.team && !user.status.confirmed && now > user.status.confirmBy
+        })
+        if(now < $scope.settings.timeConfirm) swal("Hey!", "The confirmation is still open, you should not reset teams before the deadline has passed", "error")
+        else {
+          swal({
+            title: 'Whoa, wait a minute!',
+            text: `You're about to remove ${filterTeam.length} user(s) from their teams (empty teams will be deleted after).`,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, reset their teams",
+            closeOnConfirm: false
+            }, function(){
+              var count = 0
+              filterTeam.forEach(function(user) {
+                UserService
+                .leaveTeamForNotConfirmed(user._id)
+                .success(function(data) {
+                  console.log('Made user leave team')
+                  count += 1
+                  if(count == filterTeam.length) swal("Done!", `Removed ${count} people from their teams!`, "success")
+                })
               })
             })
-          })
+        }
       }
 
     }]);
