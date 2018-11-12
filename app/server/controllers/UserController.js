@@ -1049,7 +1049,7 @@ UserController.createTeam = function(id, callback) {
       if(!user.status.admitted && now > times.timeClose && !specialOpen) {
         return callback({message: "You can not create new teams, because you haven't been accepted yet and application period is over."})
       }
-      else if(now > user.status.confirmBy && !user.status.confirmation && user.status.admitted) {
+      else if(now > user.status.confirmBy && !user.status.confirmed && user.status.admitted) {
         return callback({message: "You can not create a team because you did not confirm your spot before the deadline!"})
       }
       const t = new Team({
@@ -1130,7 +1130,7 @@ UserController.joinTeam = function(id, code, callback){
           if (now > times.timeClose && !user.status.admitted && !specialOpen) {
             return callback({message: "Application period has ended, you haven't been accepted yet so you can not join teams!"})
           }
-          else if(now > user.status.confirmBy && !user.status.confirmation && user.status.admitted) {
+          else if(now > user.status.confirmBy && !user.status.confirmed && user.status.admitted) {
             return callback({message: "You can not join a team because you did not confirm your spot before the deadline!"})
           }
           const updatedMembers = team.members.concat([user.id])
