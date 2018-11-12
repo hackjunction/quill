@@ -1009,4 +1009,8 @@ module.exports = function(router) {
      var id = req.params.id;
      UserController.assignTeamToTrack(id, track, defaultResponse(req, res))
    })
+
+   router.get('/users/teams/notconfirmed', isAdmin, function(req,res) {
+     UserController.getNotConfirmedInTeamsIDs(defaultResponse(req,res))
+   })
 };

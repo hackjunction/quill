@@ -254,7 +254,15 @@ angular.module('reg')
 
       assignTeam: function(team, track) {
         return $http.put(teams + '/' + team + '/assign', {track})
-      }
+      },
+
+      getNotConfirmedInTeams: function() {
+        return $http.get(base + 'teams/notconfirmed')
+      },
+
+      leaveTeamForNotConfirmed: function(id){
+        return $http.delete(base + id + '/team');
+      },
       /*sendQREmails: function() {
         return $http.post(base + 'sendQREmails');
       },*/

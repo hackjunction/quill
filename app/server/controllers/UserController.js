@@ -298,13 +298,13 @@ UserController.getPage = function(query, callback){
   }
   if(query.filter.softAdmitted === 'true') {
     statusFilter.push({'status.softAdmitted': 'true'});
-    statusFilter.push({'status.admitted': 'false'});
-    statusFilter.push({'status.confirmed': 'false'});
+    statusFilter.push({'status.admitted': {$ne: true}});
+    statusFilter.push({'status.confirmed': {$ne: true}});
     statusFilter.push({'status.rejected': 'false'});
   }
   if(query.filter.admitted === 'true') {
     statusFilter.push({'status.admitted': 'true'});
-    statusFilter.push({'status.confirmed': 'false'});
+    statusFilter.push({'status.confirmed': {$ne: true}});
     statusFilter.push({'status.rejected': 'false'});
   }
   if(query.filter.confirmed ==='true') {
@@ -1936,5 +1936,17 @@ UserController.assignTeamToTrack = function(id, track, callback) {
     callback
   )
 } 
+
+UserController.getNotConfirmedInTeamsIDs = function(callback) {
+  User.find({
+    'status.confirmed': false,
+    'status.admitted': true,
+    team: {$exists: true}
+  }).exec(function(err, users) {
+    var usrs = users.map(function(user) { return user.id })
+    console.log(usrs.length)
+    return callback(err, usrs)
+  })
+}
 
 module.exports = UserController;

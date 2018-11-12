@@ -1046,4 +1046,28 @@ angular.module('reg')
             ;
         });
 
+      $scope.leaveTeamForNotConfirmed = function() {
+        var filterTeam = $scope.users.filter(function(user) {return user.team && !user.status.confirmed})
+        swal({
+          title: 'Whoa, wait a minute!',
+          text: `You're about to remove ${filterTeam.length} user(s) from their teams (empty teams will be deleted after).`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, reset their teams",
+          closeOnConfirm: false
+          }, function(){
+            var count = 0
+            filterTeam.forEach(function(user) {
+              UserService
+              .leaveTeamForNotConfirmed(user._id)
+              .success(function(data) {
+                console.log('Made user leave team')
+                count += 1
+                if(count == filterTeam.length) swal("Done!", `Removed ${count} people from their teams!`, "success")
+              })
+            })
+          })
+      }
+
     }]);
