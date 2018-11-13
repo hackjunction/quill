@@ -311,6 +311,9 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'status.confirmed': 'true'});
     statusFilter.push({'status.rejected': 'false'});
   }
+  if(query.filter.declined ==='true') {
+    statusFilter.push({'status.declined': 'true'});
+  }
   if(query.filter.acceptedToTerminal === 'true') {
     statusFilter.push({'status.terminalAccepted': 'true'});
   }
@@ -390,7 +393,7 @@ UserController.getPage = function(query, callback){
             return callback(null, {
               users: updatedUsers,
               page: page,
-              size: size,
+              c: size,
               totalPages: Math.ceil(count / size)
             });
           });
@@ -860,7 +863,6 @@ UserController.declineById = function (id, callback){
         'lastUpdated': Date.now(),
         'status.confirmed': false,
         'status.declined': true,
-        'team': null
       }
     }, {
       new: true
@@ -870,7 +872,8 @@ UserController.declineById = function (id, callback){
         return callback(err);
       }
       Mailer.sendDeclinedEmail(user);
-      return callback(err, user);
+      UserController.leaveTeam(user._id, callback)
+      //return callback(err, user);
     });
 };
 
