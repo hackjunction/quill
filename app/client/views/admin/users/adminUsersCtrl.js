@@ -1106,7 +1106,7 @@ angular.module('reg')
         UserService
           .assignTeams(ids, $scope.trackToAssign)
           .success(function(teams) {
-            swal("Success!", teams.nModified + " teams assigned to " + $scope.trackToAssign, "success")
+            swal("Success!", ids.length + " teams assigned to " + $scope.trackToAssign, "success")
           })
       }
 
