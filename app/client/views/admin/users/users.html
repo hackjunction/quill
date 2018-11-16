@@ -139,6 +139,50 @@
       <a class="ui basic button" ng-click="exportMailList()">Export <i class="newspaper outline icon"></i></a>
       <a class="ui basic button" ng-click="exportTRCSV()">Export <i class="euro icon"></i><i class="plane icon"></i></a>
 
+      <div class="ui csv modal">
+        <i class="close icon"></i>
+        <div class="header">
+          Assign teams to a track
+        </div>
+        <div class="content">
+          <p>Put team IDs here, each ID on it's own row</p>
+          <div class="field">
+            <textarea id="essay" placeholder="someteamid..." ng-model="assignmentIds" style="width:600px;">
+            </textarea>
+          </div>
+          <div class="field">
+            <label>Which tracks should the teams be assigned into?</label>
+            <select
+              class="ui fluid dropdown"
+              ng-model="trackToAssign">
+              <option value="">Choose a track</option>
+              <option value="Blockchain">Blockchain</option>
+              <option value="Intelligent Infrastructure">Intelligent Infrastructure</option>
+              <option value="Future Cities">Future Cities</option>
+              <option value="Digital Retail">Digital Retail</option>
+              <option value="Smart Cloud">Smart Cloud</option>
+              <option value="Mobility">Mobility</option>
+              <option value="Data Economics">Data Economics</option>
+              <option value="Game Jam">Game Jam</option>
+              <option value="Internet of Things">Internet of Things</option>
+              <option value="HealthTech">HealthTech</option>
+              <option value="AI and Big Data">AI and Big Data</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="ui black deny button">
+            Cancel
+          </div>
+          <div class="ui positive right labeled icon button" ng-click="formatToArray()">
+            Assign
+            <i class="checkmark icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <a class="ui basic button" ng-click="openTeamAssignment()">Team Assignment</a>
+
     </div>
     <div id="table-container" class="thirteen wide column">
       <div class="ui header">

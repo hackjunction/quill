@@ -1097,4 +1097,17 @@ angular.module('reg')
         }
       }
 
+      $scope.openTeamAssignment = function() {
+        $('.csv.modal').modal('show');
+      }
+
+      $scope.formatToArray = function() {
+        var ids = $scope.assignmentIds.split('\n')
+        UserService
+          .assignTeams(ids, $scope.trackToAssign)
+          .success(function(teams) {
+            swal("Success!", teams.nModified + " teams assigned to " + $scope.trackToAssign, "success")
+          })
+      }
+
     }]);

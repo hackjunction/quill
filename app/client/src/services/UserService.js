@@ -263,6 +263,10 @@ angular.module('reg')
       leaveTeamForNotConfirmed: function(id){
         return $http.delete(base + id + '/team');
       },
+
+      assignTeams: function(ids, track) {
+        return $http.put(base + 'teams/assign', {ids: ids, track: track})
+      }
       /*sendQREmails: function() {
         return $http.post(base + 'sendQREmails');
       },*/

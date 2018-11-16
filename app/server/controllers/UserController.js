@@ -1952,4 +1952,16 @@ UserController.getNotConfirmedInTeamsIDs = function(callback) {
   })
 }
 
+UserController.assignTeamsToTrack = function(ids, track, callback) {
+  Team.update({
+    '_id': {$in: ids}
+  }, {
+    $set: {
+      assignedTrack: track
+    }
+  }, {
+    multi: true
+  }, callback)
+}
+
 module.exports = UserController;
