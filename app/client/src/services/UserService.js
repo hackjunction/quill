@@ -141,6 +141,15 @@ angular.module('reg')
       },
 
       // -------------------------
+      // Gavel
+      // -------------------------
+      goToGavel: function() {
+        var res = $http.get(base + Session.getUserId() + '/gavel').success(function(res){
+          window.location = res;
+        });
+      },
+
+      // -------------------------
       // Admin Only
       // -------------------------
 
@@ -202,7 +211,7 @@ angular.module('reg')
           reimbClass: reimbClass
         });
       },
-      
+
       rateUser: function(id, rating) {
         return $http.post(base + id + '/rate', {
           rating

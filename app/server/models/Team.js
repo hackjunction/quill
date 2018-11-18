@@ -31,6 +31,10 @@ var schema = new mongoose.Schema({
   },
   assignedTrack: {
     type: String
+  },
+  gavelId: {
+    type: String,
+    required: false
   }
 });
 

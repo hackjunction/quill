@@ -26,7 +26,7 @@ angular.module('reg')
           $scope.DASHBOARD[msg] = $scope.DASHBOARD[msg].replace('[CONFIRM_DEADLINE]', Utils.formatTime(user.status.confirmBy));
         }
       }
-      
+
       //icon tooltip popup
       $('.icon')
       .popup({
@@ -104,7 +104,7 @@ angular.module('reg')
         }
         return false;
       };
-    
+
       $scope.showWaitlist = !regIsOpen && user.status.completedProfile && !user.status.admitted && !user.status.rejected;
 
       $scope.resendEmail = function(){
@@ -114,6 +114,10 @@ angular.module('reg')
             sweetAlert('Your email has been sent.');
           });
       };
+
+      $scope.goToGavel = function(){
+        UserService.goToGavel();
+      }
 
       // -----------------------------------------------------
       // Text!
@@ -163,7 +167,7 @@ angular.module('reg')
       };*/
 
       $scope.qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + $scope.user.id
-      //$scope.getQRCode($scope.user.id);      
-      
+      //$scope.getQRCode($scope.user.id);
+
 
     }]);

@@ -624,6 +624,17 @@ var reimbursement = {
      maxlength: 200
    }
 };
+var gavel = {
+  token: {
+    type: String,
+    required: false
+  },
+  id: {
+    type: String,
+    required: false
+  }
+}
+
 // define the schema for our admin model
 var schema = new mongoose.Schema({
 
@@ -682,7 +693,7 @@ var schema = new mongoose.Schema({
     type: Number,
     default: Date.now(),
   },
-  team: { 
+  team: {
     type: String,
     required: false
   },
@@ -721,12 +732,17 @@ var schema = new mongoose.Schema({
 
   teamMatchmaking: teamMatchmaking,
 
+  /**
+  * Information related to the reviewing and submission platform integration
+  */
+  gavel: gavel,
+
 },{
   toObject: {
   virtuals: true
   },
   toJSON: {
-  virtuals: true 
+  virtuals: true
   }
   }
 );

@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const fetch = require('node-fetch');
 const User = require('../models/User');
 const Team = require('../models/Team')
 const Settings = require('../models/Settings');
@@ -354,7 +355,7 @@ UserController.getPage = function(query, callback){
     statusFilter.push({'specialRegistration': 'true'})
   else
    statusFilter.push({});
-  
+
   // Date, rating or team sorting query params
   let queryParams = {}
   queryParams[sortBy] = sortDir
@@ -619,7 +620,7 @@ UserController.updateProfileById = function (id, profile, special, callback){
             Mailer.sendApplicationEmail(user);
           });
         }
-  
+
         User.findOneAndUpdate({
           _id: id,
           verified: true
@@ -1083,6 +1084,7 @@ UserController.createTeam = function(id, callback) {
   })
 }
 
+
 /**
  * Given a team code and id, join a team.
  * @param  {String}   id       Id of the user joining/creating
@@ -1144,25 +1146,189 @@ UserController.joinTeam = function(id, code, callback){
             }
             console.log(`Team members updated!`)
           });
-          User.findOneAndUpdate({
-            _id: id,
-            verified: true
-          }, {
-            $set: {
-              team: team._id,
-              'teamMatchmaking.enrolled': false,
-              'teamMatchmaking.enrollmentType': undefined
-              }
+          let set = {
+            team: team._id,
+            'teamMatchmaking.enrolled': false,
+            'teamMatchmaking.enrollmentType': undefined
+          }
+          let saveUser = function(set){
+            User.findOneAndUpdate({
+              _id: id,
+              verified: true
             }, {
-              new: true
-            },
-            callback
-          );
+              $set: set
+              }, {
+                new: true
+              },
+              callback
+            );
+          }
+          if (team.gavelId) {
+            // gavel entry exists for the team, get user tokens from gavel
+            fetch(
+              `${process.env.GAVEL_URL}/api/external/teams/add-member/${team.gavelId}`,
+              {
+                method: 'POST',
+                body: JSON.stringify({
+                  key: process.env.GAVEL_API_KEY,
+                  name: user.profile.name,
+                  email: user.email,
+                }),
+                headers: { 'Content-Type': 'application/json' },
+              }
+            )
+            .then(gavelTeam => {
+              console.log("gavelTeam:", gavelTeam);
+              return gavelTeam;
+            })
+            .then(gavelTeam => gavelTeam.json())
+            .then(gavelTeam => {
+              console.log("gavelTeam json data", gavelTeam)
+              const gavelUser = gavelTeam.data.filter(member => member.email === user.email)[0];
+              return gavelUser;
+            }).then(gavelUser => {
+              if (gavelUser){
+                set['gavel.id'] = gavelUser._id;
+                set['gavel.token'] = gavelUser.token;
+              }
+              saveUser(set);
+            }).catch(err => {
+              console.log(err);
+              saveUser(set);
+            })
+          } else {
+            saveUser(set);
+          }
         })
       });
     });
   });
 };
+
+
+/**
+ * If necessary, initialize a gavel submission for a team, and return the user's gavel access token
+ * @param  {String}   id       Id of the user
+ * @param  {Function} callback args(err, users)
+ */
+UserController.getGavelToken = function(id, callback) {
+  User.findById(id, function(err, user) {
+    if (err | !user) return callback({message: 'Something went wrong', err:err})
+    if (!user.team) return callback({message: 'You must be on a team to go to submissions'})
+    if (!user.gavel.token){
+      Team.findById(user.team, function(err, team) {
+        if(team.gavelId){
+            console.log("Error, shouldn't be here. team has gavelId but user doesn't")
+            callback("Error, shouldn't be here. team has gavelId but user doesn't");
+        }
+        User
+          .find({
+            team: user.team
+          })
+          .select('profile.name email')
+          .exec(function(err, teamMembers){
+            if (err) return callback({message: 'Something went wrong', err:err})
+            console.log("teamMembers:", teamMembers)
+            let body = JSON.stringify({
+              'key': process.env.GAVEL_API_KEY,
+              'members': teamMembers.map(member => {
+                return {
+                  name: member.profile.name,
+                  email: member.email
+                }
+              }),
+              'phoneNumber': user.confirmation.phone || ""
+            });
+            console.log("body:", body)
+            fetch(
+              `${process.env.GAVEL_URL}/api/external/teams/create/`,
+              {
+                method: 'POST',
+                //body: params
+                body: body,
+                headers: { 'Content-Type': 'application/json' },
+              }
+            )
+            .then(gavelTeam => {
+              console.log("gavelTeam:", gavelTeam)
+              return gavelTeam;
+            })
+            .then(gavelTeam => gavelTeam.json())
+            .then(gavelTeam => gavelTeam.data)
+            .then(gavelTeam => {
+              console.log("gavelTeam data:", gavelTeam)
+              return gavelTeam;
+            })
+            .then(gavelTeam => {
+              return Promise.all([
+                Promise.all(gavelTeam.members.map(gavelTeamMember => {
+                  let teammate = teamMembers.filter(teamMember => teamMember.email === gavelTeamMember.email)[0]
+                  console.log("settings stuff for teammate", teammate, gavelTeamMember)
+                  return new Promise(function(resolve, reject){
+                    User.findOneAndUpdate(
+                      {
+                        _id: teammate._id,
+                        verified: true
+                      }, {
+                        $set: {
+                          'gavel.id': gavelTeamMember._id,
+                          'gavel.token': gavelTeamMember.secret
+                        }
+                      },
+                      {
+                        new: true
+                      },
+                      function(err, user){
+                        if(err) reject(err)
+                        console.log("resolved update", err, user)
+                        resolve(user)
+                      }
+                    );
+                  })
+                })),
+                new Promise(function(resolve, reject){
+                  console.log()
+                  Team.findOneAndUpdate(
+                    {
+                      _id: team._id
+                    }, {
+                      $set: {
+                        'gavelId': gavelTeam._id
+                      }
+                    },
+                    {
+                      new: true
+                    },
+                    resolve
+                  )
+                })
+              ])
+            })
+            .then(result => {
+              console.log("got some results")
+              return new Promise(function(resolve, reject){
+                User.findById(id, function(err, user) {
+                  if(err || !user) reject({message: "Application error"})
+                  console.log("we have user", user)
+                  resolve(user.gavel.token);
+                })
+              })
+            })
+            .then(token => {
+              console.log("got token", token)
+              callback(null, token);
+            })
+            .catch(err => {
+              return callback("token not found!")
+              console.log(err);
+            })
+          });
+      })
+    } else {
+      callback(null, user.gavel.token);
+    }
+  })
+}
 
 /**
  * Given a team id, lock the team
@@ -1264,49 +1430,85 @@ UserController.leaveTeam = function(id, callback){
       if (err) {
         return callback({message: 'Something went wrong'})
       }
-      if(team && team.members.indexOf(user.id) > -1){
-        console.log(`Team ${user.team} found`)
-        const leaderID = team.leader
-        const userIndex = team.members.indexOf(user.id)
-        team.members.splice(userIndex, 1) // Remove user from team
-        if (team.members.length){
-          if (leaderID === user.id) {
-            team.leader = team.members[0]
-            console.log(`New leader is ${team.leader}`)
-          }
-          team.save(function(err){
-            if (err){
-              return callback(err, team);
+      console.log("team gavel stuff", team, team.gavelId, user.gavel.id)
+      new Promise(function(resolve, reject){
+        if(team && team.gavelId && user.gavel.id){
+        // We don't care about the return value of this
+          console.log("creating gavel promise")
+          console.log("trying to remove user", user.gavel.id, "from ", team.gavelId)
+          gavelPromise = fetch(
+            `${process.env.GAVEL_URL}/api/external/teams/remove-member/${team.gavelId}`,
+            {
+              method: 'POST',
+              body: JSON.stringify({
+                annotatorId: user.gavel.id,
+                key: process.env.GAVEL_API_KEY
+              }),
+              headers: { 'Content-Type': 'application/json' },
             }
-            console.log('Team updated after user left the team')
+          ).then(response => {
+            console.log("gavel response", response)
+            if(response.status !== 200){
+              reject(response.status);
+            }
+            resolve();
+          }).catch((err) => {
+            reject(err);
           })
         } else {
-          Team.findOneAndRemove({_id: user.team}, function(err) {
-            if (err) return callback('Error deleting team')
-            console.log(`Deleted team with id ${teamID}`)
-          })
+          resolve();
         }
-      }
-      else {
-        console.log('Team not found or user not in the team anymore, removing user team data though.')
-      }
-      user.teamMatchmaking.enrolled = false
-      user.teamMatchmaking.enrollmentType = undefined
-      user.teamMatchmaking.team.mostInterestingTrack = undefined
-      user.teamMatchmaking.team.topChallenges = undefined
-      user.teamMatchmaking.team.roles = undefined
-      user.teamMatchmaking.team.slackHandle = undefined
-      user.teamMatchmaking.team.freeText = undefined
-      user.team = undefined
+      })
+      .then(() => {
+        if(team && team.members.indexOf(user.id) > -1){
+          console.log(`Team ${user.team} found`)
+          const leaderID = team.leader
+          const userIndex = team.members.indexOf(user.id)
+          team.members.splice(userIndex, 1) // Remove user from team
+          if (team.members.length){
+            if (leaderID === user.id) {
+              team.leader = team.members[0]
+              console.log(`New leader is ${team.leader}`)
+            }
+            team.save(function(err){
+              if (err){
+                return callback(err, team);
+              }
+              console.log('Team updated after user left the team')
+            })
+          } else {
+            Team.findOneAndRemove({_id: user.team}, function(err) {
+              if (err) return callback('Error deleting team')
+              console.log(`Deleted team with id ${teamID}`)
+            })
+          }
+        }
+        else {
+          console.log('Team not found or user not in the team anymore, removing user team data though.')
+        }
+        user.teamMatchmaking.enrolled = false
+        user.teamMatchmaking.enrollmentType = undefined
+        user.teamMatchmaking.team.mostInterestingTrack = undefined
+        user.teamMatchmaking.team.topChallenges = undefined
+        user.teamMatchmaking.team.roles = undefined
+        user.teamMatchmaking.team.slackHandle = undefined
+        user.teamMatchmaking.team.freeText = undefined
+        user.team = undefined
+        user.gavel.id = undefined
+        user.gavel.token = undefined
 
-      console.log(`Saving user ${user.id}`)
-      user.save(function(err) {
-        if(err) {
-          console.log(err)
-          return callback(err, user)
-        }
-        console.log('User saved after leaving team')
-        return callback(null, user)
+        console.log(`Saving user ${user.id}`)
+        user.save(function(err) {
+          if(err) {
+            console.log(err)
+            return callback(err, user)
+          }
+          console.log('User saved after leaving team')
+          return callback(null, user)
+        })
+      })
+      .catch((err) => {
+        return callback(err)
       })
     })
   });
@@ -1572,7 +1774,7 @@ UserController.toggleSpecial = function(id, current, callback){
 
 UserController.setOnWailist = function(callback) {
   User.update({
-    'status.rejected': false, 
+    'status.rejected': false,
     'status.softAdmitted': false,
     'status.admitted': false,
   },{
@@ -1942,7 +2144,7 @@ UserController.assignTeamToTrack = function(id, track, callback) {
     {$set: {assignedTrack: track}},
     callback
   )
-} 
+}
 
 UserController.getNotConfirmedInTeamsIDs = function(callback) {
   User.find({

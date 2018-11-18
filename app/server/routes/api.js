@@ -56,26 +56,26 @@ module.exports = function(router) {
   }
 
   function isAdminOrVolunteer(req, res, next){
-    
+
         var token = getToken(req);
-    
+
         UserController.getByToken(token, function(err, user){
-    
+
           if (err) {
             return res.status(500).send(err);
           }
-    
+
           if (user){
             if(user.admin || user.volunteer){
               req.user = user;
               return next();
             }
           }
-    
+
           return res.status(401).send({
             message: 'Get outta here, punk!'
           });
-    
+
         });
       }
 
@@ -163,7 +163,7 @@ module.exports = function(router) {
     var qr = qrcode(typeNumber, errorCorrectionLevel);
     qr.addData(data);
     qr.make();
-    return qr.createImgTag(8); 
+    return qr.createImgTag(8);
   }
 
   router.get('/qr/:id', function(req, res) {
@@ -228,7 +228,7 @@ module.exports = function(router) {
 
          }).single('file');
 
-        
+
 
         upload(req, res, function(err) {
           if(req.fileValidationError){
@@ -495,9 +495,9 @@ module.exports = function(router) {
       }
 
       if (user){
-        
+
         return UserController.getMatchmaking(user, query, defaultResponse(req, res));
-        
+
       }
 
       return res.status(401).send({
@@ -512,21 +512,21 @@ module.exports = function(router) {
   router.put('/matchmaking/exitSearch', function(req, res){
     var token = getToken(req);
     UserController.getByToken(token, function(err, user){
-      
+
             if (err) {
               return res.status(500).send(err);
             }
-      
+
             if (user){
               if(user.teamMatchmaking.enrolled){
                 return UserController.exitSearch(user, defaultResponse(req, res));
               }
             }
-      
+
             return res.status(401).send({
               message: 'Get outta here, punk!'
             });
-      
+
           });
   })
 
@@ -535,23 +535,58 @@ module.exports = function(router) {
   router.get('/matchmaking/teamInSearch', function(req, res){
     var token = getToken(req);
     UserController.getByToken(token, function(err, user){
-      
+
             if (err) {
               return res.status(500).send(err);
             }
-      
+
             if (user){
 
               return UserController.teamInSearch(user, defaultResponse(req, res));
-              
+
             }
-      
+
             return res.status(401).send({
               message: 'Get outta here, punk!'
             });
-      
+
           });
   })
+
+
+  /* GET - Go to the user's personal gavel page if possible */
+
+  router.get('/users/:id/gavel/', isOwnerOrAdmin, function(req, res){
+    var token = getToken(req);
+    var userId = req.params.id;
+
+    UserController.getByToken(token, function(err, user){
+
+      if (err || !user) {
+        return res.status(500).send(err);
+      }
+
+      if (user._id != userId && !user.admin){
+        return res.status(403).send({
+          message: 'Token does not match user id.'
+        });
+      }
+      UserController.getGavelToken(user._id, function(err, token){
+        if (err) {
+          console.log("error", err)
+          return res.status(500).send(err);
+        }
+        console.log("type", typeof(token))
+        if(typeof(token) === 'string'){
+          return res.status(200).send(`${process.env.GAVEL_FRONTEND_URL}/login/${token}`)
+        } else {
+          console.log(token)
+          return res.status(500).send({"token": token || "Not set"})
+        }
+      })
+    });
+  })
+
 
   /**
    * [OWNER/ADMIN]
@@ -584,7 +619,7 @@ module.exports = function(router) {
     UserController.declineById(id, defaultResponse(req, res));
   });
   /**
-   * Get user's team information. 
+   * Get user's team information.
    */
   router.get('/users/:id/team/info', isOwnerOrAdmin, function(req, res) {
     const id = req.params.id
@@ -617,7 +652,7 @@ module.exports = function(router) {
     const id = req.params.id;
     UserController.createTeam(id, defaultResponse(req, res));
   });
-  /** 
+  /**
    * Lock a team
   */
   router.put('/users/:id/team/lock', isOwnerOrAdmin, function(req, res){
@@ -648,7 +683,7 @@ module.exports = function(router) {
   router.put('/users/teams/unlock', isAdmin, function(req, res){
     UserController.unlockTeams(defaultResponse(req, res))
   })
-    /** 
+    /**
    * Update team priorities
   */
   router.put('/users/:id/team/priorities', isOwnerOrAdmin, function(req, res){
@@ -804,7 +839,7 @@ module.exports = function(router) {
   UserController.sendRejectEmailsRest(defaultResponse(req, res));
 });
 
- /** 
+ /**
   * Send QR emails to confirmed applicants
  */
 
