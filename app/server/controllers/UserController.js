@@ -1178,12 +1178,10 @@ UserController.joinTeam = function(id, code, callback){
               }
             )
             .then(gavelTeam => {
-              console.log("gavelTeam:", gavelTeam);
               return gavelTeam;
             })
             .then(gavelTeam => gavelTeam.json())
             .then(gavelTeam => {
-              console.log("gavelTeam json data", gavelTeam)
               const gavelUser = gavelTeam.data.filter(member => member.email === user.email)[0];
               return gavelUser;
             }).then(gavelUser => {
@@ -1193,8 +1191,9 @@ UserController.joinTeam = function(id, code, callback){
               }
               saveUser(set);
             }).catch(err => {
-              console.log(err);
-              saveUser(set);
+              callback({
+                'message': 'Submissions are not open, editing team impossible'
+              })
             })
           } else {
             saveUser(set);
@@ -1218,8 +1217,9 @@ UserController.getGavelToken = function(id, callback) {
     if (!user.gavel.token){
       Team.findById(user.team, function(err, team) {
         if(team.gavelId){
-            console.log("Error, shouldn't be here. team has gavelId but user doesn't")
-            callback("Error, shouldn't be here. team has gavelId but user doesn't");
+            callback({
+              'message': "Error, shouldn't be here. team has gavelId but user doesn't"
+            });
         }
         User
           .find({
@@ -1228,7 +1228,6 @@ UserController.getGavelToken = function(id, callback) {
           .select('profile.name email')
           .exec(function(err, teamMembers){
             if (err) return callback({message: 'Something went wrong', err:err})
-            console.log("teamMembers:", teamMembers)
             let body = JSON.stringify({
               'key': process.env.GAVEL_API_KEY,
               'members': teamMembers.map(member => {
@@ -1239,7 +1238,6 @@ UserController.getGavelToken = function(id, callback) {
               }),
               'phoneNumber': user.confirmation.phone || ""
             });
-            console.log("body:", body)
             fetch(
               `${process.env.GAVEL_URL}/api/external/teams/create/`,
               {
@@ -1250,20 +1248,17 @@ UserController.getGavelToken = function(id, callback) {
               }
             )
             .then(gavelTeam => {
-              console.log("gavelTeam:", gavelTeam)
               return gavelTeam;
             })
             .then(gavelTeam => gavelTeam.json())
             .then(gavelTeam => gavelTeam.data)
             .then(gavelTeam => {
-              console.log("gavelTeam data:", gavelTeam)
               return gavelTeam;
             })
             .then(gavelTeam => {
               return Promise.all([
                 Promise.all(gavelTeam.members.map(gavelTeamMember => {
                   let teammate = teamMembers.filter(teamMember => teamMember.email === gavelTeamMember.email)[0]
-                  console.log("settings stuff for teammate", teammate, gavelTeamMember)
                   return new Promise(function(resolve, reject){
                     User.findOneAndUpdate(
                       {
@@ -1280,14 +1275,12 @@ UserController.getGavelToken = function(id, callback) {
                       },
                       function(err, user){
                         if(err) reject(err)
-                        console.log("resolved update", err, user)
                         resolve(user)
                       }
                     );
                   })
                 })),
                 new Promise(function(resolve, reject){
-                  console.log()
                   Team.findOneAndUpdate(
                     {
                       _id: team._id
@@ -1305,22 +1298,20 @@ UserController.getGavelToken = function(id, callback) {
               ])
             })
             .then(result => {
-              console.log("got some results")
               return new Promise(function(resolve, reject){
                 User.findById(id, function(err, user) {
                   if(err || !user) reject({message: "Application error"})
-                  console.log("we have user", user)
                   resolve(user.gavel.token);
                 })
               })
             })
             .then(token => {
-              console.log("got token", token)
               callback(null, token);
             })
             .catch(err => {
-              return callback("token not found!")
-              console.log(err);
+              return callback({
+                'message': 'Submissions not open, editing team is not possible!'
+              })
             })
           });
       })
