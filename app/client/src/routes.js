@@ -194,7 +194,11 @@ angular.module('reg')
         }
       })
       .state('app.checkin', {
-        url: '/checkin',
+        url: '/checkin?' +
+          '&page' +
+          '&size' +
+          '&filter' +
+          '&query',
         templateUrl: 'views/checkin/checkin.html',
         controller: 'CheckinCtrl',
         data: {

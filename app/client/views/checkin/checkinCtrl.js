@@ -1,9 +1,10 @@
 angular.module('reg')
 .controller('CheckinCtrl', [
   '$scope',
+  '$state',
   '$stateParams',
   'UserService',
-  function($scope, $stateParams, UserService){
+  function($scope, $state, $stateParams, UserService){
     $('#reader').html5_qrcode(function(data){
           //Change the input fields value and send post request to the backend
           $('#qrInput').attr("value", data);
@@ -35,7 +36,26 @@ angular.module('reg')
     );
     $scope.pages = [];
     $scope.users = [];
-    $scope.sortDate = true;
+    $scope.sortBy = 'timestamp'
+    $scope.sortDir = false
+
+    $scope.filter = deserializeFilters($stateParams.filter);
+    $scope.filter.text = $stateParams.query || "";
+
+    console.log($scope.filter)
+
+    function deserializeFilters(text) {
+      var out = {};
+      if (!text) return out;
+      text.split(",").forEach(function(f){out[f]=true});
+      return (text.length===0)?{}:out;
+    }
+
+    function serializeFilters(filters) {
+      var out = "";
+      for (var v in filters) {if(typeof(filters[v])==="boolean"&&filters[v]) out += v+",";}
+      return (out.length===0)?"":out.substr(0,out.length-1);
+    }
 
     // Semantic-UI moves modal content into a dimmer at the top level.
     // While this is usually nice, it means that with our routing will generate
@@ -57,7 +77,7 @@ angular.module('reg')
     });
 
     function updatePage(data){
-      $scope.users = data.filter(function(user){
+      $scope.users = data.users.filter(function(user){
         return user.status.admitted !== false;
       }).filter(function(user){
         return user.status.declined !== true;
@@ -71,9 +91,21 @@ angular.module('reg')
       }
       $scope.pages = p;
     }
+
+    $scope.goToPage = function(page){
+      $state.go('app.checkin', {
+        page: page,
+        size: $stateParams.size || 50,
+        filter:  serializeFilters($scope.filter),
+        query: $scope.filter.text
+      });
+    };
+
+    console.log($stateParams)
+
     $scope.filterUsers = function() {
       UserService
-        .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
+        .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortDir)
         .success(function(data){
           updatePage(data);
         });
@@ -179,7 +211,7 @@ angular.module('reg')
     };
 
     UserService
-      .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortDate)
+      .getPage($stateParams.page, $stateParams.size, $scope.filter, 'timestamp', false)
       .success(function(data){
         updatePage(data);
       });

@@ -169,7 +169,7 @@ angular.module('reg')
           case("Baltics"):
             $scope.classAmount = settings.reimbursementClass.Baltics;
             break;
-          case("Nordic"):
+          case("Nordics"):
             $scope.classAmount = settings.reimbursementClass.Nordics;
             break;
           case("Europe"):
