@@ -29,7 +29,7 @@ angular.module('reg')
               return settings.reimbursementClass.Finland;
             case("Baltics"):
               return settings.reimbursementClass.Baltics;
-            case("Nordic"):
+            case("Nordics"):
               return settings.reimbursementClass.Nordics;
             case("Europe"):
               return settings.reimbursementClass.Europe;
