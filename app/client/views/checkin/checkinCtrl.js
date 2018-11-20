@@ -57,7 +57,7 @@ angular.module('reg')
     });
 
     function updatePage(data){
-      $scope.users = data.users.filter(function(user){
+      $scope.users = data.filter(function(user){
         return user.status.admitted !== false;
       }).filter(function(user){
         return user.status.declined !== true;
@@ -135,9 +135,19 @@ angular.module('reg')
 
     function selectUser(user){
       $scope.selectedUser = user;
-      $scope.selectedUser.sections = generateSections(user);
-      $('.long.user.modal')
-        .modal('show');
+      if(user.team) {
+        UserService.getTeamInfoByID(user._id).success(function(team) {
+          $scope.selectedUser.assignedTrack = team.assignedTrack
+          $scope.selectedUser.sections = generateSections(user);
+          $('.long.user.modal')
+            .modal('show');
+        })
+      }
+      else {
+        $scope.selectedUser.sections = generateSections(user);
+        $('.long.user.modal')
+          .modal('show');
+      }
     }
 
     $scope.checkInUser = function($event, user, index) {

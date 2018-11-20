@@ -76,6 +76,14 @@
                           </div>
                         </div>
 
+                        <div class="ui header">
+                            Assigned track:
+                            <div
+                              class="ui label">
+                              {{selectedUser.assignedTrack || 'Not assigned'}}
+                            </div>
+                          </div>
+
                       </div>
             
                       <div ng-repeat="section in selectedUser.sections">
@@ -162,7 +170,7 @@
                       </button>
 
                     </td>
-                    <td>{{user.teamCode}}</td>
+                    <td>{{user.team}}</td>
 
                     <!-- Accommodation -->
                     <td
