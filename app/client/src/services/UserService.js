@@ -147,6 +147,9 @@ angular.module('reg')
       getStats: function(){
         return $http.get(base + 'stats');
       },
+      getTeamStats: function(){
+        return $http.get(base + 'teams/stats');
+      },
       resetTeam: function(id){
         return $http.delete(base + id + '/team');
       },

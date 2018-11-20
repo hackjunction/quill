@@ -1,10 +1,12 @@
 var _ = require('underscore');
 var async = require('async');
 var User = require('../models/User');
+var Team = require('../models/Team');
 var Settings = require('../models/Settings')
 
 // In memory stats.
 var stats = {};
+var teamStats = {};
 function calculateStats(settings){
   console.log('Calculating stats...');
   var newStats = {
@@ -430,6 +432,62 @@ function calculateStats(settings){
 
 }
 
+function calculateTeamStats() {
+  console.log('Calculating stats...');
+  var newStats = {
+    total: 0,
+    lastUpdated: 0,
+    trackAssignment: {
+      Blockchain: 0,
+      IntelligentInfra: 0,
+      FutureCities: 0,
+      DigitalRetail: 0,
+      SmartCloud: 0,
+      Mobility: 0,
+      GameJam: 0,
+      IoT: 0,
+      HealthTech: 0,
+      AI: 0
+    }
+  };
+
+
+
+  Team
+    .find({})
+    .exec(function(err, teams){
+      if (err || !teams){
+        throw err;
+      }
+
+      newStats.total = teams.length;
+
+      async.each(teams, function(team, callback){
+        
+
+        newStats.trackAssignment.Blockchain += team.assignedTrack == "Blockchain" ? team.members.length : 0
+        newStats.trackAssignment.IntelligentInfra += team.assignedTrack == "Intelligent Infrastructure" ? team.members.length : 0
+        newStats.trackAssignment.FutureCities += team.assignedTrack == "Future Cities" ? team.members.length : 0
+        newStats.trackAssignment.DigitalRetail += team.assignedTrack == "Digital Retail" ? team.members.length : 0
+        newStats.trackAssignment.SmartCloud += team.assignedTrack == "Smart Cloud" ? team.members.length : 0
+        newStats.trackAssignment.Mobility += team.assignedTrack == "Mobility" ? team.members.length : 0
+        newStats.trackAssignment.GameJam += team.assignedTrack == "Game Jam" ? team.members.length : 0
+        newStats.trackAssignment.IoT += team.assignedTrack == "Internet of Things" ? team.members.length : 0
+        newStats.trackAssignment.HealthTech += team.assignedTrack == "HealthTech" ? team.members.length : 0
+        newStats.trackAssignment.AI += team.assignedTrack == "AI and Big Data" ? team.members.length : 0
+        
+
+        callback(); // let async know we've finished
+      }, function() {
+        // Transform dietary restrictions into a series of object
+
+        console.log('Team Stats updated!');
+        newStats.lastUpdated = new Date();
+        teamStats = newStats;
+      });
+    });
+}
+
 setInterval(function() {
   Settings
     .getPublicSettings(function(err, settings){
@@ -439,6 +497,10 @@ setInterval(function() {
       calculateStats(settings);
   });
 }, 600000);
+
+setInterval(function() {
+  calculateTeamStats()
+}, 400000);
 
 setTimeout(function () {
     Settings
@@ -450,10 +512,18 @@ setTimeout(function () {
         });
 }, 8000);
 
+setTimeout(function () {
+  calculateTeamStats()
+}, 5000);
+
 var Stats = {};
 
 Stats.getUserStats = function(){
   return stats;
 };
+
+Stats.getTeamStats = function() {
+  return teamStats
+}
 
 module.exports = Stats;

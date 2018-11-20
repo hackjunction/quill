@@ -380,6 +380,10 @@ module.exports = function(router) {
     UserController.getStats(defaultResponse(req, res));
   });
 
+  router.get('/users/teams/stats', isAdmin, function(req, res){
+    UserController.getTeamStats(defaultResponse(req, res));
+  });
+
   router.post('/users/massReject', isAdmin, function(req, res){
     UserController.massReject(defaultResponse(req, res));
   });

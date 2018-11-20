@@ -11,9 +11,30 @@ angular.module('reg')
           $scope.loading = false;
         });
 
+      UserService
+        .getTeamStats()
+        .success(function(stats) {
+          $scope.teamStats = stats;
+          $scope.loading = false;
+        })
+
       $scope.fromNow = function(date){
         return moment(date).fromNow();
       };
+
+      $scope.availableSpots = {
+        Blockchain: 102,
+        FutureCities: 132,
+        AI: 162,
+        HealthTech: 96,
+        IoT: 126,
+        DataEconomics: 132,
+        GameJam: 152,
+        DigitalRetail: 90,
+        SmartCloud: 96,
+        Mobility: 120,
+        IntelligentInfra: 132
+      }
 
       $scope.sendLaggerEmails = function(){
         swal({

@@ -1825,6 +1825,10 @@ UserController.getStats = function(callback){
   return callback(null, Stats.getUserStats());
 };
 
+UserController.getTeamStats = function(callback) {
+  return callback(null, Stats.getTeamStats());
+}
+
 UserController.massReject = function(callback){
   User.update({
     $and: [
