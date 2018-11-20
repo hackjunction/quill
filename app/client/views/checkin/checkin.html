@@ -45,14 +45,6 @@
               
               <div class="ui divider"></div>
         
-              <button
-                ng-repeat="page in pages"
-                ng-class="page == currentPage ? 'active pink' : ''"
-                ng-click="goToPage(page)"
-                class="ui icon basic page button">
-                {{page}}
-              </button>
-        
             </div>
             
             <div id="table-container" class="sixteen wide column" style="overflow-x: auto;">
@@ -244,6 +236,15 @@
                   </tr>
                 </tbody>
               </table>
+
+              <div class="ui divider"></div>
+              <button
+                ng-repeat="page in pages"
+                ng-class="page == currentPage ? 'active pink' : ''"
+                ng-click="goToPage(page)"
+                class="ui icon basic page button">
+                {{page}}
+              </button>
             </div>
         </div>
     </div>
