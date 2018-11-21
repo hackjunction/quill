@@ -7,12 +7,11 @@ angular.module('reg')
   function($scope, $state, $stateParams, UserService){
     $('#reader').html5_qrcode(function(data){
           //Change the input fields value and send post request to the backend
-          $('#qrInput').attr("value", data);
-          $scope.filter.text = data;
-          $scope.filterUsers();
           UserService
             .QRcheckIn(data)
             .success(function(user){
+              $scope.filter.text = data;
+              $scope.filterUsers();
               //selectUser(user);
             })
             .error(function(res){
