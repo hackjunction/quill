@@ -8,11 +8,12 @@ angular.module('reg')
     $('#reader').html5_qrcode(function(data){
           //Change the input fields value and send post request to the backend
           $('#qrInput').attr("value", data);
+          $scope.filter.text = data;
           $scope.filterUsers();
           UserService
             .QRcheckIn(data)
             .success(function(user){
-              selectUser(user);
+              //selectUser(user);
             })
             .error(function(res){
               if(res === "User not confirmed!"){
