@@ -1432,10 +1432,8 @@ UserController.leaveTeam = function(id, callback){
       if (err) {
         return callback({message: 'Something went wrong'})
       }
-      console.log("team gavel stuff", team, team.gavelId, user.gavel.id)
       new Promise(function(resolve, reject){
         if(team && team.gavelId && user.gavel.id){
-        // We don't care about the return value of this
           console.log("creating gavel promise")
           console.log("trying to remove user", user.gavel.id, "from ", team.gavelId)
           gavelPromise = fetch(
