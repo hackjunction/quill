@@ -1309,6 +1309,12 @@ UserController.getGavelToken = function(id, callback) {
               callback(null, token);
             })
             .catch(err => {
+              console.log(err)
+              if(err && err.message){
+                return callback({
+                  'message': err.message
+                })
+              }
               return callback({
                 'message': 'Submissions not open, editing team is not possible!'
               })
