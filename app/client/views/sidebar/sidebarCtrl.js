@@ -25,7 +25,7 @@ angular.module('reg')
       $scope.toggleSidebar = function(){
         $scope.showSidebar = !$scope.showSidebar;
       };
-      $scope.showSubmitbutton = user.status.checkedIn;
+      $scope.showSubmitbutton = user.status.checkedIn && !!user.team;
 
       $scope.goToGavel = function(){
         UserService.goToGavel();
