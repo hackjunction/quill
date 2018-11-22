@@ -1247,10 +1247,15 @@ UserController.getGavelToken = function(id, callback) {
                 headers: { 'Content-Type': 'application/json' },
               }
             )
-            .then(gavelTeam => {
-              return gavelTeam;
+            .then(res => {
+              if (!res.ok){
+                return Promise.reject({
+                  "message": res.statusText
+                })
+              }
+              return res;
             })
-            .then(gavelTeam => gavelTeam.json())
+            .then(res => res.json())
             .then(gavelTeam => gavelTeam.data)
             .then(gavelTeam => {
               return gavelTeam;
