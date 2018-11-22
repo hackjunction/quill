@@ -1187,7 +1187,7 @@ UserController.joinTeam = function(id, code, callback){
             }).then(gavelUser => {
               if (gavelUser){
                 set['gavel.id'] = gavelUser._id;
-                set['gavel.token'] = gavelUser.token;
+                set['gavel.token'] = gavelUser.secret;
               }
               saveUser(set);
             }).catch(err => {
