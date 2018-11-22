@@ -1264,6 +1264,7 @@ UserController.getGavelToken = function(id, callback) {
               return Promise.all([
                 Promise.all(gavelTeam.members.map(gavelTeamMember => {
                   let teammate = teamMembers.filter(teamMember => teamMember.email === gavelTeamMember.email)[0]
+                  console.log(teammate);
                   return new Promise(function(resolve, reject){
                     User.findOneAndUpdate(
                       {
