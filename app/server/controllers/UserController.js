@@ -1109,26 +1109,27 @@ UserController.joinTeam = function(id, code, callback){
         _id: code
       })
       .exec(function(err, team){
-        // Check to see if this team is joinable (< team max size)
         if (err || !team) return callback({message: "Team not found"})
-
-        if (team.members.includes(id)) {
-          return callback({
-            message: 'User is already in this team!'
-          })
-        }
-        if (team.members && team.members.length >= maxTeamSize) {
-          return callback({
-            message: "Team is full."
-          });
-        }
-        if (team.teamLocked) {
-          return callback({
-            message: "This team is locked."
-          })
-        }
-        console.log('Valid team found, adding user to it')
         User.findById(id, function(err, user) {
+          if (err || !user) return callback({message: "User not found"})
+
+          // Check to see if this team is joinable (< team max size)
+          if (team.members.includes(user.id)) {
+            return callback({
+              message: 'User is already in this team!'
+            })
+          }
+          if (team.members && team.members.length >= maxTeamSize) {
+            return callback({
+              message: "Team is full."
+            });
+          }
+          if (team.teamLocked) {
+            return callback({
+              message: "This team is locked."
+            })
+          }
+          console.log('Valid team found, adding user to it')
           var now = new Date();
           var specialOpen = now < times.timeCloseSpecial && user.specialRegistration
           if (err) return callback({message: "User not found"})
