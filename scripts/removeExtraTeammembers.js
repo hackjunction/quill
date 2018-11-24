@@ -1,7 +1,7 @@
 require('dotenv').load();
 var mongoose        = require('mongoose');
-var database        = process.env.MONGO_URL || { url: "mongodb://localhost:27017"};
-mongoose.connect(database.url);
+var database        = process.env.MONGO_URL ||  "mongodb://localhost:27017";
+mongoose.connect(database);
 
 const User = require('../app/server/models/User');
 const Team = require('../app/server/models/Team');
