@@ -262,7 +262,7 @@ var profile = {
 
   freeComment: {
     type: String,
-    maxlength: 2000,
+    maxlength: 5000,
   },
 
   operatingSystem: {
@@ -312,7 +312,9 @@ var teamMatchmaking = {
   },
   enrollmentType: {
     type: String,
-    enum: ['individual', 'team']
+    //enum: ['individual', 'team'],
+    required: false,
+    default: 'individual'
   },
   individual: {
     description: {
@@ -621,7 +623,7 @@ var reimbursement = {
    additional: {
      type: String,
      default: '',
-     maxlength: 200
+     maxlength: 1000
    }
 };
 var gavel = {
