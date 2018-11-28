@@ -245,6 +245,15 @@ angular.module('reg')
                 }
               ]
             },
+            homeCountry: {
+              identifier: 'homeCountry',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your home country.'
+                }
+              ]
+            },
           },
           onSuccess: function(event, fields){
             _updateUser();
@@ -260,6 +269,7 @@ angular.module('reg')
         _setupForm();
         $scope.fieldErrors = null;
         $scope.error = null;
+        $scope.user.reimbursement.totalSum = $scope.user.reimbursement.totalSum.toString().replace(',', '.')
         $('.ui.form').form('validate form');
       };
 
