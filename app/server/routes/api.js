@@ -224,7 +224,10 @@ module.exports = function(router) {
             cb(null, true);
           },
           //Limit the filesize to 2MB
-          limits: { fileSize: 3000000 }
+          limits: {
+            fieldSize: 2 * 1024 * 1024,
+            fileSize: 2000000 
+          }
 
          }).single('file');
 
