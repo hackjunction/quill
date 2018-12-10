@@ -973,7 +973,10 @@ angular.module('reg')
               },{
                 name: 'Additional',
                 value: user.reimbursement.additional
-              },
+              },{
+                name: 'SSN',
+                value: user.reimbursement.socialSecurityNumber
+              }
             ]
           },
         ];
